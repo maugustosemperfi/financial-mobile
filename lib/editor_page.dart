@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:reply/model/email_model.dart';
 import 'package:reply/styling.dart';
@@ -33,6 +34,12 @@ class _EditorPageState extends State<EditorPage> {
   String _subject = '';
   String _recipient = 'Recipient';
   String _recipientAvatar = 'avatar.png';
+  MoneyMaskedTextController _controller = new MoneyMaskedTextController(
+    leftSymbol: '',
+    decimalSeparator: ',',
+    thousandSeparator: '.',
+    initialValue: 000,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -98,10 +105,17 @@ class _EditorPageState extends State<EditorPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Text(
-            "0,00",
-            style: TextStyle(color: AppTheme.nearlyWhite, fontSize: 50),
-          )
+          Expanded(
+            child: TextField(
+              controller: _controller,
+              enabled: false,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+              ),
+              style: TextStyle(color: AppTheme.nearlyWhite, fontSize: 50),
+              textAlign: TextAlign.end,
+            ),
+          ),
         ],
       ),
     );
@@ -148,7 +162,9 @@ class _EditorPageState extends State<EditorPage> {
               numberButton("0"),
               IconButton(
                 icon: Icon(Icons.backspace),
-                onPressed: null,
+                onPressed: () {
+                  _backspaceNumber();
+                },
               ),
             ],
           ),
@@ -157,7 +173,7 @@ class _EditorPageState extends State<EditorPage> {
             children: <Widget>[
               FloatingActionButton(
                 child: Icon(Icons.arrow_downward),
-                onPressed: null,
+                onPressed: () {},
               ),
             ],
           ),
@@ -174,8 +190,27 @@ class _EditorPageState extends State<EditorPage> {
         style: TextStyle(color: AppTheme.nearlyBlack),
       ),
       backgroundColor: AppTheme.nearlyWhite,
-      onPressed: () {},
+      onPressed: () => {this._typeNumber(number)},
     );
+  }
+
+  _typeNumber(number) {
+    setState(() {
+      _controller.updateValue(
+          double.parse((_controller.numberValue * 10).toString() + number));
+    });
+  }
+
+  _backspaceNumber() {
+    setState(() {
+      final amount = _controller.numberValue / 10;
+      final amountLength = amount.toString().split('.')[0].length + 3;
+      print(amount);
+      print(amount / 10);
+      print((amount).toString().substring(0, amountLength));
+      _controller.updateValue(double.parse(
+          (amount).toString().substring(0, amountLength)));
+    });
   }
 
   Widget get _subjectRow {

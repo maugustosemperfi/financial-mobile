@@ -12,6 +12,7 @@ dependencies:
 
   provider: 3.0.0
   flare_flutter: 1.5.5
+  flutter_masked_text: ^0.8.0
 
 dev_dependencies:
   flutter_test:
