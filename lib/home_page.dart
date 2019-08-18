@@ -24,6 +24,9 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: _willPopCallback,
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppTheme.grey,
+        ),
         body: ScaleOutTransition(
           child: Navigator(
             key: _navigatorKey,

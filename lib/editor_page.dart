@@ -68,6 +68,7 @@ class _EditorPageState extends State<EditorPage> {
         ),
         body: SafeArea(
           child: Container(
+            padding: EdgeInsets.only(bottom: 20),
             height: MediaQuery.of(context).size.height,
             color: AppTheme.nearlyWhite,
             child: Material(
@@ -94,7 +95,7 @@ class _EditorPageState extends State<EditorPage> {
 
   Widget get _spacer {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 90),
+      padding: const EdgeInsets.symmetric(vertical: 50),
     );
   }
 
@@ -124,7 +125,6 @@ class _EditorPageState extends State<EditorPage> {
   Widget get _buttons {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 50),
-      margin: EdgeInsets.only(bottom: 30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
