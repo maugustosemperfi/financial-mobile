@@ -198,9 +198,6 @@ class _EditorPageState extends State<EditorPage> {
     setState(() {
       final amount = _controller.numberValue * 10;
       final amountLength = amount.toString().split('.')[0].length + 2;
-      print(amount);
-      print(amountLength);
-      print(amount.toString().length);
       _controller.updateValue(
           double.parse(amount.toString().substring(0, amountLength) + number));
     });

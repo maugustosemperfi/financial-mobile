@@ -33,14 +33,9 @@ class ListPage extends StatelessWidget {
             child: SmartRefresher(
               enablePullUp: true,
               enableTwoLevel: false,
-              header: ClassicHeader(
-                releaseText: "Solte para atualizar",
-                refreshingText: "",
-                completeDuration: Duration(),
-                completeText: "",
-                completeIcon: null,
-                height: 100,
-                idleText: "Puxe para atualizar",
+              header: MaterialClassicHeader(
+                backgroundColor: AppTheme.nearlyWhite,
+                color: AppTheme.green,
               ),
               controller: _refreshController,
               onLoading: _onLoading,
