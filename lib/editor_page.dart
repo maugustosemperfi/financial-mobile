@@ -196,20 +196,22 @@ class _EditorPageState extends State<EditorPage> {
 
   _typeNumber(number) {
     setState(() {
+      final amount = _controller.numberValue * 10;
+      final amountLength = amount.toString().split('.')[0].length + 2;
+      print(amount);
+      print(amountLength);
+      print(amount.toString().length);
       _controller.updateValue(
-          double.parse((_controller.numberValue * 10).toString() + number));
+          double.parse(amount.toString().substring(0, amountLength) + number));
     });
   }
 
   _backspaceNumber() {
     setState(() {
       final amount = _controller.numberValue / 10;
-      final amountLength = amount.toString().split('.')[0].length + 3;
-      print(amount);
-      print(amount / 10);
-      print((amount).toString().substring(0, amountLength));
-      _controller.updateValue(double.parse(
-          (amount).toString().substring(0, amountLength)));
+      final amountLength = amount.toString().split('.')[0].length + 2;
+      _controller.updateValue(
+          double.parse((amount).toString().substring(0, amountLength)));
     });
   }
 
