@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
+import 'package:reply/create_record_page.dart';
 import 'package:reply/model/email_model.dart';
 import 'package:reply/styling.dart';
 import 'package:reply/transition/fab_fill_transition.dart';
@@ -40,6 +41,8 @@ class _EditorPageState extends State<EditorPage> {
     thousandSeparator: '.',
     initialValue: 000,
   );
+
+  final GlobalKey _fabKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +175,10 @@ class _EditorPageState extends State<EditorPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FloatingActionButton(
-                child: Icon(Icons.arrow_downward),
-                onPressed: () {},
+                child: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  _navigateToCreateRecord();
+                },
               ),
             ],
           ),
@@ -210,6 +215,10 @@ class _EditorPageState extends State<EditorPage> {
       _controller.updateValue(
           double.parse((amount).toString().substring(0, amountLength)));
     });
+  }
+
+  _navigateToCreateRecord() {
+    Navigator.of(context).push(CreateRecordPage.route(context));
   }
 
   Widget get _subjectRow {

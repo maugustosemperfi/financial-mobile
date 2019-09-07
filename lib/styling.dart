@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
+  static const Color primary = dark_grey;
   static const Color orange = Color(0xFFFAAB1A);
   static const Color notWhite = Color(0xFFEDF0F2);
   static const Color nearlyWhite = Color(0xFFFEFEFE);
@@ -11,6 +12,7 @@ class AppTheme {
   static const Color dark_grey = Color(0xFF313A44);
   static const Color green = Color(0xFF13B15F);
 
+  static const Color almostInvisible = Color(0xFFDADEE1);
   static const Color darkText = Color(0xFF253840);
   static const Color darkerText = Color(0xFF17262A);
   static const Color lightText = Color(0xFF4A6572);
@@ -29,8 +31,9 @@ class AppTheme {
     caption: caption,
   );
 
-  static const TextStyle display1 = TextStyle( // h4 -> display1
-    fontFamily: 'WorkSans',
+  static const TextStyle display1 = TextStyle(
+    // h4 -> display1
+    fontFamily: 'Roboto',
     fontWeight: FontWeight.bold,
     fontSize: 36,
     letterSpacing: 0.4,
@@ -38,52 +41,70 @@ class AppTheme {
     color: darkerText,
   );
 
-  static const TextStyle headline = TextStyle( // h5 -> headline
-    fontFamily: 'WorkSans',
+  static const TextStyle headline = TextStyle(
+    // h5 -> headline
+    fontFamily: 'Roboto',
     fontWeight: FontWeight.bold,
     fontSize: 24,
     letterSpacing: 0.27,
-    color: darkerText,
+    color: primary,
   );
 
-  static const TextStyle title = TextStyle( // h6 -> title
-    fontFamily: 'WorkSans',
-    fontWeight: FontWeight.bold,
+  static const TextStyle title = TextStyle(
+    // h6 -> title
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w600,
     fontSize: 16,
-    letterSpacing: 0.18,
-    color: darkerText,
+    color: primary,
   );
 
-  static const TextStyle subtitle = TextStyle( // subtitle2 -> subtitle
-    fontFamily: 'WorkSans',
+  static const TextStyle subtitle = TextStyle(
+    // subtitle2 -> subtitle
+    fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
     fontSize: 14,
     letterSpacing: -0.04,
-    color: darkText,
+    color: primary,
   );
 
-  static const TextStyle body2 = TextStyle( // body1 -> body2
-    fontFamily: 'WorkSans',
+  static const TextStyle subtitleBold = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+    color: primary,
+  );
+
+  static const TextStyle subtitleLight = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    color: almostInvisible,
+  );
+
+  static const TextStyle body2 = TextStyle(
+    // body1 -> body2
+    fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
     fontSize: 14,
     letterSpacing: 0.2,
     color: darkText,
   );
 
-  static const TextStyle body1 = TextStyle( // body2 -> body1
-    fontFamily: 'WorkSans',
+  static const TextStyle body1 = TextStyle(
+    // body2 -> body1
+    fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
     fontSize: 16,
     letterSpacing: -0.05,
     color: darkText,
   );
 
-  static const TextStyle caption = TextStyle( // Caption -> caption
-    fontFamily: 'WorkSans',
+  static const TextStyle caption = TextStyle(
+    // Caption -> caption
+    fontFamily: 'Roboto',
     fontWeight: FontWeight.w400,
     fontSize: 12,
     letterSpacing: 0.2,
     color: lightText, // was lightText
   );
-
 }
