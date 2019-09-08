@@ -21,7 +21,7 @@ parseJson(String text) {
 }
 
 void main() {
-  (dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
+  // (CustomDio.dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
 
   runApp(ReplyApp());
 }

@@ -1,5 +1,11 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:reply/http.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:reply/styling.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,6 +15,19 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool rememberMe = false;
+
+  _login() async {
+    final user = await CustomDio.dio.post(
+      "http://192.168.0.56:3000/login",
+      queryParameters: {"email": "augustoprofemp@gmail.com"},
+      data: {
+        "email": "augustoprofemp@gmail.com",
+        "password": "123456"
+      },
+    );
+
+    print(user);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () => _login(),
               color: AppTheme.green,
               textColor: Colors.white,
               child: Text(
