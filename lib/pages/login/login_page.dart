@@ -17,6 +17,9 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Expanded(
+              child: Container(),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,78 +41,12 @@ class _LoginPageState extends State<LoginPage> {
                                 style: AppTheme.headline,
                               ),
                             ),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                hintText: 'Enter your email',
-                                labelText: 'Email',
-                                prefixIcon: Icon(
-                                  Icons.email,
-                                  size: 16,
-                                ),
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.transparent,
-                              height: 32,
-                            ),
-                            TextFormField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: 'Enter your password',
-                                labelText: 'Password',
-                                prefixIcon: Icon(
-                                  Icons.build,
-                                  size: 16,
-                                ),
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.transparent,
-                              height: 8,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                RichText(
-                                  text: TextSpan(
-                                      text: "Forgot Password?",
-                                      style: AppTheme.caption,
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {}),
-                                )
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.transparent,
-                              height: 24,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: ButtonTheme(
-                                    padding: EdgeInsets.symmetric(vertical: 16),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    child: RaisedButton(
-                                      onPressed: () {},
-                                      color: AppTheme.green,
-                                      textColor: Colors.white,
-                                      child: Text(
-                                        "LOGIN",
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.transparent,
-                              height: 24,
-                            ),
+                            _loginForm(),
+                            _divider(8),
+                            _forgotPassword(),
+                            _divider(24),
+                            _loginButton(),
+                            _divider(24),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -119,49 +56,9 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ],
                             ),
-                            Divider(
-                              color: Colors.transparent,
-                              height: 24,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: ButtonTheme(
-                                    padding: EdgeInsets.symmetric(vertical: 16),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                        side: BorderSide(color: Colors.black)),
-                                    child: RaisedButton(
-                                      onPressed: () {},
-                                      color: AppTheme.nearlyWhite,
-                                      child: Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Stack(
-                                              alignment:
-                                                  AlignmentDirectional.center,
-                                              children: <Widget>[
-                                                Positioned(
-                                                  child: Text(
-                                                    "Sign in with google",
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  right: 16,
-                                                  child: Icon(Icons.camera_alt),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Divider(color: Colors.transparent, height: 24),
+                            _divider(24),
+                            _signInGoogle(),
+                            _divider(24),
                           ],
                         ),
                       ),
@@ -169,10 +66,154 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ],
-            )
+            ),
+            Expanded(
+              child: Container(),
+            ),
+            _signUp(),
+            _divider(24)
           ],
         ),
       ),
+    );
+  }
+
+  Widget _divider(int height) {
+    return Divider(
+      color: Colors.transparent,
+      height: height.toDouble(),
+    );
+  }
+
+  Widget _loginForm() {
+    return Column(children: <Widget>[
+      TextFormField(
+        decoration: InputDecoration(
+          hintText: 'Enter your email',
+          labelText: 'Email',
+          prefixIcon: Icon(
+            Icons.email,
+            size: 16,
+          ),
+          border: OutlineInputBorder(),
+        ),
+      ),
+      _divider(32),
+      TextFormField(
+        obscureText: true,
+        decoration: InputDecoration(
+          hintText: 'Enter your password',
+          labelText: 'Password',
+          prefixIcon: Icon(
+            Icons.build,
+            size: 16,
+          ),
+          border: OutlineInputBorder(),
+        ),
+      )
+    ]);
+  }
+
+  Widget _forgotPassword() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        RichText(
+          text: TextSpan(
+              text: "Forgot Password?",
+              style: AppTheme.caption,
+              recognizer: TapGestureRecognizer()..onTap = () {}),
+        )
+      ],
+    );
+  }
+
+  Widget _signUp() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          "Don't have an account?",
+          style: AppTheme.caption,
+        ),
+        RichText(
+          text: TextSpan(
+              text: "Sign up",
+              style: AppTheme.captionBold,
+              recognizer: TapGestureRecognizer()..onTap = () {}),
+        )
+      ],
+    );
+  }
+
+  Widget _loginButton() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: ButtonTheme(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: RaisedButton(
+              onPressed: () {},
+              color: AppTheme.green,
+              textColor: Colors.white,
+              child: Text(
+                "LOGIN",
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _signInGoogle() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: ButtonTheme(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide(color: Colors.black)),
+            child: RaisedButton(
+                onPressed: () {},
+                color: AppTheme.nearlyWhite,
+                padding: EdgeInsets.symmetric(vertical: 6),
+                child: Container(
+                  height: 36,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Stack(
+                          fit: StackFit.expand,
+                          alignment: AlignmentDirectional.center,
+                          children: <Widget>[
+                            Positioned(
+                              top: 10,
+                              child: Text(
+                                "Sign in with google",
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Positioned(
+                              right: 16,
+                              child: Image.asset('assets/images/ic_google.png'),
+                              height: 24,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+        ),
+      ],
     );
   }
 }

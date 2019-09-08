@@ -107,4 +107,13 @@ class AppTheme {
     letterSpacing: 0.2,
     color: lightText, // was lightText
   );
+
+  static const TextStyle captionBold = TextStyle(
+    // Caption -> caption
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.bold,
+    fontSize: 12,
+    letterSpacing: 0.2,
+    color: lightText, // was lightText
+  );
 }
