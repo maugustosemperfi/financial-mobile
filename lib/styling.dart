@@ -111,7 +111,7 @@ class AppTheme {
   static const TextStyle captionBold = TextStyle(
     // Caption -> caption
     fontFamily: 'Roboto',
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
     fontSize: 12,
     letterSpacing: 0.2,
     color: lightText, // was lightText
