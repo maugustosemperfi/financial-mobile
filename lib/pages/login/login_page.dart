@@ -1,11 +1,6 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:reply/http.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:reply/styling.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,18 +10,29 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool rememberMe = false;
+  bool loging = false;
+  Widget _animatedWiget = _textSignInButton();
 
   _login() async {
+    this.loging = true;
+    this.switchAnimatedWidget();
+
     final user = await CustomDio.dio.post(
       "http://192.168.0.56:3000/login",
-      queryParameters: {"email": "augustoprofemp@gmail.com"},
-      data: {
-        "email": "augustoprofemp@gmail.com",
-        "password": "123456"
-      },
+      data: {"email": "augustoprofemp@gmail.com", "password": "123456"},
     );
 
-    print(user);
+    this.loging = false;
+  }
+
+  void switchAnimatedWidget() {
+    setState(() {
+      if (_animatedWiget.key == ValueKey(1)) {
+        _animatedWiget = _circularProgressSignInButton();
+      } else {
+        _animatedWiget = _textSignInButton();
+      }
+    });
   }
 
   @override
@@ -64,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                             _divider(8),
                             _forgotPassword(),
                             _divider(24),
-                            _loginButton(),
+                            _signInButton(),
                             _divider(24),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -167,25 +173,53 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _loginButton() {
+  Widget _signInButton() {
     return Row(
       children: <Widget>[
         Expanded(
           child: ButtonTheme(
-            padding: EdgeInsets.symmetric(vertical: 16),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: RaisedButton(
-              onPressed: () => _login(),
+              onPressed: () {
+                if (!loging) {
+                  _login();
+                }
+              },
               color: AppTheme.green,
               textColor: Colors.white,
-              child: Text(
-                "LOGIN",
+              child: AnimatedSwitcher(
+                duration: Duration(milliseconds: 200),
+                transitionBuilder:
+                    (Widget child, Animation<double> animation) =>
+                        ScaleTransition(
+                  scale: animation,
+                  child: child,
+                ),
+                child: _animatedWiget,
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  static Widget _textSignInButton() {
+    return Container(
+      key: ValueKey(1),
+      padding: EdgeInsets.symmetric(vertical: 16),
+      child: Text("Login"),
+    );
+  }
+
+  static Widget _circularProgressSignInButton() {
+    return Container(
+      key: ValueKey(2),
+      padding: EdgeInsets.symmetric(vertical: 6),
+      child: CircularProgressIndicator(
+        backgroundColor: Colors.white,
+      ),
     );
   }
 
