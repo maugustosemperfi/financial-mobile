@@ -41,6 +41,16 @@ class AppTheme {
     color: darkerText,
   );
 
+  static const TextStyle display2 = TextStyle(
+    // h4 -> display1
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.bold,
+    fontSize: 30,
+    letterSpacing: 0.4,
+    height: 0.9,
+    color: darkerText,
+  );
+
   static const TextStyle headline = TextStyle(
     // h5 -> headline
     fontFamily: 'Roboto',
@@ -48,6 +58,14 @@ class AppTheme {
     fontSize: 24,
     letterSpacing: 0.27,
     color: primary,
+  );
+
+  static const TextStyle titleMoneyPositivite = TextStyle(
+    // h6 -> title
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+    color: green,
   );
 
   static const TextStyle title = TextStyle(

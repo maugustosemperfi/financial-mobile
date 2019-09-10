@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                         icon: Icon(Icons.attach_money),
                       ),
                       Tab(
-                        icon: Icon(Icons.money_off),
+                        icon: Icon(Icons.compare_arrows),
                       ),
                       Tab(
                         icon: Icon(Icons.assessment),
