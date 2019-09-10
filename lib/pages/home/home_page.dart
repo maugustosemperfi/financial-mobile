@@ -16,39 +16,70 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
   final GlobalKey _fabKey = GlobalKey();
-  final PageRouteBuilder<void> _initialRoute =
-      PageRouteBuilder<void>(pageBuilder: (BuildContext context, _, __) => ListPage());
+  final PageRouteBuilder<void> _initialRoute = PageRouteBuilder<void>(
+      pageBuilder: (BuildContext context, _, __) => ListPage());
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _willPopCallback,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppTheme.grey,
-        ),
-        body: ScaleOutTransition(
-          child: Navigator(
-            key: _navigatorKey,
-            onGenerateRoute: (RouteSettings settings) {
-              if (settings.name == Navigator.defaultRouteName) {
-                return _initialRoute;
-              }
-            },
+        onWillPop: _willPopCallback,
+        child: DefaultTabController(
+          length: 5,
+          child: Scaffold(
+            appBar: AppBar(
+              flexibleSpace: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  TabBar(
+                    tabs: <Widget>[
+                      Tab(
+                        icon: Icon(Icons.dashboard),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.attach_money),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.money_off),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.assessment),
+                      ),
+                      Tab(
+                        icon: Icon(Icons.settings),
+                      )
+                    ],
+                  )
+                ],
+              ),
+              backgroundColor: AppTheme.grey,
+            ),
+            body: TabBarView(
+              children: <Widget>[
+                ListPage(),
+                Container(),
+                Container(),
+                Container(),
+                Container()
+              ],
+            ),
+            bottomNavigationBar: _bottomNavigation,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: _fab,
           ),
-        ),
-        bottomNavigationBar: _bottomNavigation,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: _fab,
-      ),
-    );
+        ));
   }
 
   Widget get _bottomNavigation {
-    final Animation<Offset> slideIn = Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
-        .animate(CurvedAnimation(parent: ModalRoute.of(context).animation, curve: Curves.ease));
-    final Animation<Offset> slideOut = Tween<Offset>(begin: Offset.zero, end: const Offset(0, 1))
-        .animate(CurvedAnimation(parent: ModalRoute.of(context).secondaryAnimation, curve: Curves.fastOutSlowIn));
+    final Animation<Offset> slideIn =
+        Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(
+            CurvedAnimation(
+                parent: ModalRoute.of(context).animation, curve: Curves.ease));
+    final Animation<Offset> slideOut =
+        Tween<Offset>(begin: Offset.zero, end: const Offset(0, 1)).animate(
+            CurvedAnimation(
+                parent: ModalRoute.of(context).secondaryAnimation,
+                curve: Curves.fastOutSlowIn));
 
     return SlideTransition(
       position: slideIn,
@@ -56,7 +87,8 @@ class _HomePageState extends State<HomePage> {
         position: slideOut,
         child: BottomAppBar(
           color: AppTheme.grey,
-          shape: AutomaticNotchedShape(RoundedRectangleBorder(), CircleBorder()),
+          shape:
+              AutomaticNotchedShape(RoundedRectangleBorder(), CircleBorder()),
           notchMargin: 8,
           child: SizedBox(
             height: 48,
@@ -110,7 +142,8 @@ class _HomePageState extends State<HomePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     IconButton(
-                      icon: Image.asset('assets/images/ic_important.png', width: 28),
+                      icon: Image.asset('assets/images/ic_important.png',
+                          width: 28),
                       onPressed: () => print('Tap!'),
                     ),
                     IconButton(
@@ -120,7 +153,8 @@ class _HomePageState extends State<HomePage> {
                   ],
                 )
               : const SizedBox(),
-          crossFadeState: showSecond ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+          crossFadeState:
+              showSecond ? CrossFadeState.showSecond : CrossFadeState.showFirst,
           duration: Duration(milliseconds: 450),
         );
       },
@@ -139,12 +173,15 @@ class _HomePageState extends State<HomePage> {
             child: SizedBox(
               width: 24,
               height: 24,
-              child: Icon(Icons.add, color: AppTheme.nearlyWhite,),
+              child: Icon(
+                Icons.add,
+                color: AppTheme.nearlyWhite,
+              ),
             ),
             backgroundColor: AppTheme.green,
             onPressed: () => Navigator.of(context).push<void>(
-                  EditorPage.route(context, _fabKey),
-                ),
+              EditorPage.route(context, _fabKey),
+            ),
           );
         },
       ),

@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reply/home_page.dart';
 import 'package:reply/model/email_model.dart';
 import 'package:reply/pages/login/login_page.dart';
 import 'package:reply/styling.dart';

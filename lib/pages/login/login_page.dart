@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:reply/http.dart';
+import 'package:reply/pages/home/home_page.dart';
 import 'package:reply/styling.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,12 +18,16 @@ class _LoginPageState extends State<LoginPage> {
     this.loging = true;
     this.switchAnimatedWidget();
 
-    final user = await CustomDio.dio.post(
-      "http://192.168.0.56:3000/login",
-      data: {"email": "augustoprofemp@gmail.com", "password": "123456"},
-    );
+    // final user = await CustomDio.dio.post(
+    //   "http://192.168.0.56:3000/login",
+    //   data: {"email": "augustoprofemp@gmail.com", "password": "123456"},
+    // );
 
     this.loging = false;
+
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   void switchAnimatedWidget() {
@@ -53,6 +58,8 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 24),
                     child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
                       elevation: 6,
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 24),

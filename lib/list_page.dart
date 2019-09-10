@@ -28,28 +28,27 @@ class ListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<EmailModel>(
       builder: (BuildContext context, EmailModel model, Widget child) {
-        return ScaleOutTransition(
-          child: Material(
-            child: SmartRefresher(
-              enablePullUp: true,
-              enableTwoLevel: false,
-              header: MaterialClassicHeader(
-                backgroundColor: AppTheme.nearlyWhite,
-                color: AppTheme.green,
-              ),
-              controller: _refreshController,
-              onLoading: _onLoading,
-              onRefresh: _onRefresh,
-              child: ListView.builder(
-                itemCount: model.emails.length,
-                itemBuilder: (BuildContext context, int position) {
-                  return ListItem(
-                    id: position,
-                    email: model.emails[position],
-                    onDeleted: () => model.deleteEmail(position),
-                  );
-                },
-              ),
+        return Material(
+          child: SmartRefresher(
+            enablePullUp: false,
+            enableTwoLevel: false,
+            enablePullDown: true,
+            header: MaterialClassicHeader(
+              backgroundColor: AppTheme.nearlyWhite,
+              color: AppTheme.green,
+            ),
+            controller: _refreshController,
+            onLoading: _onLoading,
+            onRefresh: _onRefresh,
+            child: ListView.builder(
+              itemCount: model.emails.length,
+              itemBuilder: (BuildContext context, int position) {
+                return ListItem(
+                  id: position,
+                  email: model.emails[position],
+                  onDeleted: () => model.deleteEmail(position),
+                );
+              },
             ),
           ),
         );
