@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:reply/editor_page.dart';
 import 'package:reply/list_page.dart';
 import 'package:reply/model/email_model.dart';
+import 'package:reply/pages/overview/overview_page.dart';
 import 'package:reply/styling.dart';
 import 'package:reply/transition/scale_out_transition.dart';
 
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             ),
             body: TabBarView(
               children: <Widget>[
-                ListPage(),
+                OverviewPage(),
                 Container(),
                 Container(),
                 Container(),
