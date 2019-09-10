@@ -2,33 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:reply/styling.dart';
 
 class AlertWidget extends StatelessWidget {
+  final IconData iconData;
+  final String text;
+
+  AlertWidget({this.iconData, this.text});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: Card(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 36),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(
-                Icons.subscriptions,
+                iconData,
                 color: AppTheme.green,
                 size: 24,
               ),
               Divider(
                 color: Colors.transparent,
-                height: 6,
+                height: 12,
               ),
               Text(
-                "You have one thing to resolve",
-                style: AppTheme.subtitle,
+                text,
+                style: AppTheme.title,
+                textAlign: TextAlign.center,
               ),
               Divider(
                 color: Colors.transparent,
-                height: 6,
+                height: 12,
               ),
               ButtonTheme(
                 shape: RoundedRectangleBorder(
