@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:reply/pages/overview/widgets/accounts_widget.dart';
 import 'package:reply/pages/overview/widgets/alert_widget.dart';
+import 'package:reply/pages/overview/widgets/credit_card_widget.dart';
 import 'package:reply/styling.dart';
 
 class OverviewPage extends StatefulWidget {
@@ -38,7 +39,7 @@ class _OverviewPageState extends State<OverviewPage> {
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
             child: Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
@@ -98,6 +99,51 @@ class _OverviewPageState extends State<OverviewPage> {
               ),
             ),
           ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "Credit cards",
+                          style: AppTheme.title,
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                      height: 12,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          "R\$ 8.544,23",
+                          style: AppTheme.display2,
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                      height: 16,
+                    ),
+                    CreditCardWidget(
+                      iconData: Icons.airplay,
+                      accountName: "Itau",
+                      creditCardName: "Itau international",
+                      available: 2084.32,
+                      statement: 3088.90,
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
