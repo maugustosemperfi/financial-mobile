@@ -23,7 +23,7 @@ class CreditCardWidget extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(right: 16),
-            child: Icon(iconData),
+            child: Icon(iconData, color: AppTheme.green,),
           ),
           Expanded(
             child: Column(

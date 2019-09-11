@@ -12,7 +12,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool rememberMe = false;
   bool loging = false;
-  Widget _animatedWiget = _textSignInButton();
+  Widget _animatedWiget;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animatedWiget = _textSignInButton();
+  }
 
   _login() async {
     this.loging = true;
@@ -23,11 +30,12 @@ class _LoginPageState extends State<LoginPage> {
     //   data: {"email": "augustoprofemp@gmail.com", "password": "123456"},
     // );
 
-    this.loging = false;
-
     await Future.delayed(Duration(seconds: 2));
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomePage()));
+
+    this.loging = false;
+    this.switchAnimatedWidget();
+    // Navigator.pushReplacement(
+    //     context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   void switchAnimatedWidget() {
@@ -181,7 +189,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _signInButton() {
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 200),
+      transitionBuilder: (Widget child, Animation<double> animation) =>
+          ScaleTransition(
+        scale: animation,
+        child: child,
+      ),
+      child: _animatedWiget,
+    );
+  }
+
+  Widget _textSignInButton() {
     return Row(
+      key: ValueKey(1),
       children: <Widget>[
         Expanded(
           child: ButtonTheme(
@@ -195,15 +216,9 @@ class _LoginPageState extends State<LoginPage> {
               },
               color: AppTheme.green,
               textColor: Colors.white,
-              child: AnimatedSwitcher(
-                duration: Duration(milliseconds: 200),
-                transitionBuilder:
-                    (Widget child, Animation<double> animation) =>
-                        ScaleTransition(
-                  scale: animation,
-                  child: child,
-                ),
-                child: _animatedWiget,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Text("Login"),
               ),
             ),
           ),
@@ -212,20 +227,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  static Widget _textSignInButton() {
-    return Container(
-      key: ValueKey(1),
-      padding: EdgeInsets.symmetric(vertical: 16),
-      child: Text("Login"),
-    );
-  }
-
-  static Widget _circularProgressSignInButton() {
+  Widget _circularProgressSignInButton() {
     return Container(
       key: ValueKey(2),
-      padding: EdgeInsets.symmetric(vertical: 6),
-      child: CircularProgressIndicator(
-        backgroundColor: Colors.white,
+      child: ButtonTheme(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: RaisedButton(
+          onPressed: () {},
+          color: AppTheme.green,
+          textColor: Colors.white,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 6),
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
+            ),
+          ),
+        ),
       ),
     );
   }

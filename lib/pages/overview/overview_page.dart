@@ -138,6 +138,17 @@ class _OverviewPageState extends State<OverviewPage> {
                       creditCardName: "Itau international",
                       available: 2084.32,
                       statement: 3088.90,
+                    ),
+                    Divider(
+                      color: Colors.transparent,
+                      height: 16,
+                    ),
+                    CreditCardWidget(
+                      iconData: Icons.airplay,
+                      accountName: "Inter",
+                      creditCardName: "Itau credit card",
+                      available: 522.32,
+                      statement: 188.20,
                     )
                   ],
                 ),
