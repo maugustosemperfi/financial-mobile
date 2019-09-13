@@ -1,15 +1,16 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:reply/application.dart';
 import 'package:reply/model/email_model.dart';
 import 'package:reply/pages/login/login_page.dart';
+import 'package:reply/routes/routes.dart';
 import 'package:reply/styling.dart';
 import 'http.dart';
-
-
 
 _parseAndDecode(String response) {
   return jsonDecode(response);
@@ -22,10 +23,21 @@ parseJson(String text) {
 void main() {
   // (CustomDio.dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
 
-  runApp(ReplyApp());
+  runApp(FinancialApp());
 }
 
-class ReplyApp extends StatelessWidget {
+class FinancialApp extends StatefulWidget {
+  @override
+  _FinancialAppState createState() => _FinancialAppState();
+}
+
+class _FinancialAppState extends State<FinancialApp> {
+  _FinancialAppState() {
+    final router = Router();
+    Routes.configureRoutes(router);
+    Application.router = router;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -40,13 +52,34 @@ class ReplyApp extends StatelessWidget {
           accentColor: AppTheme.green,
           textTheme: AppTheme.textTheme,
         ),
-        onGenerateRoute: (RouteSettings settings) {
-          print(settings.isInitialRoute);
-          if (settings.isInitialRoute) {
-            return PageRouteBuilder<void>(
-                pageBuilder: (BuildContext context, _, __) => LoginPage());
-          }
-        },
+        onGenerateRoute: Application.router.generator,
+      ),
+    );
+  }
+}
+
+class ReplyApp extends StatelessWidget {
+  ReplyApp() {
+    final router = Router();
+    Routes.configureRoutes(router);
+    Application.router = router;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<EmailModel>.value(value: EmailModel()),
+      ],
+      child: MaterialApp(
+        title: 'Reply',
+        theme: ThemeData(
+          scaffoldBackgroundColor: AppTheme.notWhite,
+          canvasColor: AppTheme.notWhite,
+          accentColor: AppTheme.green,
+          textTheme: AppTheme.textTheme,
+        ),
+        onGenerateRoute: Application.router.generator,
       ),
     );
   }

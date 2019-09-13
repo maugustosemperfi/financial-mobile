@@ -1,7 +1,10 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:reply/application.dart';
 import 'package:reply/http.dart';
 import 'package:reply/pages/home/home_page.dart';
+import 'package:reply/routes/routes.dart';
 import 'package:reply/styling.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,8 +37,8 @@ class _LoginPageState extends State<LoginPage> {
 
     this.loging = false;
     this.switchAnimatedWidget();
-    // Navigator.pushReplacement(
-    //     context, MaterialPageRoute(builder: (context) => HomePage()));
+    // Application.router.navigateTo(context, 'home', transition: TransitionType.native, transitionDuration: Duration(seconds: 10));
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   void switchAnimatedWidget() {

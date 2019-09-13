@@ -17,58 +17,53 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
   final GlobalKey _fabKey = GlobalKey();
-  final PageRouteBuilder<void> _initialRoute = PageRouteBuilder<void>(
-      pageBuilder: (BuildContext context, _, __) => ListPage());
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: _willPopCallback,
-        child: DefaultTabController(
-          length: 5,
-          child: Scaffold(
-            appBar: AppBar(
-              flexibleSpace: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  TabBar(
-                    tabs: <Widget>[
-                      Tab(
-                        icon: Icon(Icons.dashboard),
-                      ),
-                      Tab(
-                        icon: Icon(Icons.attach_money),
-                      ),
-                      Tab(
-                        icon: Icon(Icons.compare_arrows),
-                      ),
-                      Tab(
-                        icon: Icon(Icons.assessment),
-                      ),
-                      Tab(
-                        icon: Icon(Icons.settings),
-                      )
-                    ],
+    return DefaultTabController(
+      length: 5,
+      child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              TabBar(
+                tabs: <Widget>[
+                  Tab(
+                    icon: Icon(Icons.dashboard),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.attach_money),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.compare_arrows),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.assessment),
+                  ),
+                  Tab(
+                    icon: Icon(Icons.settings),
                   )
                 ],
-              ),
-              backgroundColor: AppTheme.grey,
-            ),
-            body: TabBarView(
-              children: <Widget>[
-                OverviewPage(),
-                Container(),
-                Container(),
-                Container(),
-                Container()
-              ],
-            ),
-            bottomNavigationBar: _bottomNavigation,
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: _fab,
+              )
+            ],
           ),
-        ));
+          backgroundColor: AppTheme.grey,
+        ),
+        body: TabBarView(
+          children: <Widget>[
+            OverviewPage(),
+            Container(),
+            Container(),
+            Container(),
+            Container()
+          ],
+        ),
+        bottomNavigationBar: _bottomNavigation,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: _fab,
+      ),
+    );
   }
 
   Widget get _bottomNavigation {
