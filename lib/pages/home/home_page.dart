@@ -132,45 +132,51 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: isSelected
-                      ? EdgeInsets.only(right: 8)
-                      : EdgeInsets.only(right: 0),
-                  child: Icon(
-                    iconData,
-                    color: AppTheme.nearlyWhite,
-                  ),
-                ),
-                AnimatedSwitcher(
-                  duration: Duration(milliseconds: 200),
-                  reverseDuration: Duration(milliseconds: 0),
-                  transitionBuilder:
-                      (Widget child, Animation<double> animation) =>
-                          SizeTransition(
-                    child: child,
-                    sizeFactor: animation,
-                    axis: Axis.horizontal,
-                    axisAlignment: -1.0,
-                  ),
-                  child: isSelected
-                      ? Container(
-                          key: ValueKey(1),
-                          child: Text(
-                            text,
-                            style: TextStyle(
-                                color: AppTheme.nearlyWhite,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      : Container(
-                          key: ValueKey(2),
-                          child: Text(""),
-                        ),
-                ),
+                isSelected
+                    ? getAppBarIcon(8, iconData, AppTheme.nearlyWhite)
+                    : getAppBarIcon(0, iconData, AppTheme.whiteGrey),
+                getAppBarText(isSelected, text),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  AnimatedSwitcher getAppBarText(bool isSelected, String text) {
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 200),
+      reverseDuration: Duration(milliseconds: 0),
+      transitionBuilder: (Widget child, Animation<double> animation) =>
+          SizeTransition(
+        child: child,
+        sizeFactor: animation,
+        axis: Axis.horizontal,
+        axisAlignment: -1.0,
+      ),
+      child: isSelected
+          ? Container(
+              key: ValueKey(1),
+              child: Text(
+                text,
+                style: TextStyle(
+                    color: AppTheme.nearlyWhite, fontWeight: FontWeight.bold),
+              ),
+            )
+          : Container(
+              key: ValueKey(2),
+              child: Text(""),
+            ),
+    );
+  }
+
+  Widget getAppBarIcon(double padding, IconData iconData, Color color) {
+    return Padding(
+      padding: EdgeInsets.only(right: padding),
+      child: Icon(
+        iconData,
+        color: color,
       ),
     );
   }

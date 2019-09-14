@@ -10,6 +10,7 @@ class AppTheme {
   static const Color nearlyBlack = Color(0xFF213333);
   static const Color grey = Color(0xFF3A5160);
   static const Color dark_grey = Color(0xFF313A44);
+  static const Color whiteGrey = Color(0xFFdfdfdf);
   static const Color green = Color(0xFF13B15F);
 
   static const Color almostInvisible = Color(0xFFDADEE1);
