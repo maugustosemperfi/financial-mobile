@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     //   data: {"email": "augustoprofemp@gmail.com", "password": "123456"},
     // );
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
 
     this.loging = false;
     this.switchAnimatedWidget();

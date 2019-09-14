@@ -1,67 +1,176 @@
-import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reply/editor_page.dart';
-import 'package:reply/list_page.dart';
 import 'package:reply/model/email_model.dart';
 import 'package:reply/pages/overview/overview_page.dart';
 import 'package:reply/styling.dart';
-import 'package:reply/transition/scale_out_transition.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
   final GlobalKey _fabKey = GlobalKey();
+  TabController tabController;
+  int _selectedIndex;
+
+  List<Widget> tabItems;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(vsync: this, length: 4);
+    _selectedIndex = 0;
+  }
+
+  selectTab(index) {
+    setState(() {
+      _selectedIndex = index;
+      // tabController.animateTo(index);
+      // tabController.index = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 5,
-      child: Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Column(
+    return Scaffold(
+      appBar: AppBar(
+        // title: Text("Financial"),
+        // bottom: TabBar(
+        //   isScrollable: true,
+        //   controller: tabController,
+        //   onTap: selectTab,
+        //   tabs: <Widget>[
+        //     tabBarItem("OVERVIEW", Icons.pie_chart, _selectedIndex == 0),
+        //     // Tab(icon: Icon(Icons.pie_chart),),
+        //     tabBarItem("ACCOUNTS", Icons.attach_money, _selectedIndex == 1),
+        //     tabBarItem("BILLS", Icons.attach_money, _selectedIndex == 2),
+        //     tabBarItem("REPORTS", Icons.insert_chart, _selectedIndex == 3),
+        //     tabBarItem("SETTINGS", Icons.settings, _selectedIndex == 4),
+        //   ],
+        // ),,
+        flexibleSpace: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              TabBar(
-                tabs: <Widget>[
-                  Tab(
-                    icon: Icon(Icons.dashboard),
-                  ),
-                  Tab(
-                    icon: Icon(Icons.attach_money),
-                  ),
-                  Tab(
-                    icon: Icon(Icons.compare_arrows),
-                  ),
-                  Tab(
-                    icon: Icon(Icons.assessment),
-                  ),
-                  Tab(
-                    icon: Icon(Icons.settings),
-                  )
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  tabBarItem(
+                      "OVERVIEW", Icons.pie_chart, _selectedIndex == 0, 0),
+                  tabBarItem(
+                      "ACCOUNTS", Icons.attach_money, _selectedIndex == 1, 1),
+                  tabBarItem(
+                      "BILLS", Icons.attach_money, _selectedIndex == 2, 2),
+                  tabBarItem(
+                      "REPORTS", Icons.insert_chart, _selectedIndex == 3, 3),
+                  tabBarItem(
+                      "SETTINGS", Icons.settings, _selectedIndex == 4, 4),
+
+                  // Expanded(
+                  //     child: TabBar(
+                  //       isScrollable: true,
+                  //       controller: tabController,
+                  //       onTap: selectTab,
+                  //       labelPadding: EdgeInsets.symmetric(horizontal: 12),
+                  //       tabs: <Widget>[
+                  //         tabBarItem(
+                  //             "OVERVIEW", Icons.pie_chart, _selectedIndex == 0),
+                  //         tabBarItem("ACCOUNTS", Icons.attach_money,
+                  //             _selectedIndex == 1),
+                  //         tabBarItem("TRANSACTIONS", Icons.attach_money,
+                  //             _selectedIndex == 2),
+                  //         tabBarItem(
+                  //             "SETTINGS", Icons.settings, _selectedIndex == 3),
+                  //       ],
+                  //     ),
+                  //     ),
                 ],
-              )
+              ),
             ],
           ),
-          backgroundColor: AppTheme.grey,
         ),
-        body: TabBarView(
-          children: <Widget>[
-            OverviewPage(),
-            Container(),
-            Container(),
-            Container(),
-            Container()
-          ],
+        backgroundColor: AppTheme.grey,
+      ),
+      // body: TabBarView(
+      //   physics: NeverScrollableScrollPhysics(),
+      //   controller: tabController,
+      //   children: <Widget>[
+      //     OverviewPage(),
+      //     Container(),
+      //     Container(),
+      //     Container(),
+      //   ],
+      // ),
+      body: Container(
+        child: OverviewPage(),
+      ),
+      bottomNavigationBar: _bottomNavigation,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: _fab,
+    );
+  }
+
+  Widget tabBarItem(
+      String text, IconData iconData, bool isSelected, int index) {
+    return Expanded(
+      flex: isSelected ? 5 : 2,
+      child: InkWell(
+        onTap: () {
+          selectTab(index);
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 200),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: isSelected
+                      ? EdgeInsets.only(right: 8)
+                      : EdgeInsets.only(right: 0),
+                  child: Icon(
+                    iconData,
+                    color: AppTheme.nearlyWhite,
+                  ),
+                ),
+                AnimatedSwitcher(
+                  duration: Duration(milliseconds: 200),
+                  reverseDuration: Duration(milliseconds: 0),
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) =>
+                          SizeTransition(
+                    child: child,
+                    sizeFactor: animation,
+                    axis: Axis.horizontal,
+                    axisAlignment: -1.0,
+                  ),
+                  child: isSelected
+                      ? Container(
+                          key: ValueKey(1),
+                          child: Text(
+                            text,
+                            style: TextStyle(
+                                color: AppTheme.nearlyWhite,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : Container(
+                          key: ValueKey(2),
+                          child: Text(""),
+                        ),
+                ),
+              ],
+            ),
+          ),
         ),
-        bottomNavigationBar: _bottomNavigation,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: _fab,
       ),
     );
   }
