@@ -1,10 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:reply/editor_page.dart';
-import 'package:reply/model/email_model.dart';
-import 'package:reply/pages/overview/overview_page.dart';
-import 'package:reply/styling.dart';
+import 'package:financial/authentication/authentication_bloc.dart';
+import 'package:financial/editor_page.dart';
+import 'package:financial/model/email_model.dart';
+import 'package:financial/pages/overview/overview_page.dart';
+import 'package:financial/styling.dart';
+import 'package:financial/authentication/authentication.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,9 +16,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+  AuthenticationBloc authenticationBloc;
 
   final GlobalKey _fabKey = GlobalKey();
-  TabController tabController;
   int _selectedIndex;
 
   List<Widget> tabItems;
@@ -23,36 +26,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: 4);
     _selectedIndex = 0;
   }
 
   selectTab(index) {
     setState(() {
       _selectedIndex = index;
-      // tabController.animateTo(index);
-      // tabController.index = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
-        // title: Text("Financial"),
-        // bottom: TabBar(
-        //   isScrollable: true,
-        //   controller: tabController,
-        //   onTap: selectTab,
-        //   tabs: <Widget>[
-        //     tabBarItem("OVERVIEW", Icons.pie_chart, _selectedIndex == 0),
-        //     // Tab(icon: Icon(Icons.pie_chart),),
-        //     tabBarItem("ACCOUNTS", Icons.attach_money, _selectedIndex == 1),
-        //     tabBarItem("BILLS", Icons.attach_money, _selectedIndex == 2),
-        //     tabBarItem("REPORTS", Icons.insert_chart, _selectedIndex == 3),
-        //     tabBarItem("SETTINGS", Icons.settings, _selectedIndex == 4),
-        //   ],
-        // ),,
         flexibleSpace: Container(
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -71,25 +59,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       "REPORTS", Icons.insert_chart, _selectedIndex == 3, 3),
                   tabBarItem(
                       "SETTINGS", Icons.settings, _selectedIndex == 4, 4),
-
-                  // Expanded(
-                  //     child: TabBar(
-                  //       isScrollable: true,
-                  //       controller: tabController,
-                  //       onTap: selectTab,
-                  //       labelPadding: EdgeInsets.symmetric(horizontal: 12),
-                  //       tabs: <Widget>[
-                  //         tabBarItem(
-                  //             "OVERVIEW", Icons.pie_chart, _selectedIndex == 0),
-                  //         tabBarItem("ACCOUNTS", Icons.attach_money,
-                  //             _selectedIndex == 1),
-                  //         tabBarItem("TRANSACTIONS", Icons.attach_money,
-                  //             _selectedIndex == 2),
-                  //         tabBarItem(
-                  //             "SETTINGS", Icons.settings, _selectedIndex == 3),
-                  //       ],
-                  //     ),
-                  //     ),
                 ],
               ),
             ],
@@ -97,16 +66,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         backgroundColor: AppTheme.grey,
       ),
-      // body: TabBarView(
-      //   physics: NeverScrollableScrollPhysics(),
-      //   controller: tabController,
-      //   children: <Widget>[
-      //     OverviewPage(),
-      //     Container(),
-      //     Container(),
-      //     Container(),
-      //   ],
-      // ),
       body: Container(
         child: OverviewPage(),
       ),
@@ -122,6 +81,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       flex: isSelected ? 5 : 2,
       child: InkWell(
         onTap: () {
+          authenticationBloc.dispatch(LoggedOut());
           selectTab(index);
         },
         child: Container(
@@ -246,7 +206,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           sizeCurve: Curves.fastOutSlowIn,
           firstChild: IconButton(
             icon: const Icon(Icons.search, color: Colors.white),
-            onPressed: () => print('Tap!'),
+            onPressed: () => print('Tap'),
           ),
           secondChild: showSecond
               ? Row(

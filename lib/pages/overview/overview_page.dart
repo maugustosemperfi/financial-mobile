@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:reply/pages/overview/widgets/accounts_widget.dart';
-import 'package:reply/pages/overview/widgets/alert_widget.dart';
-import 'package:reply/pages/overview/widgets/credit_card_widget.dart';
-import 'package:reply/styling.dart';
+import 'package:financial/pages/overview/widgets/accounts_widget.dart';
+import 'package:financial/pages/overview/widgets/alert_widget.dart';
+import 'package:financial/pages/overview/widgets/credit_card_widget.dart';
+import 'package:financial/styling.dart';
 
 class OverviewPage extends StatefulWidget {
   @override

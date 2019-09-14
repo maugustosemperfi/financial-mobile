@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reply/styling.dart';
+import 'package:financial/styling.dart';
 
 class CreditCardWidget extends StatelessWidget {
   IconData iconData;

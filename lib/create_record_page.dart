@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:reply/styling.dart';
-import 'package:reply/transition/expand_transition.dart';
+import 'package:financial/styling.dart';
+import 'package:financial/transition/expand_transition.dart';
 
 class CreateRecordPage extends StatefulWidget {
   const CreateRecordPage({

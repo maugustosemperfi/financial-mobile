@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:reply/details_page.dart';
-import 'package:reply/model/email.dart';
-import 'package:reply/styling.dart';
-import 'package:reply/ui/rounded_avatar.dart';
+import 'package:financial/details_page.dart';
+import 'package:financial/model/email.dart';
+import 'package:financial/styling.dart';
+import 'package:financial/ui/rounded_avatar.dart';
 
 class ListItem extends StatelessWidget {
   const ListItem({Key key, this.id, this.email, this.onDeleted}) : super(key: key);

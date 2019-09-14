@@ -1,0 +1,275 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:financial/pages/login/login.dart';
+import 'package:financial/styling.dart';
+
+class LoginWidgetForm extends StatefulWidget {
+  @override
+  _LoginWidgetFormState createState() => _LoginWidgetFormState();
+}
+
+class _LoginWidgetFormState extends State<LoginWidgetForm> {
+  bool rememberMe = false;
+  bool loging = false;
+  Widget _animatedWiget;
+  LoginBloc loginBloc;
+
+  final loginForm = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animatedWiget = _textSignInButton();
+  }
+
+  void switchAnimatedWidget() {
+    setState(() {
+      if (_animatedWiget.key == ValueKey(1)) {
+        _animatedWiget = _circularProgressSignInButton();
+      } else {
+        _animatedWiget = _textSignInButton();
+      }
+    });
+  }
+
+  _login() async {
+    this.loging = true;
+    this.switchAnimatedWidget();
+
+    loginBloc.dispatch(LoginButtonPressed(
+        email: emailController.text, password: passwordController.text));
+    // await Future.delayed(Duration(seconds: 1));
+
+    // this.loging = false;
+    // this.switchAnimatedWidget();
+    // Application.router.navigateTo(context, 'home', transition: TransitionType.native, transitionDuration: Duration(seconds: 10));
+    // Navigator.pushReplacementNamed(context, '/home');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    loginBloc = BlocProvider.of<LoginBloc>(context);
+
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        if (state is LoginFailure) {
+          switchAnimatedWidget();
+          this.loging = false;
+        }
+      },
+      child: BlocBuilder<LoginBloc, LoginState>(
+        bloc: loginBloc,
+        builder: (BuildContext context, LoginState state) {
+          return Column(
+            children: <Widget>[
+              _loginForm(),
+              _divider(8),
+              _forgotPassword(),
+              _divider(24),
+              _signInButton(),
+              _divider(24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "OR",
+                    style: AppTheme.subtitleLight,
+                  ),
+                ],
+              ),
+              _divider(24),
+              _signInGoogle(),
+              _divider(24),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _divider(int height) {
+    return Divider(
+      color: Colors.transparent,
+      height: height.toDouble(),
+    );
+  }
+
+  Widget _loginForm() {
+    return Form(
+      key: loginForm,
+      autovalidate: true,
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            controller: emailController,
+            keyboardType: TextInputType.emailAddress,
+            validator: (String email) {
+              if (!RegExp(
+                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                  .hasMatch(email)) {
+                return "Email is not valid";
+              } else {
+                return null;
+              }
+            },
+            decoration: InputDecoration(
+              hintText: 'Enter your email',
+              labelText: 'Email',
+              prefixIcon: Icon(
+                Icons.email,
+                size: 16,
+              ),
+              border: OutlineInputBorder(),
+            ),
+          ),
+          _divider(32),
+          TextFormField(
+            controller: passwordController,
+            obscureText: true,
+            validator: (String pass) {
+              if (pass.length < 8) {
+                return "Password should have 8 characters";
+              } else {
+                return null;
+              }
+            },
+            decoration: InputDecoration(
+              hintText: 'Enter your password',
+              labelText: 'Password',
+              prefixIcon: Icon(
+                Icons.build,
+                size: 16,
+              ),
+              border: OutlineInputBorder(),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _forgotPassword() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        RichText(
+          text: TextSpan(
+              text: "Forgot Password?",
+              style: AppTheme.caption,
+              recognizer: TapGestureRecognizer()..onTap = () {}),
+        )
+      ],
+    );
+  }
+
+  Widget _signInButton() {
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 200),
+      transitionBuilder: (Widget child, Animation<double> animation) =>
+          ScaleTransition(
+        scale: animation,
+        child: child,
+      ),
+      child: _animatedWiget,
+    );
+  }
+
+  Widget _textSignInButton() {
+    return Row(
+      key: ValueKey(1),
+      children: <Widget>[
+        Expanded(
+          child: ButtonTheme(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: RaisedButton(
+              onPressed: () {
+                if (!loging) {
+                  _login();
+                }
+              },
+              color: AppTheme.green,
+              textColor: Colors.white,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: loging ? Text("Login") : Container(),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _circularProgressSignInButton() {
+    return Container(
+      key: ValueKey(2),
+      child: ButtonTheme(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: RaisedButton(
+          onPressed: () {},
+          color: AppTheme.green,
+          textColor: Colors.white,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 6),
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _signInGoogle() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: ButtonTheme(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide(color: Colors.black)),
+            child: RaisedButton(
+                onPressed: () {},
+                color: AppTheme.nearlyWhite,
+                padding: EdgeInsets.symmetric(vertical: 6),
+                child: Container(
+                  height: 36,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Stack(
+                          fit: StackFit.expand,
+                          alignment: AlignmentDirectional.center,
+                          children: <Widget>[
+                            Positioned(
+                              top: 10,
+                              child: Text(
+                                "Sign in with google",
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Positioned(
+                              right: 16,
+                              child: Image.asset('assets/images/ic_google.png'),
+                              height: 24,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+        ),
+      ],
+    );
+  }
+}

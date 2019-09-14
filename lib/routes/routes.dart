@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'package:reply/routes/route_handles.dart';
+import 'package:financial/routes/route_handles.dart';
 
 class Routes {
   static String root = "/";
