@@ -33,8 +33,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           data: {"email": event.email, "password": event.password},
         );
 
-        authenticationBloc
-            .dispatch(LoggedIn(token: jsonDecode(token.data.token)));
+        Map<String, dynamic> jsonToken = jsonDecode(token.data);
+        authenticationBloc.dispatch(LoggedIn(token: jsonToken['token']));
 
         yield LoginInitial();
       } on DioError catch (error) {

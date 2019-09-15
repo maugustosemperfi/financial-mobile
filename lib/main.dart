@@ -83,8 +83,7 @@ class _FinancialAppState extends State<FinancialApp> {
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is AuthenticationUnitialized ||
-                state is AuthenticationUnauthenticated ||
-                state is AuthenticationLoading) {
+                state is AuthenticationUnauthenticated) {
               return LoginPage();
             }
 
