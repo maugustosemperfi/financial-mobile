@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:financial/application.dart';
 import 'package:flutter/material.dart';
 import 'package:financial/pages/overview/widgets/accounts_widget.dart';
 import 'package:financial/pages/overview/widgets/alert_widget.dart';
@@ -11,6 +12,20 @@ class OverviewPage extends StatefulWidget {
 }
 
 class _OverviewPageState extends State<OverviewPage> {
+  var accounts = null;
+
+  @override
+  void initState() {
+    super.initState();
+    _getAccounts();
+  }
+
+  _getAccounts() async {
+    accounts = await Application.dio.get('accounts');
+
+    print(accounts);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,6 +62,9 @@ class _OverviewPageState extends State<OverviewPage> {
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: Column(
                   children: <Widget>[
+                    accounts != null
+                        ? Text("Accounts here")
+                        : Text("No accounts here"),
                     Row(
                       children: <Widget>[
                         Text(

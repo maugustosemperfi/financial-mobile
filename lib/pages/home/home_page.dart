@@ -80,7 +80,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: <Widget>[
           OverviewPage(),
           Container(
-            child: Text("Tab 2"),
+            child: RaisedButton(
+              color: AppTheme.green,
+              onPressed: () {
+                authenticationBloc.dispatch(LoggedOut());
+              },
+              child: Text("Logout"),
+            ),
           ),
           Container(
             child: Text("Tab 3"),
@@ -105,7 +111,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       flex: isSelected ? 5 : 2,
       child: InkWell(
         onTap: () {
-          // authenticationBloc.dispatch(LoggedOut());
           selectTab(index);
         },
         child: Container(

@@ -47,9 +47,13 @@ parseJson(String text) {
 
 addDioInterceptors(Dio dio) async {}
 
-void main() {
+void main() async {
   // (CustomDio.dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
   BlocSupervisor.delegate = SimpleBlocDelegate();
+  FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
+  final token = await flutterSecureStorage.read(key: "token");
+  Application.authenticationToken = token;
+
   final dio = Dio(BaseOptions(
     baseUrl: "http://192.168.0.55:3000/",
     connectTimeout: 5000,
@@ -67,10 +71,14 @@ void main() {
   dio
     ..interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
       final token = Application.authenticationToken;
+
       if (token != null) {
-        options.headers.addAll(
-            {"Authorization": "Bearer ${Application.authenticationToken}"});
+        options.headers.addAll({
+          "Authorization":
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTY4NTQ4OTA2LCJleHAiOjE1NjkxNTM3MDZ9.YS6vttuxm3vheA0i2S6688iErgl0wjyqg94Gc-iVsT0"
+        });
       }
+
       return options;
     }));
 
