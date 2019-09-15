@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:financial/application.dart';
 import 'package:financial/authentication/authentication.dart';
@@ -42,9 +45,36 @@ parseJson(String text) {
   return compute(_parseAndDecode, text);
 }
 
+addDioInterceptors(Dio dio) async {}
+
 void main() {
   // (CustomDio.dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
   BlocSupervisor.delegate = SimpleBlocDelegate();
+  final dio = Dio(BaseOptions(
+    baseUrl: "http://192.168.0.55:3000/",
+    connectTimeout: 5000,
+    receiveTimeout: 100000,
+    headers: {
+      HttpHeaders.userAgentHeader: "dio",
+      "api": "1.0.0",
+    },
+    contentType: ContentType.json,
+    // Transform the response data to a String encoded with UTF8.
+    // The default value is [ResponseType.JSON].
+    responseType: ResponseType.plain,
+  ));
+
+  dio
+    ..interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
+      final token = Application.authenticationToken;
+      if (token != null) {
+        options.headers.addAll(
+            {"Authorization": "Bearer ${Application.authenticationToken}"});
+      }
+      return options;
+    }));
+
+  Application.dio = dio;
 
   runApp(BlocProvider<AuthenticationBloc>(
     builder: (context) {
@@ -62,6 +92,7 @@ class FinancialApp extends StatefulWidget {
 class _FinancialAppState extends State<FinancialApp> {
   _FinancialAppState() {
     final router = Router();
+
     Routes.configureRoutes(router);
     Application.router = router;
   }

@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:financial/application.dart';
 import 'package:financial/authentication/authentication_event.dart';
 import 'package:financial/authentication/authentication_state.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -31,6 +32,7 @@ class AuthenticationBloc
     if (event is LoggedIn) {
       yield AuthenticationLoading();
       await storage.write(key: "token", value: event.token);
+      Application.authenticationToken = event.token;
       yield AuthenticationAuthenticated();
     }
 
