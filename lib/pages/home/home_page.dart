@@ -1,13 +1,13 @@
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
+import 'package:financial/authentication/authentication.dart';
 import 'package:financial/authentication/authentication_bloc.dart';
 import 'package:financial/editor_page.dart';
 import 'package:financial/model/email_model.dart';
 import 'package:financial/pages/overview/overview_page.dart';
 import 'package:financial/styling.dart';
-import 'package:financial/authentication/authentication.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,22 +16,30 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
-  AuthenticationBloc authenticationBloc;
-
   final GlobalKey _fabKey = GlobalKey();
-  int _selectedIndex;
 
-  List<Widget> tabItems;
+  int _selectedIndex;
+  AuthenticationBloc authenticationBloc;
+  PageController _pageController;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = 0;
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   selectTab(index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.animateToPage(_selectedIndex,
+          duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
     });
   }
 
@@ -66,8 +74,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         backgroundColor: AppTheme.grey,
       ),
-      body: Container(
-        child: OverviewPage(),
+      body: PageView(
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          OverviewPage(),
+          Container(
+            child: Text("Tab 2"),
+          ),
+          Container(
+            child: Text("Tab 3"),
+          ),
+          Container(
+            child: Text("Tab 4"),
+          ),
+          Container(
+            child: Text("Tab 5"),
+          ),
+        ],
       ),
       bottomNavigationBar: _bottomNavigation,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -81,7 +105,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       flex: isSelected ? 5 : 2,
       child: InkWell(
         onTap: () {
-          authenticationBloc.dispatch(LoggedOut());
+          // authenticationBloc.dispatch(LoggedOut());
           selectTab(index);
         },
         child: Container(
