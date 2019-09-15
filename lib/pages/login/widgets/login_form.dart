@@ -10,10 +10,11 @@ class LoginWidgetForm extends StatefulWidget {
 }
 
 class _LoginWidgetFormState extends State<LoginWidgetForm> {
-  bool rememberMe = false;
-  bool loging = false;
+  bool _rememberMe = false;
+  bool _loging = false;
+  bool _autovalidate = false;
   Widget _animatedWiget;
-  LoginBloc loginBloc;
+  LoginBloc _loginBloc;
 
   final loginForm = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -36,33 +37,48 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
     });
   }
 
-  _login() async {
-    this.loging = true;
-    this.switchAnimatedWidget();
+  _login() {
+    if (loginForm.currentState.validate()) {
+      loginForm.currentState.save();
+      setState(() {
+        this._loging = true;
+      });
+      this.switchAnimatedWidget();
 
-    loginBloc.dispatch(LoginButtonPressed(
-        email: emailController.text, password: passwordController.text));
-    // await Future.delayed(Duration(seconds: 1));
+      _loginBloc.dispatch(LoginButtonPressed(
+          email: emailController.text, password: passwordController.text));
+    } else {
+      setState(() {
+        _autovalidate = true;
+      });
+    }
 
-    // this.loging = false;
+    // this._loging = false;
     // this.switchAnimatedWidget();
     // Application.router.navigateTo(context, 'home', transition: TransitionType.native, transitionDuration: Duration(seconds: 10));
     // Navigator.pushReplacementNamed(context, '/home');
   }
 
+  _validationFails() {
+    setState(() {
+      this._loging = false;
+      this._autovalidate = true;
+    });
+    this.switchAnimatedWidget();
+  }
+
   @override
   Widget build(BuildContext context) {
-    loginBloc = BlocProvider.of<LoginBloc>(context);
+    _loginBloc = BlocProvider.of<LoginBloc>(context);
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginFailure) {
-          switchAnimatedWidget();
-          this.loging = false;
+          _validationFails();
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
-        bloc: loginBloc,
+        bloc: _loginBloc,
         builder: (BuildContext context, LoginState state) {
           return Column(
             children: <Widget>[
@@ -101,7 +117,7 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
   Widget _loginForm() {
     return Form(
       key: loginForm,
-      autovalidate: true,
+      autovalidate: _autovalidate,
       child: Column(
         children: <Widget>[
           TextFormField(
@@ -189,7 +205,7 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: RaisedButton(
               onPressed: () {
-                if (!loging) {
+                if (!_loging) {
                   _login();
                 }
               },
@@ -197,7 +213,7 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
               textColor: Colors.white,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 16),
-                child: loging ? Text("Login") : Container(),
+                child: !_loging ? Text("Login") : Container(),
               ),
             ),
           ),
