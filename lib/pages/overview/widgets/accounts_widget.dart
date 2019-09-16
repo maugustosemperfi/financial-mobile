@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:financial/application.dart';
+import 'package:financial/enum/enum_account_type.dart';
 import 'package:financial/model/account.dart';
 import 'package:financial/styling.dart';
+import 'package:fluro/fluro.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AccountsWidget extends StatefulWidget {
@@ -32,6 +35,22 @@ class _AccountsWidgetState extends State<AccountsWidget> {
       this._accounts = accounts;
     });
   }
+
+  _showAccountBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _createTile(context, 'Checking account', Icons.account_balance,
+                  "checking"),
+            ],
+          );
+        });
+  }
+
+  _openAddAcountPage() {}
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +119,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                       ),
                     ),
                     Text(
-                      "R\$ $account.",
+                      "R\$ ${account.name}",
                       style: AppTheme.titleMoneyPositivite,
                     )
                   ],
@@ -119,7 +138,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
-                  onPressed: () {},
+                  onPressed: () => {_showAccountBottomSheet(context)},
                   textColor: AppTheme.nearlyWhite,
                   color: AppTheme.green,
                   child: Text(
@@ -128,9 +147,23 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
+    );
+  }
+
+  ListTile _createTile(
+      BuildContext context, String name, IconData icon, String type) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(name),
+      onTap: () {
+        print(type);
+        Navigator.pop(context);
+        Application.router.navigateTo(context, 'account/add/$type',
+            transition: TransitionType.cupertinoFullScreenDialog);
+      },
     );
   }
 }

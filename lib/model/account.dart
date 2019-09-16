@@ -6,7 +6,7 @@ part 'account.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Account {
   String name;
-  AccountType type;
+  String type;
 
   Account(this.name, this.type);
 
