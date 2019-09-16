@@ -1,10 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:financial/application.dart';
-import 'package:flutter/material.dart';
 import 'package:financial/pages/overview/widgets/accounts_widget.dart';
 import 'package:financial/pages/overview/widgets/alert_widget.dart';
 import 'package:financial/pages/overview/widgets/credit_card_widget.dart';
 import 'package:financial/styling.dart';
+import 'package:flutter/material.dart';
 
 class OverviewPage extends StatefulWidget {
   @override
@@ -12,18 +11,11 @@ class OverviewPage extends StatefulWidget {
 }
 
 class _OverviewPageState extends State<OverviewPage> {
-  var accounts = null;
+  var _accounts = null;
 
   @override
   void initState() {
     super.initState();
-    _getAccounts();
-  }
-
-  _getAccounts() async {
-    accounts = await Application.dio.get('accounts');
-
-    print(accounts);
   }
 
   @override
@@ -61,58 +53,7 @@ class _OverviewPageState extends State<OverviewPage> {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 child: Column(
-                  children: <Widget>[
-                    accounts != null
-                        ? Text("Accounts here")
-                        : Text("No accounts here"),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "Accounts",
-                          style: AppTheme.title,
-                        )
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 12,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "R\$ 18.192,49",
-                          style: AppTheme.display2,
-                        )
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 16,
-                    ),
-                    AccountsWidget(
-                      accountName: "Inter",
-                      iconData: Icons.monetization_on,
-                      savings: 123.47,
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 16,
-                    ),
-                    AccountsWidget(
-                      accountName: "Itau",
-                      iconData: Icons.monetization_on,
-                      savings: 2433.47,
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 16,
-                    ),
-                    AccountsWidget(
-                      accountName: "Cash",
-                      iconData: Icons.monetization_on,
-                      savings: 532.47,
-                    ),
-                  ],
+                  children: <Widget>[AccountsWidget()],
                 ),
               ),
             ),

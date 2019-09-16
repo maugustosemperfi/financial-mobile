@@ -73,10 +73,7 @@ void main() async {
       final token = Application.authenticationToken;
 
       if (token != null) {
-        options.headers.addAll({
-          "Authorization":
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTY4NTQ4OTA2LCJleHAiOjE1NjkxNTM3MDZ9.YS6vttuxm3vheA0i2S6688iErgl0wjyqg94Gc-iVsT0"
-        });
+        options.headers.addAll({"Authorization": "Bearer $token"});
       }
 
       return options;
