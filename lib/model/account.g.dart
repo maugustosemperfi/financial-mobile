@@ -9,11 +9,12 @@ part of 'account.dart';
 Account _$AccountFromJson(Map<String, dynamic> json) {
   return Account(
     json['name'] as String,
-    json['type'] as String,
-  );
+    Account._intToEnum(json['type'] as int),
+  )..balance = Account._stringToDouble(json['balance'] as String);
 }
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'name': instance.name,
-      'type': instance.type,
+      'type': Account._intFromEnum(instance.type),
+      'balance': Account._stringFromDouble(instance.balance),
     };

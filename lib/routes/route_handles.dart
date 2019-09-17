@@ -18,6 +18,6 @@ var homePageHandler = Handler(
 var addAccountPageHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return AddAccountPage(
-    type: params["type"][0],
+    type: params["type"][0] as EnumAccountType,
   );
 });

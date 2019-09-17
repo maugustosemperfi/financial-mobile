@@ -11,8 +11,6 @@ class OverviewPage extends StatefulWidget {
 }
 
 class _OverviewPageState extends State<OverviewPage> {
-  var _accounts = null;
-
   @override
   void initState() {
     super.initState();
@@ -52,9 +50,7 @@ class _OverviewPageState extends State<OverviewPage> {
                   borderRadius: BorderRadius.circular(12)),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                child: Column(
-                  children: <Widget>[AccountsWidget()],
-                ),
+                child: AccountsWidget(),
               ),
             ),
           ),
@@ -68,9 +64,14 @@ class _OverviewPageState extends State<OverviewPage> {
                 child: Column(
                   children: <Widget>[
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
                           "Credit cards",
+                          style: AppTheme.title,
+                        ),
+                        Text(
+                          "R\$ 8.544,23",
                           style: AppTheme.title,
                         ),
                       ],
@@ -78,14 +79,6 @@ class _OverviewPageState extends State<OverviewPage> {
                     Divider(
                       color: Colors.transparent,
                       height: 12,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "R\$ 8.544,23",
-                          style: AppTheme.display2,
-                        ),
-                      ],
                     ),
                     Divider(
                       color: Colors.transparent,

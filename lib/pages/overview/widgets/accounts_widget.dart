@@ -27,9 +27,9 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   _getAccounts() async {
     final accountsResponse = await Application.dio.get('accounts');
 
-    final List<Account> accounts = new List<Account>.from(
-        jsonDecode(accountsResponse.data) as List<dynamic>
-          ..map((account) => Account.fromJson(account)));
+    final List<Account> accounts = (jsonDecode(accountsResponse.data) as List)
+        .map((account) => Account.fromJson(account))
+        .toList();
 
     setState(() {
       this._accounts = accounts;
@@ -58,20 +58,16 @@ class _AccountsWidgetState extends State<AccountsWidget> {
       child: Column(
         children: <Widget>[
           _accounts.length > 0
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
                       "Accounts",
                       style: AppTheme.title,
                     ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 12,
-                    ),
                     Text(
                       "R\$ 0",
-                      style: AppTheme.display2,
+                      style: AppTheme.title,
                     )
                   ],
                 )
@@ -88,12 +84,13 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                     ),
                   ],
                 ),
+          Divider(height: 12, color: Colors.transparent),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: _accounts.map((account) {
-              return Container(
-                child: Column(
+              return Expanded(
+                child: Row(
                   children: <Widget>[
                     Icon(
                       Icons.monetization_on,
@@ -102,24 +99,26 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                     SizedBox(
                       width: 12,
                     ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "${account.name}",
+                          style: AppTheme.title,
+                        ),
+                        Text(
+                          "Checking account",
+                          style: AppTheme.caption,
+                        )
+                      ],
+                    ),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "",
-                            style: AppTheme.title,
-                          ),
-                          Text(
-                            "Checking account",
-                            style: AppTheme.caption,
-                          )
-                        ],
-                      ),
+                      flex: 1,
+                      child: Container(),
                     ),
                     Text(
-                      "R\$ ${account.name}",
+                      "R\$ ${account.balance}",
                       style: AppTheme.titleMoneyPositivite,
                     )
                   ],
@@ -129,7 +128,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
           ),
           Divider(
             color: Colors.transparent,
-            height: 12,
+            height: 24,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
