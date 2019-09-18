@@ -139,7 +139,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                 child: FlatButton(
                   onPressed: () => {_showAccountBottomSheet(context)},
                   textColor: AppTheme.nearlyWhite,
-                  color: AppTheme.green,
+                  color: AppTheme.primary,
                   child: Text(
                     "Add acount",
                   ),

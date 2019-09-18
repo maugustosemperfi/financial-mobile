@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ],
           ),
         ),
-        backgroundColor: AppTheme.grey,
+        backgroundColor: AppTheme.primary,
       ),
       body: PageView(
         controller: _pageController,
@@ -99,8 +99,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ],
       ),
-      bottomNavigationBar: _bottomNavigation,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: _fab,
     );
   }
@@ -186,7 +185,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       child: SlideTransition(
         position: slideOut,
         child: BottomAppBar(
-          color: AppTheme.grey,
+          color: AppTheme.primary,
           shape:
               AutomaticNotchedShape(RoundedRectangleBorder(), CircleBorder()),
           notchMargin: 8,
@@ -278,7 +277,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 color: AppTheme.nearlyWhite,
               ),
             ),
-            backgroundColor: AppTheme.green,
+            backgroundColor: AppTheme.warn,
             onPressed: () => Navigator.of(context).push<void>(
               EditorPage.route(context, _fabKey),
             ),

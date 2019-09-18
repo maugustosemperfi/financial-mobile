@@ -1,5 +1,5 @@
 name: financial
-description: The Reply Material Design case study. Written in Flutter.
+description: Save your fundings in the right way.
 
 version: 1.0.0+1
 
@@ -25,10 +25,14 @@ dependencies:
   json_serializable: ^3.2.2
   build_runner: ^1.7.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.7.3
+
+flutter_icons:
+  android: true
+  image_path: 'assets/images/financial.png'
 
 flutter:
   uses-material-design: true

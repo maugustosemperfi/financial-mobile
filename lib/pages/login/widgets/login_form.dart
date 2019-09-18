@@ -135,11 +135,6 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
             decoration: InputDecoration(
               hintText: 'Enter your email',
               labelText: 'Email',
-              prefixIcon: Icon(
-                Icons.email,
-                size: 16,
-              ),
-              border: OutlineInputBorder(),
             ),
           ),
           _divider(32),
@@ -156,11 +151,6 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
             decoration: InputDecoration(
               hintText: 'Enter your password',
               labelText: 'Password',
-              prefixIcon: Icon(
-                Icons.build,
-                size: 16,
-              ),
-              border: OutlineInputBorder(),
             ),
           )
         ],

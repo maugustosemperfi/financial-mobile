@@ -39,11 +39,11 @@ class AlertWidget extends StatelessWidget {
               ButtonTheme(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(color: AppTheme.green)),
+                    side: BorderSide(color: AppTheme.primary)),
                 child: FlatButton(
                   onPressed: () {},
                   color: Colors.white,
-                  textColor: AppTheme.green,
+                  textColor: AppTheme.primary,
                   child: Text(
                     "resolve",
                     textAlign: TextAlign.justify,

@@ -6,6 +6,8 @@ class AppTheme {
   static const Color primary = green;
   static const Color accent = yellow;
   static const Color warn = red;
+  static const Color colorStrong = purple;
+  static const Color textStrong = deepBlue;
   static const Color orange = Color(0xFFFAAB1A);
   static const Color notWhite = Color(0xFFEBEBEB);
   static const Color nearlyWhite = Color(0xFFFEFEFE);
@@ -13,7 +15,7 @@ class AppTheme {
   static const Color grey = Color(0xFF3A5160);
   static const Color dark_grey = Color(0xFF313A44);
   static const Color whiteGrey = Color(0xFFdfdfdf);
-  static const Color green = Color(0xFF08B783);
+  static const Color green = Color(0xFF08CC6A);
   static const Color red = Color(0xFFFF734C);
   static const Color yellow = Color(0xFFFFD974);
   static const Color purple = Color(0xFF503E9D);
@@ -80,7 +82,7 @@ class AppTheme {
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w600,
     fontSize: 16,
-    color: primary,
+    color: textStrong,
   );
 
   static const TextStyle subtitle = TextStyle(
@@ -89,14 +91,14 @@ class AppTheme {
     fontWeight: FontWeight.w400,
     fontSize: 14,
     letterSpacing: -0.04,
-    color: primary,
+    color: textStrong,
   );
 
   static const TextStyle subtitleBold = TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w600,
     fontSize: 14,
-    color: primary,
+    color: textStrong,
   );
 
   static const TextStyle subtitleLight = TextStyle(

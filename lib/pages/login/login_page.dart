@@ -16,6 +16,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomPadding: false,
       body: BlocProvider(
         builder: (context) {
           return LoginBloc(
@@ -24,47 +26,59 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Expanded(
-                child: Container(),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                        elevation: 6,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.symmetric(vertical: 24),
-                                child: Text(
-                                  "Sign in",
-                                  style: AppTheme.headline,
+                      padding: EdgeInsets.symmetric(horizontal: 48),
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 24),
+                                  child: Image.asset(
+                                      'assets/images/financial_green.png', height: 64,),
                                 ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 12),
+                                  child: Text(
+                                    "Welcome to Financial",
+                                    style: AppTheme.headline,
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 24),
+                                  child: Text(
+                                    "Save your fundings in the right way",
+                                    style: AppTheme.title,
+                                  ),
+                                )
+                              ],
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(bottom: 48),
+                              child: Column(
+                                children: <Widget>[
+                                  LoginWidgetForm(),
+                                  _signUp()
+                                ],
                               ),
-                              LoginWidgetForm(),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ],
               ),
-              Expanded(
-                child: Container(),
-              ),
-              _signUp(),
-              _divider(24)
             ],
           ),
         ),
