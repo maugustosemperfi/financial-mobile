@@ -24,7 +24,7 @@ class Account {
       number == null ? null : double.parse(number);
 
   static int _intFromEnum(EnumAccountType accountType) =>
-      int.parse(accountType.toString());
+      accountType.index;
   static EnumAccountType _intToEnum(int accountType) =>
-      EnumAccountType.values[accountType - 1];
+      EnumAccountType.values[accountType];
 }

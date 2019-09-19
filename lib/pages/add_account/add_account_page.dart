@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class AddAccountPage extends StatefulWidget {
-  final EnumAccountType type;
+  EnumAccountType type;
 
   AddAccountPage({@required this.type});
 
@@ -31,13 +31,13 @@ class _AddAccountPageState extends State<AddAccountPage> {
   }
 
   _addAccount() async {
-    print(1);
     Account account = Account.fromJson({
-      "balance": _balanceController.numberValue,
-      "name": _accountNameController.value.text,
-      "type": widget.type
+      "balance": _balanceController.numberValue.toString(),
+      "name": _accountNameController.text,
+      "type": widget.type.index
     });
-    final application = await Application.dio.post('accounts', data: account);
+    final application =
+        await Application.dio.post('accounts', data: account.toJson());
 
     print(application);
   }

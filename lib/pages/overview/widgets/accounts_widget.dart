@@ -37,6 +37,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   }
 
   _showAccountBottomSheet(BuildContext context) {
+    print("");
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -44,7 +45,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _createTile(context, 'Checking account', Icons.account_balance,
-                  "checking"),
+                  EnumAccountType.checking.index),
             ],
           );
         });
@@ -153,12 +154,11 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   }
 
   ListTile _createTile(
-      BuildContext context, String name, IconData icon, String type) {
+      BuildContext context, String name, IconData icon, int type) {
     return ListTile(
       leading: Icon(icon),
       title: Text(name),
       onTap: () {
-        print(type);
         Navigator.pop(context);
         Application.router.navigateTo(context, 'account/add/$type',
             transition: TransitionType.cupertinoFullScreenDialog);
