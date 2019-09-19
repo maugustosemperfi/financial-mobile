@@ -86,50 +86,65 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                   ],
                 ),
           Divider(height: 12, color: Colors.transparent),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            direction: Axis.horizontal,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.center,
             children: _accounts.map((account) {
-              return Expanded(
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.monetization_on,
-                      color: AppTheme.green,
-                    ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "${account.name}",
-                          style: AppTheme.title,
+              return Column(
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.monetization_on,
+                              color: AppTheme.green,
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "${account.name}",
+                                  style: AppTheme.title,
+                                ),
+                                Text(
+                                  "Checking account",
+                                  style: AppTheme.caption,
+                                )
+                              ],
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
+                            ),
+                            Text(
+                              "R\$ ${account.balance}",
+                              style: AppTheme.titleMoneyPositivite,
+                            )
+                          ],
                         ),
-                        Text(
-                          "Checking account",
-                          style: AppTheme.caption,
-                        )
-                      ],
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(),
-                    ),
-                    Text(
-                      "R\$ ${account.balance}",
-                      style: AppTheme.titleMoneyPositivite,
-                    )
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    height: 12,
+                    color: Colors.transparent,
+                  ),
+                ],
               );
             }).toList(),
           ),
           Divider(
             color: Colors.transparent,
-            height: 24,
+            height: 12,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
