@@ -89,11 +89,44 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
 
   Widget get _formRecord {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: Form(
         child: Column(
           children: <Widget>[
-            TextFormField(),
-            TextFormField(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsetsDirectional.only(end: 16),
+                  child: Icon(
+                    Icons.calendar_today,
+                    color: AppTheme.grey,
+                  ),
+                ),
+                Expanded(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      focusedBorder: InputBorder.none,
+                      suffix: RaisedButton(
+                        child: Text("repeat"),
+                        onPressed: () {},
+                      ),
+                    ),
+                    onTap: () {
+                      _selectDate(context);
+                    },
+                    readOnly: true,
+                  ),
+                ),
+              ],
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppTheme.grey)),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppTheme.grey)),
+            )),
             TextFormField(),
           ],
         ),
