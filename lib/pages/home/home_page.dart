@@ -1,7 +1,7 @@
 import 'package:financial/authentication/authentication.dart';
 import 'package:financial/authentication/authentication_bloc.dart';
-import 'package:financial/editor_page.dart';
 import 'package:financial/model/email_model.dart';
+import 'package:financial/pages/add_record/editor_page.dart';
 import 'package:financial/pages/overview/overview_page.dart';
 import 'package:financial/styling.dart';
 import 'package:flutter/gestures.dart';
@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       backgroundColor: AppTheme.warn,
       onPressed: () => Navigator.of(context).push<void>(
-        EditorPage.route(context, _fabKey),
+        AddRecordPage.route(context, _fabKey),
       ),
     );
   }

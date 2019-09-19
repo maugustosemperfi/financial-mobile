@@ -6,10 +6,8 @@ import 'package:financial/model/email_model.dart';
 import 'package:financial/styling.dart';
 import 'package:financial/transition/fab_fill_transition.dart';
 
-import 'model/email.dart';
-
-class EditorPage extends StatefulWidget {
-  const EditorPage({Key key, @required this.sourceRect})
+class AddRecordPage extends StatefulWidget {
+  const AddRecordPage({Key key, @required this.sourceRect})
       : assert(sourceRect != null),
         super(key: key);
 
@@ -19,7 +17,7 @@ class EditorPage extends StatefulWidget {
 
     return PageRouteBuilder<void>(
       pageBuilder: (BuildContext context, _, __) =>
-          EditorPage(sourceRect: sourceRect),
+          AddRecordPage(sourceRect: sourceRect),
       transitionDuration: const Duration(milliseconds: 350),
     );
   }
@@ -27,10 +25,10 @@ class EditorPage extends StatefulWidget {
   final Rect sourceRect;
 
   @override
-  _EditorPageState createState() => _EditorPageState();
+  _AddRecordPageState createState() => _AddRecordPageState();
 }
 
-class _EditorPageState extends State<EditorPage> {
+class _AddRecordPageState extends State<AddRecordPage> {
   String _senderEmail = 'from.jennifer@example.com';
   String _subject = '';
   String _recipient = 'Recipient';
@@ -52,12 +50,6 @@ class _EditorPageState extends State<EditorPage> {
     if (emailModel.currentlySelectedEmailId >= 0) {
       // We reply to an email, so let's change the icon during the transition
       fabIcon = 'assets/images/ic_reply.png';
-
-      final Email replyToEmail =
-          emailModel.emails[emailModel.currentlySelectedEmailId];
-      _subject = replyToEmail.subject;
-      _recipient = replyToEmail.sender;
-      _recipientAvatar = replyToEmail.avatar;
     }
 
     return FabFillTransition(
@@ -176,7 +168,10 @@ class _EditorPageState extends State<EditorPage> {
             children: <Widget>[
               FloatingActionButton(
                 backgroundColor: AppTheme.primary,
-                child: Icon(Icons.arrow_forward, color: Colors.white,),
+                child: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white,
+                ),
                 onPressed: () {
                   _navigateToCreateRecord();
                 },
