@@ -1,7 +1,7 @@
 import 'package:financial/authentication/authentication.dart';
 import 'package:financial/authentication/authentication_bloc.dart';
 import 'package:financial/model/email_model.dart';
-import 'package:financial/pages/add_record/editor_page.dart';
+import 'package:financial/pages/add_record/add_record_page.dart';
 import 'package:financial/pages/overview/overview_page.dart';
 import 'package:financial/styling.dart';
 import 'package:flutter/gestures.dart';

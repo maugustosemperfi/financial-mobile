@@ -1,3 +1,4 @@
+import 'package:financial/create_record_page.dart';
 import 'package:financial/enum/enum_account_type.dart';
 import 'package:financial/pages/add_account/add_account_page.dart';
 import 'package:financial/pages/home/home_page.dart';
@@ -19,5 +20,13 @@ var addAccountPageHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return AddAccountPage(
     type: EnumAccountType.values[int.parse(params["type"][0])],
+  );
+});
+
+var createRecordPageHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  print(params["balance"][0]);
+  return CreateRecordPage(
+    balance: double.parse(params["balance"][0]),
   );
 });

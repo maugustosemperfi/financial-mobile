@@ -109,6 +109,7 @@ class _FinancialAppState extends State<FinancialApp> {
         ChangeNotifierProvider<EmailModel>.value(value: EmailModel()),
       ],
       child: MaterialApp(
+        title: 'Financial',
         theme: ThemeData(
           scaffoldBackgroundColor: AppTheme.notWhite,
           canvasColor: AppTheme.notWhite,

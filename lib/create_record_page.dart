@@ -4,28 +4,12 @@ import 'package:financial/styling.dart';
 import 'package:financial/transition/expand_transition.dart';
 
 class CreateRecordPage extends StatefulWidget {
-  const CreateRecordPage({
-    Key key,
-    @required this.sourceRect,
-  })  : assert(sourceRect != null),
-        super(key: key);
+  final double balance;
 
-  static Route<dynamic> route(BuildContext context) {
-    final RenderBox box = context.findRenderObject();
-    final Rect sourceRect = box.localToGlobal(Offset.zero) & box.size;
-
-    return PageRouteBuilder<void>(
-      pageBuilder: (BuildContext context, _, __) => CreateRecordPage(
-        sourceRect: sourceRect,
-      ),
-      transitionDuration: const Duration(milliseconds: 350),
-    );
-  }
+  const CreateRecordPage({this.balance});
 
   @override
   _CreateRecordPageState createState() => _CreateRecordPageState();
-
-  final Rect sourceRect;
 }
 
 class _CreateRecordPageState extends State<CreateRecordPage> {
@@ -37,6 +21,12 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     thousandSeparator: '.',
     initialValue: 000,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.updateValue(widget.balance);
+  }
 
   Future _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -52,25 +42,21 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ExpandItemPageTransition(
-      source: widget.sourceRect,
-      title: 'Create Record',
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppTheme.green,
-          leading: Container(),
-          elevation: 0,
-        ),
-        body: Material(
-          child: SafeArea(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: <Widget>[
-                  _moneyIndicator,
-                  _formRecord,
-                ],
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppTheme.green,
+        leading: Container(),
+        elevation: 0,
+      ),
+      body: Material(
+        child: SafeArea(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: <Widget>[
+                _moneyIndicator,
+                _formRecord,
+              ],
             ),
           ),
         ),
