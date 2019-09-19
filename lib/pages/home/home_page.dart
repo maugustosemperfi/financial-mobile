@@ -261,37 +261,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget get _fab {
-    return AnimatedBuilder(
-      animation: ModalRoute.of(context).animation,
-      child: Consumer<EmailModel>(
-        builder: (BuildContext context, EmailModel model, Widget child) {
-          final bool showEditAsAction = model.currentlySelectedEmailId == -1;
-
-          return FloatingActionButton(
-            key: _fabKey,
-            child: SizedBox(
-              width: 24,
-              height: 24,
-              child: Icon(
-                Icons.add,
-                color: AppTheme.nearlyWhite,
-              ),
-            ),
-            backgroundColor: AppTheme.warn,
-            onPressed: () => Navigator.of(context).push<void>(
-              EditorPage.route(context, _fabKey),
-            ),
-          );
-        },
+    return FloatingActionButton(
+      key: _fabKey,
+      child: SizedBox(
+        width: 24,
+        height: 24,
+        child: Icon(
+          Icons.add,
+          color: AppTheme.nearlyWhite,
+        ),
       ),
-      builder: (BuildContext context, Widget fab) {
-        final Animation<double> animation = ModalRoute.of(context).animation;
-        return SizedBox(
-          width: 54 * animation.value,
-          height: 54 * animation.value,
-          child: fab,
-        );
-      },
+      backgroundColor: AppTheme.warn,
+      onPressed: () => Navigator.of(context).push<void>(
+        EditorPage.route(context, _fabKey),
+      ),
     );
   }
 

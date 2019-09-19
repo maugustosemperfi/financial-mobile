@@ -65,7 +65,7 @@ class _EditorPageState extends State<EditorPage> {
       icon: fabIcon,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppTheme.green,
+          backgroundColor: AppTheme.primary,
           leading: new Container(),
           elevation: 0,
         ),
@@ -175,7 +175,8 @@ class _EditorPageState extends State<EditorPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FloatingActionButton(
-                child: Icon(Icons.arrow_forward),
+                backgroundColor: AppTheme.primary,
+                child: Icon(Icons.arrow_forward, color: Colors.white,),
                 onPressed: () {
                   _navigateToCreateRecord();
                 },
