@@ -111,9 +111,11 @@ class _FinancialAppState extends State<FinancialApp> {
       child: MaterialApp(
         title: 'Financial',
         theme: ThemeData(
+          brightness: Brightness.light,
           scaffoldBackgroundColor: AppTheme.notWhite,
           canvasColor: AppTheme.notWhite,
-          accentColor: AppTheme.green,
+          accentColor: AppTheme.colorStrong,
+          primaryColor: AppTheme.colorStrong,
           textTheme: AppTheme.textTheme,
         ),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(

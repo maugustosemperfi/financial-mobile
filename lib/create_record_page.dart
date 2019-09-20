@@ -1,3 +1,4 @@
+import 'package:financial/widgets/dixty_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:financial/styling.dart';
@@ -15,17 +16,19 @@ class CreateRecordPage extends StatefulWidget {
 class _CreateRecordPageState extends State<CreateRecordPage> {
   DateTime selectedDate = DateTime.now();
 
-  MoneyMaskedTextController _controller = new MoneyMaskedTextController(
+  MoneyMaskedTextController _controller = MoneyMaskedTextController(
     leftSymbol: '',
     decimalSeparator: ',',
     thousandSeparator: '.',
     initialValue: 000,
   );
+  TextEditingController _dateController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _controller.updateValue(widget.balance);
+    _setDate(DateTime.now());
   }
 
   Future _selectDate(BuildContext context) async {
@@ -36,26 +39,38 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate)
       setState(() {
-        selectedDate = picked;
+        _setDate(picked);
       });
+  }
+
+  void _setDate(DateTime picked) {
+    selectedDate = picked;
+    _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        backgroundColor: AppTheme.green,
+        backgroundColor: AppTheme.primary,
         leading: Container(),
         elevation: 0,
       ),
       body: Material(
         child: SafeArea(
           child: Container(
+            color: AppTheme.nearlyWhite,
+            padding: EdgeInsets.only(bottom: 36),
             height: MediaQuery.of(context).size.height,
             child: Column(
               children: <Widget>[
                 _moneyIndicator,
                 _formRecord,
+                Expanded(
+                  child: Container(),
+                ),
+                _fab,
               ],
             ),
           ),
@@ -67,7 +82,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   Widget get _moneyIndicator {
     return Container(
       padding: EdgeInsets.only(top: 20, bottom: 50),
-      color: AppTheme.green,
+      color: AppTheme.primary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -96,41 +111,50 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  padding: EdgeInsetsDirectional.only(end: 16),
-                  child: Icon(
-                    Icons.calendar_today,
-                    color: AppTheme.grey,
-                  ),
-                ),
                 Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      focusedBorder: InputBorder.none,
-                      suffix: RaisedButton(
-                        child: Text("repeat"),
-                        onPressed: () {},
-                      ),
+                  child: DixtyTextFormFieldWiget(
+                    decorationIcon: Icon(
+                      Icons.calendar_today,
+                      color: AppTheme.grey,
                     ),
                     onTap: () {
                       _selectDate(context);
                     },
                     readOnly: true,
+                    controller: _dateController,
                   ),
                 ),
               ],
             ),
-            TextFormField(
-                decoration: InputDecoration(
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: AppTheme.grey)),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: AppTheme.grey)),
-            )),
-            TextFormField(),
+            DixtyTextFormFieldWiget(
+              decorationIcon: Icon(Icons.description),
+              hintText: "Description",
+            ),
+            DixtyTextFormFieldWiget(
+              decorationIcon: Icon(Icons.attach_money),
+            ),
+            DixtyTextFormFieldWiget(
+              decorationIcon: Icon(Icons.devices_other),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget get _fab {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        FloatingActionButton(
+          child: Icon(
+            Icons.check,
+            color: Colors.white,
+          ),
+          backgroundColor: AppTheme.primary,
+          onPressed: () {},
+        )
+      ],
     );
   }
 }

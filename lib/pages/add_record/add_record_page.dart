@@ -99,7 +99,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
   Widget get _moneyIndicator {
     return Container(
       padding: EdgeInsets.only(top: 20, bottom: 50),
-      color: AppTheme.green,
+      color: AppTheme.primary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
