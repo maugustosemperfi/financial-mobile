@@ -1,3 +1,6 @@
+import 'package:financial/application.dart';
+import 'package:financial/authentication/authentication.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,12 +74,21 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
   Widget build(BuildContext context) {
     _loginBloc = BlocProvider.of<LoginBloc>(context);
 
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state is LoginFailure) {
-          _validationFails();
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<LoginBloc, LoginState>(listener: (context, state) {
+          if (state is LoginFailure) {
+            _validationFails();
+          }
+        }),
+        BlocListener<AuthenticationBloc, AuthenticationState>(
+            listener: (context, state) {
+          if (state is AuthenticationAuthenticated) {
+            Application.router.navigateTo(context, '/home',
+                transition: TransitionType.cupertino, replace: true);
+          }
+        }),
+      ],
       child: BlocBuilder<LoginBloc, LoginState>(
         bloc: _loginBloc,
         builder: (BuildContext context, LoginState state) {
