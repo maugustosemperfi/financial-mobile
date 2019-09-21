@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:financial/splash_page.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -118,18 +119,7 @@ class _FinancialAppState extends State<FinancialApp> {
           primaryColor: AppTheme.colorStrong,
           textTheme: AppTheme.textTheme,
         ),
-        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
-            if (state is AuthenticationUnitialized ||
-                state is AuthenticationUnauthenticated) {
-              return LoginPage();
-            }
-
-            if (state is AuthenticationAuthenticated) {
-              return HomePage();
-            }
-          },
-        ),
+        home: SplashPage(),
         // onGenerateRoute: Application.router.generator,
       ),
     );
