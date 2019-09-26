@@ -41,7 +41,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   }
 
   _getAccountsOverview() async {
-    final overviewAccountJson = await Application.dio.get('accounts/overview');
+    final overviewAccountJson = await AccountsService.getOverview();
 
     final overviewAccount =
         OverviewAccount.fromJson(jsonDecode(overviewAccountJson.data));

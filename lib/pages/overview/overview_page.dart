@@ -28,7 +28,7 @@ class _OverviewPageState extends State<OverviewPage> {
                 CarouselSlider(
                   enableInfiniteScroll: false,
                   autoPlay: false,
-                  enlargeCenterPage: true,
+                  enlargeCenterPage: false,
                   items: <Widget>[
                     AlertWidget(
                       iconData: Icons.subscriptions,

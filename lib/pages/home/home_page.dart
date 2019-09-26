@@ -1,9 +1,11 @@
+import 'package:financial/application.dart';
 import 'package:financial/authentication/authentication.dart';
 import 'package:financial/authentication/authentication_bloc.dart';
 import 'package:financial/model/email_model.dart';
 import 'package:financial/pages/add_record/add_record_page.dart';
 import 'package:financial/pages/overview/overview_page.dart';
 import 'package:financial/styling.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,30 +76,38 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         backgroundColor: AppTheme.primary,
       ),
-      body: PageView(
-        controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          OverviewPage(),
-          Container(
-            child: RaisedButton(
-              color: AppTheme.green,
-              onPressed: () {
-                authenticationBloc.dispatch(LoggedOut());
-              },
-              child: Text("Logout"),
+      body: BlocListener<AuthenticationBloc, AuthenticationState>(
+        listener: (BuildContext context, state) {
+          if (state is AuthenticationUnauthenticated) {
+            Application.router.navigateTo(context, '/',
+                transition: TransitionType.cupertino, replace: true);
+          }
+        },
+        child: PageView(
+          controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            OverviewPage(),
+            Container(
+              child: RaisedButton(
+                color: AppTheme.green,
+                onPressed: () {
+                  authenticationBloc.dispatch(LoggedOut());
+                },
+                child: Text("Logout"),
+              ),
             ),
-          ),
-          Container(
-            child: Text("Tab 3"),
-          ),
-          Container(
-            child: Text("Tab 4"),
-          ),
-          Container(
-            child: Text("Tab 5"),
-          ),
-        ],
+            Container(
+              child: Text("Tab 3"),
+            ),
+            Container(
+              child: Text("Tab 4"),
+            ),
+            Container(
+              child: Text("Tab 5"),
+            ),
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: _fab,

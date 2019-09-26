@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Container(
                                   padding: EdgeInsets.only(bottom: 12),
                                   child: Text(
-                                    "Welcome to Financial",
+                                    "Welcome to Dixty",
                                     style: AppTheme.headline,
                                   ),
                                 ),
