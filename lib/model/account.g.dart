@@ -10,7 +10,8 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
   return Account(
     json['name'] as String,
     Account._intToEnum(json['type'] as int),
-  )..balance = Account._stringToDouble(json['balance'] as String);
+    Account._stringToDouble(json['balance'] as String),
+  );
 }
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{

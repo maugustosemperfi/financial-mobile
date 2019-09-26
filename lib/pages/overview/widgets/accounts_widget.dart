@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:financial/application.dart';
 import 'package:financial/enum/enum_account_type.dart';
 import 'package:financial/model/account.dart';
+import 'package:financial/model/overview_account.dart';
+import 'package:financial/services/accounts_service.dart';
 import 'package:financial/styling.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
@@ -17,11 +19,13 @@ class AccountsWidget extends StatefulWidget {
 
 class _AccountsWidgetState extends State<AccountsWidget> {
   List<Account> _accounts = [];
+  OverviewAccount _overviewAccount;
 
   @override
   void initState() {
     super.initState();
     _getAccounts();
+    _getAccountsOverview();
   }
 
   _getAccounts() async {
@@ -33,6 +37,17 @@ class _AccountsWidgetState extends State<AccountsWidget> {
 
     setState(() {
       this._accounts = accounts;
+    });
+  }
+
+  _getAccountsOverview() async {
+    final overviewAccountJson = await AccountsService.getOverview();
+
+    final overviewAccount =
+        OverviewAccount.fromJson(jsonDecode(overviewAccountJson.data));
+
+    setState(() {
+      _overviewAccount = overviewAccount;
     });
   }
 
@@ -58,7 +73,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
     return Container(
       child: Column(
         children: <Widget>[
-          _accounts.length > 0
+          _overviewAccount != null
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -67,7 +82,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                       style: AppTheme.title,
                     ),
                     Text(
-                      "R\$ 0",
+                      "R\$ ${this._overviewAccount.overallBalance}",
                       style: AppTheme.title,
                     )
                   ],

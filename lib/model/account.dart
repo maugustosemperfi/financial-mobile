@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:financial/enum/enum_account_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,7 +11,7 @@ class Account {
   @JsonKey(fromJson: _stringToDouble, toJson: _stringFromDouble)
   double balance;
 
-  Account(this.name, this.type);
+  Account(this.name, this.type, this.balance);
 
   factory Account.fromJson(Map<String, dynamic> json) =>
       _$AccountFromJson(json);
@@ -23,8 +21,7 @@ class Account {
   static double _stringToDouble(String number) =>
       number == null ? null : double.parse(number);
 
-  static int _intFromEnum(EnumAccountType accountType) =>
-      accountType.index;
+  static int _intFromEnum(EnumAccountType accountType) => accountType.index;
   static EnumAccountType _intToEnum(int accountType) =>
       EnumAccountType.values[accountType];
 }
