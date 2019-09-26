@@ -24,24 +24,24 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   @override
   void initState() {
     super.initState();
-    _getAccounts();
+    // _getAccounts();
     _getAccountsOverview();
   }
 
   _getAccounts() async {
-    final accountsResponse = await Application.dio.get('accounts');
+    // final accountsResponse = await Application.dio.get('accounts');
 
-    final List<Account> accounts = (jsonDecode(accountsResponse.data) as List)
-        .map((account) => Account.fromJson(account))
-        .toList();
+    // final List<Account> accounts = (jsonDecode(accountsResponse.data) as List)
+    //     .map((account) => Account.fromJson(account))
+    //     .toList();
 
-    setState(() {
-      this._accounts = accounts;
-    });
+    // setState(() {
+    //   this._accounts = accounts;
+    // });
   }
 
   _getAccountsOverview() async {
-    final overviewAccountJson = await AccountsService.getOverview();
+    final overviewAccountJson = await Application.dio.get('accounts/overview');
 
     final overviewAccount =
         OverviewAccount.fromJson(jsonDecode(overviewAccountJson.data));
@@ -105,57 +105,60 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             direction: Axis.horizontal,
             crossAxisAlignment: WrapCrossAlignment.center,
             alignment: WrapAlignment.center,
-            children: _accounts.map((account) {
-              return Column(
-                children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: Row(
+            children: _overviewAccount != null
+                ? _overviewAccount.accounts.map((account) {
+                    return Column(
+                      children: <Widget>[
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Icon(
-                              Icons.monetization_on,
-                              color: AppTheme.green,
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "${account.name}",
-                                  style: AppTheme.title,
-                                ),
-                                Text(
-                                  "Checking account",
-                                  style: AppTheme.caption,
-                                )
-                              ],
-                            ),
                             Expanded(
-                              flex: 1,
-                              child: Container(),
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.monetization_on,
+                                    color: AppTheme.green,
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        "${account.name}",
+                                        style: AppTheme.title,
+                                      ),
+                                      Text(
+                                        "Checking account",
+                                        style: AppTheme.caption,
+                                      )
+                                    ],
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(),
+                                  ),
+                                  Text(
+                                    "R\$ ${account.realValue}",
+                                    style: AppTheme.titleMoneyPositivite,
+                                  )
+                                ],
+                              ),
                             ),
-                            Text(
-                              "R\$ ${account.balance}",
-                              style: AppTheme.titleMoneyPositivite,
-                            )
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    height: 12,
-                    color: Colors.transparent,
-                  ),
-                ],
-              );
-            }).toList(),
+                        Divider(
+                          height: 12,
+                          color: Colors.transparent,
+                        ),
+                      ],
+                    );
+                  }).toList()
+                : [],
           ),
           Divider(
             color: Colors.transparent,

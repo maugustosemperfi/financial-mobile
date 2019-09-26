@@ -1,7 +1,7 @@
 import 'package:financial/application.dart';
 
 class AccountsService {
-  static getOverview() {
-    return Application.dio.get('accounts/overview');
+  static getOverview() async {
+    return await Application.dio.get('accounts/overview');
   }
 }
