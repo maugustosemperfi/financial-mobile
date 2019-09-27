@@ -60,7 +60,11 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _createTile(context, 'Checking account', Icons.account_balance,
-                  EnumAccountType.checking.index),
+                  EnumAccountType.checking),
+              _createTile(context, 'Checking account', Icons.account_balance,
+                  EnumAccountType.saving),
+              _createTile(context, 'Checking account', Icons.account_balance,
+                  EnumAccountType.others),
             ],
           );
         });
@@ -187,13 +191,13 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   }
 
   ListTile _createTile(
-      BuildContext context, String name, IconData icon, int type) {
+      BuildContext context, String name, IconData icon, EnumAccountType type) {
     return ListTile(
-      leading: Icon(icon),
+      leading: Icon(AccountType.getIconByAccountType(type)),
       title: Text(name),
       onTap: () {
         Navigator.pop(context);
-        Application.router.navigateTo(context, 'account/add/$type',
+        Application.router.navigateTo(context, 'account/add/${type.index}',
             transition: TransitionType.cupertinoFullScreenDialog);
       },
     );
