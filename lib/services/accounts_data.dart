@@ -4,7 +4,7 @@ import 'package:financial/model/account.dart';
 import 'package:flutter/material.dart';
 
 class AccountsData {
-  static List<Account> simpleAccounts;
+  static List<Account> simpleAccounts = [];
 
   static setSimpleAccounts(simpleAccountsJson) {
     if (simpleAccountsJson != null) {

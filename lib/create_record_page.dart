@@ -1,8 +1,9 @@
+import 'package:financial/model/account.dart';
+import 'package:financial/services/accounts_data.dart';
+import 'package:financial/styling.dart';
 import 'package:financial/widgets/dixty_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:financial/styling.dart';
-import 'package:financial/transition/expand_transition.dart';
 
 class CreateRecordPage extends StatefulWidget {
   final double balance;
@@ -15,6 +16,7 @@ class CreateRecordPage extends StatefulWidget {
 
 class _CreateRecordPageState extends State<CreateRecordPage> {
   DateTime selectedDate = DateTime.now();
+  Account _simpleAccountSelected = null;
 
   MoneyMaskedTextController _controller = MoneyMaskedTextController(
     leftSymbol: '',
@@ -23,12 +25,14 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     initialValue: 000,
   );
   TextEditingController _dateController = TextEditingController();
+  TextEditingController _simpleAccountController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _controller.updateValue(widget.balance);
     _setDate(DateTime.now());
+    _setAccountSelected(AccountsData.simpleAccounts[0]);
   }
 
   Future _selectDate(BuildContext context) async {
@@ -36,11 +40,60 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        lastDate: DateTime(2101),
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData.dark(),
+            child: child,
+          );
+        });
     if (picked != null && picked != selectedDate)
       setState(() {
         _setDate(picked);
       });
+  }
+
+  Future _selectAccount() async {
+    final accountSelected = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(
+              "Select account",
+              style: AppTheme.headlineLight,
+            ),
+            children: <Widget>[
+              Row(
+                children: <Widget>[Text("accounts")],
+              ),
+              Wrap(
+                direction: Axis.horizontal,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
+                children: AccountsData.simpleAccounts.map((simpleAccount) {
+                  return Row(
+                    children: <Widget>[
+                      FlatButton(
+                        child: Text(simpleAccount.name),
+                        onPressed: () {
+                          Navigator.pop(context, simpleAccount);
+                        },
+                      )
+                    ],
+                  );
+                }).toList(),
+              )
+            ],
+          );
+        });
+    _setAccountSelected(accountSelected);
+  }
+
+  _setAccountSelected(Account simpleAccount) {
+    setState(() {
+      _simpleAccountSelected = simpleAccount;
+      _simpleAccountController.text = "${simpleAccount.name}";
+    });
   }
 
   void _setDate(DateTime picked) {
@@ -132,6 +185,11 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
             ),
             DixtyTextFormFieldWiget(
               decorationIcon: Icon(Icons.attach_money),
+              onTap: () {
+                _selectAccount();
+              },
+              controller: _simpleAccountController,
+              readOnly: true,
             ),
             DixtyTextFormFieldWiget(
               decorationIcon: Icon(Icons.devices_other),

@@ -69,6 +69,15 @@ class AppTheme {
     color: primary,
   );
 
+  static const TextStyle headlineLight = TextStyle(
+    // h5 -> headline
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+    letterSpacing: 0.27,
+    color: darkText,
+  );
+
   static const TextStyle titleMoneyPositivite = TextStyle(
     // h6 -> title
     fontFamily: 'Roboto',
