@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:financial/application.dart';
 import 'package:financial/authentication/authentication_event.dart';
 import 'package:financial/authentication/authentication_state.dart';
+import 'package:financial/services/accounts_data.dart';
+import 'package:financial/services/accounts_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthenticationBloc
@@ -23,6 +25,9 @@ class AuthenticationBloc
       final bool hasToken = await storage.read(key: "token") != null;
 
       if (hasToken) {
+        final simpleAccountsJson =
+            await storage.read(key: "accounts:simple-accounts");
+        AccountsData.setSimpleAccounts(simpleAccountsJson);
         yield AuthenticationAuthenticated();
       } else {
         yield AuthenticationUnauthenticated();
@@ -32,7 +37,11 @@ class AuthenticationBloc
     if (event is LoggedIn) {
       yield AuthenticationLoading();
       await storage.write(key: "token", value: event.token);
+      final simpleAccountsJson = await AccountsService.getSimpleAccounts();
+      await storage.write(
+          key: "accounts:simple-accounts", value: simpleAccountsJson.data);
       Application.authenticationToken = event.token;
+      AccountsData.setSimpleAccounts(simpleAccountsJson.data);
       yield AuthenticationAuthenticated();
     }
 
