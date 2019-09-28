@@ -1,4 +1,5 @@
 import 'package:financial/application.dart';
+import 'package:financial/enum/enum_record_type.dart';
 import 'package:financial/model/account.dart';
 import 'package:financial/model/record.dart';
 import 'package:financial/services/accounts_data.dart';
@@ -10,8 +11,9 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CreateRecordPage extends StatefulWidget {
   final double balance;
+  final EnumRecordType recordType;
 
-  const CreateRecordPage({this.balance});
+  const CreateRecordPage({this.balance, this.recordType});
 
   @override
   _CreateRecordPageState createState() => _CreateRecordPageState();
@@ -126,11 +128,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        backgroundColor: AppTheme.primary,
-        leading: Container(),
-        elevation: 0,
-      ),
+      appBar: null,
       body: Material(
         child: SafeArea(
           child: Container(
@@ -155,8 +153,10 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
 
   Widget get _moneyIndicator {
     return Container(
-      padding: EdgeInsets.only(top: 20, bottom: 50),
-      color: AppTheme.primary,
+      padding: EdgeInsets.only(top: 60, bottom: 30),
+      color: widget.recordType == EnumRecordType.income
+          ? AppTheme.primary
+          : AppTheme.warn,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
@@ -232,7 +232,9 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
             Icons.check,
             color: Colors.white,
           ),
-          backgroundColor: AppTheme.primary,
+          backgroundColor: widget.recordType == EnumRecordType.income
+              ? AppTheme.primary
+              : AppTheme.warn,
           onPressed: () {
             _createRecord();
           },

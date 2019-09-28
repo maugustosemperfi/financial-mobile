@@ -1,6 +1,8 @@
 import 'package:financial/application.dart';
+import 'package:financial/enum/enum_record_type.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:financial/create_record_page.dart';
@@ -31,10 +33,7 @@ class AddRecordPage extends StatefulWidget {
 }
 
 class _AddRecordPageState extends State<AddRecordPage> {
-  String _senderEmail = 'from.jennifer@example.com';
-  String _subject = '';
-  String _recipient = 'Recipient';
-  String _recipientAvatar = 'avatar.png';
+  EnumRecordType _recordType = EnumRecordType.income;
   MoneyMaskedTextController _controller = new MoneyMaskedTextController(
     leftSymbol: '',
     decimalSeparator: ',',
@@ -43,6 +42,12 @@ class _AddRecordPageState extends State<AddRecordPage> {
   );
 
   final GlobalKey _fabKey = GlobalKey();
+
+  _setRecordType(EnumRecordType recordType) {
+    setState(() {
+      _recordType = recordType;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +63,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
       source: widget.sourceRect,
       icon: fabIcon,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppTheme.primary,
-          leading: new Container(),
-          elevation: 0,
-        ),
+        appBar: null,
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.only(bottom: 20),
@@ -97,25 +98,74 @@ class _AddRecordPageState extends State<AddRecordPage> {
   }
 
   Widget get _moneyIndicator {
-    return Container(
-      padding: EdgeInsets.only(top: 20, bottom: 50),
-      color: AppTheme.primary,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              controller: _controller,
-              enabled: false,
-              decoration: InputDecoration(
-                border: InputBorder.none,
+    return Stack(
+      children: <Widget>[
+        Positioned(
+          top: 0,
+          left: 0,
+          child: Text("AHHHHHH"),
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 60, bottom: 30),
+          color: _recordType == EnumRecordType.income
+              ? AppTheme.primary
+              : AppTheme.warn,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  enabled: false,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                  style: TextStyle(color: AppTheme.nearlyWhite, fontSize: 50),
+                  textAlign: TextAlign.end,
+                ),
               ),
-              style: TextStyle(color: AppTheme.nearlyWhite, fontSize: 50),
-              textAlign: TextAlign.end,
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: FlatButton(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Income",
+                        style: AppTheme.titleLight,
+                      ),
+                    ],
+                  ),
+                  onPressed: () {
+                    _setRecordType(EnumRecordType.income);
+                  },
+                ),
+              ),
+              Expanded(
+                child: FlatButton(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Expense",
+                        style: AppTheme.titleLight,
+                      ),
+                    ],
+                  ),
+                  onPressed: () {
+                    _setRecordType(EnumRecordType.expense);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -169,7 +219,9 @@ class _AddRecordPageState extends State<AddRecordPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FloatingActionButton(
-                backgroundColor: AppTheme.primary,
+                backgroundColor: _recordType == EnumRecordType.income
+                    ? AppTheme.primary
+                    : AppTheme.warn,
                 child: Icon(
                   Icons.arrow_forward,
                   color: Colors.white,
@@ -216,8 +268,8 @@ class _AddRecordPageState extends State<AddRecordPage> {
   }
 
   _navigateToCreateRecord() {
-    Application.router.navigateTo(
-        context, 'record/add/${this._controller.numberValue}',
+    Application.router.navigateTo(context,
+        'record/add/value/${this._controller.numberValue}/type/${this._recordType.index}',
         transition: TransitionType.cupertino);
   }
 }

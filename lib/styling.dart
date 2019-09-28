@@ -94,6 +94,14 @@ class AppTheme {
     color: textStrong,
   );
 
+  static const TextStyle titleLight = TextStyle(
+    // h6 -> title
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w600,
+    fontSize: 16,
+    color: nearlyWhite,
+  );
+
   static const TextStyle subtitle = TextStyle(
     // subtitle2 -> subtitle
     fontFamily: 'Roboto',
