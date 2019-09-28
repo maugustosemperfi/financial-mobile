@@ -6,11 +6,13 @@ part 'account.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Account {
+  int id;
   String name;
   @JsonKey(fromJson: _intToEnum, toJson: _intFromEnum)
   EnumAccountType type;
   @JsonKey(fromJson: _stringToDouble, toJson: _stringFromDouble)
   double balance;
+  @JsonKey(nullable: true)
   double realValue;
 
   Account(this.name, this.type, this.balance, this.realValue);
@@ -20,7 +22,8 @@ class Account {
   Map<String, dynamic> toJson() => _$AccountToJson(this);
 
   static String _stringFromDouble(double number) => number?.toString();
-  static double _stringToDouble(String number) => number == null ? null : double.parse(number);
+  static double _stringToDouble(String number) =>
+      number == null ? null : double.parse(number);
 
   static int _intFromEnum(EnumAccountType accountType) => accountType.index;
   static EnumAccountType _intToEnum(int accountType) =>

@@ -1,5 +1,8 @@
+import 'package:financial/application.dart';
 import 'package:financial/model/account.dart';
+import 'package:financial/model/record.dart';
 import 'package:financial/services/accounts_data.dart';
+import 'package:financial/services/records_service.dart';
 import 'package:financial/styling.dart';
 import 'package:financial/widgets/dixty_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +18,10 @@ class CreateRecordPage extends StatefulWidget {
 }
 
 class _CreateRecordPageState extends State<CreateRecordPage> {
+  final createRecordForm = GlobalKey<FormState>();
+
   DateTime selectedDate = DateTime.now();
-  Account _simpleAccountSelected = null;
+  Account _simpleAccountSelected;
 
   MoneyMaskedTextController _controller = MoneyMaskedTextController(
     leftSymbol: '',
@@ -24,8 +29,10 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     thousandSeparator: '.',
     initialValue: 000,
   );
+
   TextEditingController _dateController = TextEditingController();
   TextEditingController _simpleAccountController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -51,6 +58,32 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
       setState(() {
         _setDate(picked);
       });
+  }
+
+  _setAccountSelected(Account simpleAccount) {
+    setState(() {
+      _simpleAccountSelected = simpleAccount;
+      _simpleAccountController.text = "${simpleAccount.name}";
+    });
+  }
+
+  void _setDate(DateTime picked) {
+    selectedDate = picked;
+    _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
+  }
+
+  _createRecord() async {
+    Record record = new Record();
+    record.description = this._descriptionController.text;
+    record.account = this._simpleAccountSelected;
+    record.value = this.widget.balance;
+    record.createdAt = this.selectedDate;
+    record.type = 1;
+
+    await RecordsService.createRecord(record);
+
+    Application.router.pop(context);
+    Application.router.pop(context);
   }
 
   Future _selectAccount() async {
@@ -87,18 +120,6 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
           );
         });
     _setAccountSelected(accountSelected);
-  }
-
-  _setAccountSelected(Account simpleAccount) {
-    setState(() {
-      _simpleAccountSelected = simpleAccount;
-      _simpleAccountController.text = "${simpleAccount.name}";
-    });
-  }
-
-  void _setDate(DateTime picked) {
-    selectedDate = picked;
-    _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
   }
 
   @override
@@ -159,6 +180,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Form(
+        key: createRecordForm,
         child: Column(
           children: <Widget>[
             Row(
@@ -182,6 +204,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
             DixtyTextFormFieldWiget(
               decorationIcon: Icon(Icons.description),
               hintText: "Description",
+              controller: _descriptionController,
             ),
             DixtyTextFormFieldWiget(
               decorationIcon: Icon(Icons.attach_money),
@@ -210,7 +233,9 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
             color: Colors.white,
           ),
           backgroundColor: AppTheme.primary,
-          onPressed: () {},
+          onPressed: () {
+            _createRecord();
+          },
         )
       ],
     );
