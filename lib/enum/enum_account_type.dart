@@ -9,7 +9,7 @@ class AccountType {
         return Icons.account_balance;
 
       case EnumAccountType.saving:
-        return Icons.account_balance;
+        return Icons.multiline_chart;
 
       case EnumAccountType.others:
         return Icons.account_balance_wallet;

@@ -61,9 +61,9 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             children: <Widget>[
               _createTile(context, 'Checking account', Icons.account_balance,
                   EnumAccountType.checking),
-              _createTile(context, 'Checking account', Icons.account_balance,
-                  EnumAccountType.saving),
-              _createTile(context, 'Checking account', Icons.account_balance,
+              _createTile(context, 'Saving or investments',
+                  Icons.account_balance, EnumAccountType.saving),
+              _createTile(context, 'Others', Icons.account_balance,
                   EnumAccountType.others),
             ],
           );
