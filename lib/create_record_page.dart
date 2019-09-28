@@ -80,11 +80,16 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     record.account = this._simpleAccountSelected;
     record.value = this.widget.balance;
     record.createdAt = this.selectedDate;
-    record.type = 1;
+    record.type = widget.recordType;
 
     await RecordsService.createRecord(record);
 
     Application.router.pop(context);
+    Application.router.pop(context);
+  }
+
+  _navigateToAddPage() {
+    print("aa");
     Application.router.pop(context);
   }
 
@@ -152,26 +157,31 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   }
 
   Widget get _moneyIndicator {
-    return Container(
-      padding: EdgeInsets.only(top: 60, bottom: 30),
-      color: widget.recordType == EnumRecordType.income
-          ? AppTheme.primary
-          : AppTheme.warn,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              controller: _controller,
-              enabled: false,
-              decoration: InputDecoration(
-                border: InputBorder.none,
+    return GestureDetector(
+      onTap: () {
+        _navigateToAddPage();
+      },
+      child: Container(
+        padding: EdgeInsets.only(top: 60, bottom: 30),
+        color: widget.recordType == EnumRecordType.income
+            ? AppTheme.primary
+            : AppTheme.warn,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                controller: _controller,
+                enabled: false,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                ),
+                style: TextStyle(color: AppTheme.nearlyWhite, fontSize: 50),
+                textAlign: TextAlign.end,
               ),
-              style: TextStyle(color: AppTheme.nearlyWhite, fontSize: 50),
-              textAlign: TextAlign.end,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

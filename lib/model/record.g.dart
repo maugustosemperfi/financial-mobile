@@ -11,7 +11,7 @@ Record _$RecordFromJson(Map<String, dynamic> json) {
     id: json['id'] as int,
     description: json['description'] as String,
     value: (json['value'] as num)?.toDouble(),
-    type: (json['type'] as num)?.toDouble(),
+    type: Record._intToEnum(json['type'] as int),
   )
     ..account = json['account'] == null
         ? null
@@ -25,7 +25,7 @@ Map<String, dynamic> _$RecordToJson(Record instance) => <String, dynamic>{
       'id': instance.id,
       'description': instance.description,
       'value': instance.value,
-      'type': instance.type,
+      'type': Record._intFromEnum(instance.type),
       'account': instance.account?.toJson(),
       'createdAt': instance.createdAt?.toIso8601String(),
     };
