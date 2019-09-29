@@ -20,10 +20,10 @@ class SignUpLoading extends SignUpState {
   }
 }
 
-class SignUpSucces extends SignUpState {
+class SignUpSuccess extends SignUpState {
   @override
   String toString() {
-    return "SignUpSucces";
+    return "SignUpSuccess";
   }
 }
 

@@ -217,7 +217,9 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
               controller: _descriptionController,
             ),
             DixtyTextFormFieldWiget(
-              decorationIcon: Icon(Icons.attach_money),
+              decorationIcon: Icon(
+                Icons.attach_money,
+              ),
               onTap: () {
                 _selectAccount();
               },
