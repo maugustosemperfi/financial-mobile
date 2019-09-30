@@ -9,6 +9,7 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
   final Icon decorationIcon;
   final String hintText;
   final String labelText;
+  final TextCapitalization textCapitalization;
   DixtyTextFormFieldWiget({
     this.readOnly = false,
     this.onTap,
@@ -17,6 +18,7 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
     this.decorationIcon,
     this.labelText,
     this.hintText,
+    this.textCapitalization = TextCapitalization.sentences,
   });
 
   @override
@@ -42,6 +44,7 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
       onTap: onTap,
       controller: controller,
       cursorColor: AppTheme.colorStrong,
+      textCapitalization: this.textCapitalization,
     );
   }
 }
