@@ -18,4 +18,20 @@ class AccountType {
         return Icons.account_balance;
     }
   }
+
+  static getAccountNameByAccountType(type) {
+    switch (type) {
+      case EnumAccountType.checking:
+        return "Checking account";
+
+      case EnumAccountType.saving:
+        return "Savings or investmentst";
+
+      case EnumAccountType.others:
+        return "Others";
+
+      default:
+        return "Checking account";
+    }
+  }
 }

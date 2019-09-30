@@ -22,6 +22,18 @@ class _AddAccountPageState extends State<AddAccountPage> {
     leftSymbol: 'R\$ ',
   );
   TextEditingController _accountNameController = TextEditingController();
+  TextEditingController _accountTypeController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  IconData _accountTypeIcon;
+  bool _autoValidate = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _accountTypeController.text =
+        AccountType.getAccountNameByAccountType(widget.type);
+    _accountTypeIcon = AccountType.getIconByAccountType(widget.type);
+  }
 
   _changeBalance() {
     print(_balanceController.value.text);
@@ -31,15 +43,21 @@ class _AddAccountPageState extends State<AddAccountPage> {
   }
 
   _addAccount() async {
-    Account account = Account.fromJson({
-      "balance": _balanceController.numberValue.toString(),
-      "name": _accountNameController.text,
-      "type": widget.type.index
-    });
-    final application =
-        await Application.dio.post('accounts', data: account.toJson());
+    if (_addAccountForm.currentState.validate()) {
+      _addAccountForm.currentState.save();
+      Account account = Account.fromJson({
+        "balance": _balanceController.numberValue.toString(),
+        "name": _accountNameController.text,
+        "type": widget.type.index,
+        "description": _descriptionController.value
+      });
+      final application =
+          await Application.dio.post('accounts', data: account.toJson());
 
-
+      Application.router.pop(context);
+    } else {
+      _autoValidate = true;
+    }
   }
 
   bool _balanceNegative() {
@@ -49,6 +67,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text("Create account"),
         backgroundColor: AppTheme.primary,
@@ -59,41 +78,67 @@ class _AddAccountPageState extends State<AddAccountPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Form(
-              key: _addAccountForm,
-              child: Column(
-                children: <Widget>[
-                  DixtyTextFormFieldWiget(
-                    controller: _accountNameController,
-                    labelText: 'Account Name',
-                    textCapitalization: TextCapitalization.words,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: DixtyTextFormFieldWiget(
-                          controller: _balanceController,
-                          labelText: 'Initial Balance',
-                          keyboardType: TextInputType.number,
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Form(
+                key: _addAccountForm,
+                autovalidate: _autoValidate,
+                child: Column(
+                  children: <Widget>[
+                    InkWell(
+                      child: DixtyTextFormFieldWiget(
+                        decorationIcon: Icon(_accountTypeIcon),
+                        controller: _accountTypeController,
+                        labelText: 'Account Type',
+                        readOnly: true,
+                      ),
+                    ),
+                    DixtyTextFormFieldWiget(
+                      decorationIcon: Icon(Icons.assignment),
+                      controller: _accountNameController,
+                      labelText: 'Account Name',
+                      textCapitalization: TextCapitalization.words,
+                      validator: (String accountName) {
+                        if (accountName.length == 0) {
+                          return 'Account must have a name';
+                        }
+                        return null;
+                      },
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: DixtyTextFormFieldWiget(
+                            decorationIcon: Icon(Icons.attach_money),
+                            controller: _balanceController,
+                            labelText: 'Initial Balance',
+                            keyboardType: TextInputType.number,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        icon: _balanceNegative()
-                            ? Icon(
-                                Icons.add_circle,
-                                color: AppTheme.green,
-                              )
-                            : Icon(
-                                Icons.remove_circle,
-                                color: Colors.red,
-                              ),
-                        onPressed: () {
-                          _changeBalance();
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+                        IconButton(
+                          icon: _balanceNegative()
+                              ? Icon(
+                                  Icons.add_circle,
+                                  color: AppTheme.green,
+                                )
+                              : Icon(
+                                  Icons.remove_circle,
+                                  color: Colors.red,
+                                ),
+                          onPressed: () {
+                            _changeBalance();
+                          },
+                        ),
+                      ],
+                    ),
+                    DixtyTextFormFieldWiget(
+                      decorationIcon: Icon(Icons.description),
+                      controller: _descriptionController,
+                      labelText: 'Description',
+                      hintText: 'Short description of your account',
+                    ),
+                  ],
+                ),
               ),
             ),
             Row(

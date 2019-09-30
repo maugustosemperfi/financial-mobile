@@ -12,7 +12,9 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
     Account._intToEnum(json['type'] as int),
     Account._stringToDouble(json['balance'] as String),
     (json['realValue'] as num)?.toDouble(),
-  )..id = json['id'] as int;
+  )
+    ..id = json['id'] as int
+    ..descritpion = json['descritpion'] as String;
 }
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
@@ -21,4 +23,5 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'type': Account._intFromEnum(instance.type),
       'balance': Account._stringFromDouble(instance.balance),
       'realValue': instance.realValue,
+      'descritpion': instance.descritpion,
     };

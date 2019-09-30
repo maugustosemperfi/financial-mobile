@@ -14,6 +14,7 @@ class Account {
   double balance;
   @JsonKey(nullable: true)
   double realValue;
+  String descritpion;
 
   Account(this.name, this.type, this.balance, this.realValue);
 

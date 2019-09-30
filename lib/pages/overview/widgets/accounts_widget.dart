@@ -52,7 +52,6 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   }
 
   _showAccountBottomSheet(BuildContext context) {
-    print("");
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -153,7 +152,8 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                             ]);
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                         child: Column(
                           children: <Widget>[
                             Row(

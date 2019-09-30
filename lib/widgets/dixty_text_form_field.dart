@@ -11,6 +11,7 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
   final String labelText;
   final TextCapitalization textCapitalization;
   final TextInputType keyboardType;
+  final Function validator;
   DixtyTextFormFieldWiget({
     this.readOnly = false,
     this.onTap,
@@ -21,6 +22,7 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
     this.hintText,
     this.textCapitalization = TextCapitalization.sentences,
     this.keyboardType = TextInputType.text,
+    this.validator,
   });
 
   @override
@@ -48,6 +50,7 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
       cursorColor: AppTheme.colorStrong,
       textCapitalization: this.textCapitalization,
       keyboardType: this.keyboardType,
+      validator: validator,
     );
   }
 }
