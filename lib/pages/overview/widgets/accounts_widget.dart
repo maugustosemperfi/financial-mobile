@@ -7,8 +7,8 @@ import 'package:financial/model/overview_account.dart';
 import 'package:financial/services/accounts_service.dart';
 import 'package:financial/styling.dart';
 import 'package:fluro/fluro.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 
 class AccountsWidget extends StatefulWidget {
   AccountsWidget();
@@ -74,6 +74,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var tapPosition;
     return Container(
       child: Column(
         children: <Widget>[
@@ -111,55 +112,97 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             alignment: WrapAlignment.center,
             children: _overviewAccount != null
                 ? _overviewAccount.accounts.map((account) {
-                    return Column(
-                      children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.monetization_on,
-                                    color: AppTheme.green,
-                                  ),
-                                  SizedBox(
-                                    width: 12,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "${account.name}",
-                                        style: AppTheme.title,
-                                      ),
-                                      Text(
-                                        "Checking account",
-                                        style: AppTheme.caption,
-                                      )
-                                    ],
-                                  ),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Container(),
-                                  ),
-                                  Text(
-                                    "R\$ ${account.realValue}",
-                                    style: AppTheme.titleMoneyPositivite,
-                                  )
-                                ],
+                    return GestureDetector(
+                      onTapDown: (TapDownDetails details) {
+                        tapPosition = tapPosition = details.globalPosition;
+                      },
+                      onLongPress: () async {
+                        Vibration.vibrate(duration: 20);
+
+                        final RenderBox overlay =
+                            Overlay.of(context).context.findRenderObject();
+                        showMenu(
+                            context: context,
+                            position: RelativeRect.fromRect(
+                                tapPosition &
+                                    Size(
+                                        40, 40), // smaller rect, the touch area
+                                Offset.zero &
+                                    overlay
+                                        .size // Bigger rect, the entire screen
+                                ),
+                            items: <PopupMenuEntry>[
+                              PopupMenuItem(
+                                value: 1,
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.delete),
+                                    Text("Delete Account"),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Divider(
-                          height: 12,
-                          color: Colors.transparent,
-                        ),
-                      ],
+                              PopupMenuItem(
+                                value: 2,
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.edit),
+                                    Text("Edit Account"),
+                                  ],
+                                ),
+                              )
+                            ]);
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.monetization_on,
+                                      color: AppTheme.green,
+                                    ),
+                                    SizedBox(
+                                      width: 12,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          "${account.name}",
+                                          style: AppTheme.title,
+                                        ),
+                                        Text(
+                                          "Checking account",
+                                          style: AppTheme.caption,
+                                        )
+                                      ],
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(),
+                                    ),
+                                    Text(
+                                      "R\$ ${account.realValue}",
+                                      style: AppTheme.titleMoneyPositivite,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            height: 12,
+                            color: Colors.transparent,
+                          ),
+                        ],
+                      ),
                     );
                   }).toList()
                 : [],
