@@ -70,41 +70,42 @@ class _AccountsWidgetState extends State<AccountsWidget> {
         });
   }
 
-  _openAddAcountPage() {}
-
   @override
   Widget build(BuildContext context) {
     var tapPosition;
     return Container(
       child: Column(
         children: <Widget>[
-          _overviewAccount != null
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "Accounts",
-                      style: AppTheme.title,
-                    ),
-                    Text(
-                      "R\$ ${this._overviewAccount.overallBalance}",
-                      style: AppTheme.title,
-                    )
-                  ],
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "You don't have any account",
-                      style: AppTheme.title,
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 12,
-                    ),
-                  ],
-                ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: _overviewAccount != null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Accounts",
+                        style: AppTheme.title,
+                      ),
+                      Text(
+                        "R\$ ${this._overviewAccount.overallBalance}",
+                        style: AppTheme.title,
+                      )
+                    ],
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "You don't have any account",
+                        style: AppTheme.title,
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                        height: 12,
+                      ),
+                    ],
+                  ),
+          ),
           Divider(height: 12, color: Colors.transparent),
           Wrap(
             direction: Axis.horizontal,
@@ -112,13 +113,12 @@ class _AccountsWidgetState extends State<AccountsWidget> {
             alignment: WrapAlignment.center,
             children: _overviewAccount != null
                 ? _overviewAccount.accounts.map((account) {
-                    return GestureDetector(
+                    return InkWell(
                       onTapDown: (TapDownDetails details) {
                         tapPosition = tapPosition = details.globalPosition;
                       },
                       onLongPress: () async {
                         Vibration.vibrate(duration: 20);
-
                         final RenderBox overlay =
                             Overlay.of(context).context.findRenderObject();
                         showMenu(
@@ -152,56 +152,55 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                               )
                             ]);
                       },
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.monetization_on,
-                                      color: AppTheme.green,
-                                    ),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          "${account.name}",
-                                          style: AppTheme.title,
-                                        ),
-                                        Text(
-                                          "Checking account",
-                                          style: AppTheme.caption,
-                                        )
-                                      ],
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(),
-                                    ),
-                                    Text(
-                                      "R\$ ${account.realValue}",
-                                      style: AppTheme.titleMoneyPositivite,
-                                    )
-                                  ],
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.monetization_on,
+                                        color: AppTheme.green,
+                                      ),
+                                      SizedBox(
+                                        width: 12,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            "${account.name}",
+                                            style: AppTheme.title,
+                                          ),
+                                          Text(
+                                            "Checking account",
+                                            style: AppTheme.caption,
+                                          )
+                                        ],
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(),
+                                      ),
+                                      Text(
+                                        "R\$ ${account.realValue}",
+                                        style: AppTheme.titleMoneyPositivite,
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            height: 12,
-                            color: Colors.transparent,
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }).toList()
