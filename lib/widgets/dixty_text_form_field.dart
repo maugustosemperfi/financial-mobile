@@ -4,21 +4,23 @@ import 'package:flutter/material.dart';
 class DixtyTextFormFieldWiget extends StatelessWidget {
   final bool readOnly;
   final onTap;
-  final Widget suffix;
+  final Widget decorationSuffix;
   final controller;
   final Icon decorationIcon;
   final String hintText;
   final String labelText;
   final TextCapitalization textCapitalization;
+  final TextInputType keyboardType;
   DixtyTextFormFieldWiget({
     this.readOnly = false,
     this.onTap,
-    this.suffix,
+    this.decorationSuffix,
     this.controller,
     this.decorationIcon,
     this.labelText,
     this.hintText,
     this.textCapitalization = TextCapitalization.sentences,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -32,7 +34,7 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
               color: AppTheme.grey,
             ),
           ),
-          suffix: suffix,
+          suffix: decorationSuffix,
           icon: decorationIcon,
           focusColor: AppTheme.green,
           fillColor: AppTheme.green,
@@ -45,6 +47,7 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
       controller: controller,
       cursorColor: AppTheme.colorStrong,
       textCapitalization: this.textCapitalization,
+      keyboardType: this.keyboardType,
     );
   }
 }

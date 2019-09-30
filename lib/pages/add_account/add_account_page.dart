@@ -2,6 +2,7 @@ import 'package:financial/application.dart';
 import 'package:financial/enum/enum_account_type.dart';
 import 'package:financial/model/account.dart';
 import 'package:financial/styling.dart';
+import 'package:financial/widgets/dixty_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
@@ -17,16 +18,15 @@ class AddAccountPage extends StatefulWidget {
 class _AddAccountPageState extends State<AddAccountPage> {
   final _addAccountForm = GlobalKey<FormState>();
 
-  MoneyMaskedTextController _balanceController = MoneyMaskedTextController();
+  MoneyMaskedTextController _balanceController = MoneyMaskedTextController(
+    leftSymbol: 'R\$ ',
+  );
   TextEditingController _accountNameController = TextEditingController();
 
   _changeBalance() {
+    print(_balanceController.value.text);
     setState(() {
-      if (_balanceController.leftSymbol == '') {
-        _balanceController = MoneyMaskedTextController(leftSymbol: '-');
-      } else {
-        _balanceController = MoneyMaskedTextController(leftSymbol: '');
-      }
+      _balanceController.updateValue(_balanceController.numberValue * -1);
     });
   }
 
@@ -39,11 +39,11 @@ class _AddAccountPageState extends State<AddAccountPage> {
     final application =
         await Application.dio.post('accounts', data: account.toJson());
 
-    print(application);
+
   }
 
   bool _balanceNegative() {
-    return _balanceController.leftSymbol == '-';
+    return _balanceController.numberValue < 0;
   }
 
   @override
@@ -63,36 +63,35 @@ class _AddAccountPageState extends State<AddAccountPage> {
               key: _addAccountForm,
               child: Column(
                 children: <Widget>[
-                  TextFormField(
+                  DixtyTextFormFieldWiget(
                     controller: _accountNameController,
-                    decoration: InputDecoration(
-                        labelText: 'Account name',
-                        border: OutlineInputBorder()),
+                    labelText: 'Account Name',
+                    textCapitalization: TextCapitalization.words,
                   ),
-                  TextFormField(
-                    controller: _balanceController,
-                    decoration: InputDecoration(
-                      labelText: 'Initial balance',
-                      suffix: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          GestureDetector(
-                            child: _balanceNegative()
-                                ? Icon(
-                                    Icons.add_circle,
-                                    color: AppTheme.green,
-                                  )
-                                : Icon(
-                                    Icons.remove_circle,
-                                    color: Colors.red,
-                                  ),
-                            onTap: () => {_changeBalance()},
-                          )
-                        ],
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: DixtyTextFormFieldWiget(
+                          controller: _balanceController,
+                          labelText: 'Initial Balance',
+                          keyboardType: TextInputType.number,
+                        ),
                       ),
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
+                      IconButton(
+                        icon: _balanceNegative()
+                            ? Icon(
+                                Icons.add_circle,
+                                color: AppTheme.green,
+                              )
+                            : Icon(
+                                Icons.remove_circle,
+                                color: Colors.red,
+                              ),
+                        onPressed: () {
+                          _changeBalance();
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
