@@ -4,12 +4,18 @@ import 'package:financial/enum/enum_record_type.dart';
 import 'package:financial/pages/add_account/add_account_page.dart';
 import 'package:financial/pages/home/home_page.dart';
 import 'package:financial/pages/login/login_page.dart';
+import 'package:financial/pages/sign_up/sign_up_page.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 var rootHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return LoginPage();
+});
+
+var signUpHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return SignUpPage();
 });
 
 var homePageHandler = Handler(

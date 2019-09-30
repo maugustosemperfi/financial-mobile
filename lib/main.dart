@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:financial/pages/login/login.dart';
 import 'package:financial/splash_page.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
@@ -82,10 +83,18 @@ void main() async {
 
   Application.dio = dio;
 
-  runApp(BlocProvider<AuthenticationBloc>(
-    builder: (context) {
-      return AuthenticationBloc()..dispatch(AppStarted());
-    },
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider<AuthenticationBloc>(
+        builder: (context) {
+          return AuthenticationBloc()..dispatch(AppStarted());
+        },
+      ),
+      BlocProvider<LoginBloc>(
+        builder: (context) => LoginBloc(
+            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
+      ),
+    ],
     child: FinancialApp(),
   ));
 }

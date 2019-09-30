@@ -1,11 +1,13 @@
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:financial/application.dart';
 import 'package:financial/authentication/authentication.dart';
 import 'package:financial/pages/login/login.dart';
 import 'package:financial/pages/login/state/login_bloc.dart';
 import 'package:financial/pages/login/widgets/login_form.dart';
 import 'package:financial/styling.dart';
+import 'package:fluro/fluro.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -45,7 +47,9 @@ class _LoginPageState extends State<LoginPage> {
                                 Container(
                                   padding: EdgeInsets.only(bottom: 24),
                                   child: Image.asset(
-                                      'assets/images/financial_green.png', height: 64,),
+                                    'assets/images/financial_green.png',
+                                    height: 64,
+                                  ),
                                 ),
                                 Container(
                                   padding: EdgeInsets.only(bottom: 12),
@@ -106,7 +110,11 @@ class _LoginPageState extends State<LoginPage> {
           text: TextSpan(
               text: "Sign up",
               style: AppTheme.captionBold,
-              recognizer: TapGestureRecognizer()..onTap = () {}),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Application.router.navigateTo(context, 'signUp',
+                      transition: TransitionType.cupertino);
+                }),
         )
       ],
     );

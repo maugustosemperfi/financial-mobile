@@ -4,8 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:financial/model/user.dart';
 import 'package:financial/pages/login/login.dart';
-import 'package:financial/pages/sign_up/state/sign_up_event.dart';
-import 'package:financial/pages/sign_up/state/sign_up_state.dart';
+import 'package:financial/pages/sign_up/state/sign_up.dart';
 import 'package:financial/services/user_service.dart';
 import 'package:meta/meta.dart';
 
