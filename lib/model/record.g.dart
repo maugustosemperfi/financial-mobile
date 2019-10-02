@@ -12,13 +12,16 @@ Record _$RecordFromJson(Map<String, dynamic> json) {
     description: json['description'] as String,
     value: (json['value'] as num)?.toDouble(),
     type: Record._intToEnum(json['type'] as int),
-  )
-    ..account = json['account'] == null
+    account: json['account'] == null
         ? null
-        : Account.fromJson(json['account'] as Map<String, dynamic>)
-    ..createdAt = json['createdAt'] == null
+        : Account.fromJson(json['account'] as Map<String, dynamic>),
+    recordDate: json['recordDate'] == null
         ? null
-        : DateTime.parse(json['createdAt'] as String);
+        : DateTime.parse(json['recordDate'] as String),
+    createdAt: json['createdAt'] == null
+        ? null
+        : DateTime.parse(json['createdAt'] as String),
+  );
 }
 
 Map<String, dynamic> _$RecordToJson(Record instance) => <String, dynamic>{
@@ -28,4 +31,5 @@ Map<String, dynamic> _$RecordToJson(Record instance) => <String, dynamic>{
       'type': Record._intFromEnum(instance.type),
       'account': instance.account?.toJson(),
       'createdAt': instance.createdAt?.toIso8601String(),
+      'recordDate': instance.recordDate?.toIso8601String(),
     };

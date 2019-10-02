@@ -14,8 +14,16 @@ class Record {
   EnumRecordType type;
   Account account;
   DateTime createdAt;
+  DateTime recordDate;
 
-  Record({this.id, this.description, this.value, this.type});
+  Record(
+      {this.id,
+      this.description,
+      this.value,
+      this.type,
+      this.account,
+      this.recordDate,
+      this.createdAt});
 
   factory Record.fromJson(Map<String, dynamic> json) => _$RecordFromJson(json);
   Map<String, dynamic> toJson() => _$RecordToJson(this);

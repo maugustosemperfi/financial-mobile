@@ -79,7 +79,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     record.description = this._descriptionController.text;
     record.account = this._simpleAccountSelected;
     record.value = this.widget.balance;
-    record.createdAt = this.selectedDate;
+    record.recordDate = this.selectedDate;
     record.type = widget.recordType;
 
     await RecordsService.createRecord(record);
