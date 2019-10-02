@@ -66,7 +66,6 @@ class _AddRecordPageState extends State<AddRecordPage> {
         appBar: null,
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.only(bottom: 20),
             height: MediaQuery.of(context).size.height,
             color: AppTheme.nearlyWhite,
             child: Material(
@@ -80,7 +79,10 @@ class _AddRecordPageState extends State<AddRecordPage> {
                   _spacer,
                   Flexible(
                     fit: FlexFit.loose,
-                    child: _buttons,
+                    child: Container(
+                      padding: EdgeInsets.only(top: 60),
+                      child: _buttons,
+                    ),
                   ),
                 ],
               ),
@@ -171,7 +173,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
 
   Widget get _buttons {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 50),
+      padding: EdgeInsets.symmetric(horizontal: 40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -238,14 +240,20 @@ class _AddRecordPageState extends State<AddRecordPage> {
   }
 
   Widget numberButton(String number) {
-    return FloatingActionButton(
-      heroTag: null,
-      child: Text(
-        number,
-        style: TextStyle(color: AppTheme.nearlyBlack),
+    return Container(
+      height: 60,
+      width: 60,
+      child: FittedBox(
+        child: FloatingActionButton(
+          heroTag: null,
+          child: Text(
+            number,
+            style: AppTheme.headlineLight,
+          ),
+          backgroundColor: AppTheme.nearlyWhite,
+          onPressed: () => {this._typeNumber(number)},
+        ),
       ),
-      backgroundColor: AppTheme.nearlyWhite,
-      onPressed: () => {this._typeNumber(number)},
     );
   }
 
