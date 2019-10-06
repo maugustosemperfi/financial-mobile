@@ -56,7 +56,8 @@ class _AddAccountPageState extends State<AddAccountPage> {
         "balance": _balanceController.numberValue.toString(),
         "name": _accountNameController.text,
         "type": widget.type.index,
-        "description": _descriptionController.value
+        "description": _descriptionController.value,
+        "bank": _selectedBank.toJson(),
       });
       final application =
           await Application.dio.post('accounts', data: account.toJson());

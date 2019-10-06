@@ -40,6 +40,11 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
               color: AppTheme.grey,
             ),
           ),
+          disabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: AppTheme.grey,
+            ),
+          ),
           suffix: decorationSuffix,
           icon: decorationIcon,
           prefix: prefix,

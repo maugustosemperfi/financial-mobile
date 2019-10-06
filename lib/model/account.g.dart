@@ -14,7 +14,10 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
     (json['realValue'] as num)?.toDouble(),
   )
     ..id = json['id'] as int
-    ..descritpion = json['descritpion'] as String;
+    ..descritpion = json['descritpion'] as String
+    ..bank = json['bank'] == null
+        ? null
+        : Bank.fromJson(json['bank'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
@@ -24,4 +27,5 @@ Map<String, dynamic> _$AccountToJson(Account instance) => <String, dynamic>{
       'balance': Account._stringFromDouble(instance.balance),
       'realValue': instance.realValue,
       'descritpion': instance.descritpion,
+      'bank': instance.bank?.toJson(),
     };
