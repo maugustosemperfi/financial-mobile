@@ -1,7 +1,6 @@
 import 'package:financial/enum/enum_account_type.dart';
 import 'package:financial/model/bank.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'dart:convert';
 
 part 'account.g.dart';
 

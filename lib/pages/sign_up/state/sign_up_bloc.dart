@@ -1,8 +1,4 @@
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-import 'package:financial/model/user.dart';
 import 'package:financial/pages/login/login.dart';
 import 'package:financial/pages/sign_up/state/sign_up.dart';
 import 'package:financial/services/user_service.dart';
@@ -26,10 +22,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield SignUpLoading();
 
       try {
-        final Response createdUserJsonData =
-            await UserService.createUser(event.user);
+        // final Response createdUserJsonData = await UserService.createUser(event.user);
+        await UserService.createUser(event.user);
 
-        User createdUser = User.fromJson(jsonDecode(createdUserJsonData.data));
+        // User createdUser = User.fromJson(jsonDecode(createdUserJsonData.data));
 
         loginBloc.dispatch(LoginButtonPressed(
             email: event.user.email, password: event.user.password));

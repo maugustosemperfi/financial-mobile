@@ -90,13 +90,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _divider(int height) {
-    return Divider(
-      color: Colors.transparent,
-      height: height.toDouble(),
-    );
-  }
-
   Widget _signUp() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

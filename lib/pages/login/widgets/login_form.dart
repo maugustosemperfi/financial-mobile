@@ -13,7 +13,7 @@ class LoginWidgetForm extends StatefulWidget {
 }
 
 class _LoginWidgetFormState extends State<LoginWidgetForm> {
-  bool _rememberMe = false;
+  // bool _rememberMe = false;
   bool _loging = false;
   bool _autovalidate = false;
   Widget _animatedWiget;

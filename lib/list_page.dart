@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:financial/model/email_model.dart';
 import 'package:financial/styling.dart';
-import 'package:financial/transition/scale_out_transition.dart';
 import 'package:financial/ui/list_item.dart';
 
 class ListPage extends StatelessWidget {

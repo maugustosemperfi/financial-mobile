@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:financial/styling.dart';
 
 class CreditCardWidget extends StatelessWidget {
-  IconData iconData;
-  String accountName;
-  String creditCardName;
-  double available;
-  double statement;
+  final IconData iconData;
+  final String accountName;
+  final String creditCardName;
+  final double available;
+  final double statement;
 
   CreditCardWidget(
       {this.iconData,
       this.accountName,
       this.creditCardName,
       this.available,
-      this.statement}) {}
+      this.statement});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,10 @@ class CreditCardWidget extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(right: 16),
-            child: Icon(iconData, color: AppTheme.green,),
+            child: Icon(
+              iconData,
+              color: AppTheme.green,
+            ),
           ),
           Expanded(
             child: Column(
@@ -59,14 +62,14 @@ class CreditCardWidget extends StatelessWidget {
                           "Available",
                           style: AppTheme.caption,
                         ),
-                        Text("R\$ ${available}", style: AppTheme.body1)
+                        Text("R\$ $available", style: AppTheme.body1)
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("Statement", style: AppTheme.caption),
-                        Text("R\$ -${statement}", style: AppTheme.title)
+                        Text("R\$ -$statement", style: AppTheme.title)
                       ],
                     )
                   ],

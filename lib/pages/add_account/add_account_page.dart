@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class AddAccountPage extends StatefulWidget {
-  EnumAccountType type;
+  final EnumAccountType type;
 
   AddAccountPage({@required this.type});
 
@@ -59,8 +59,8 @@ class _AddAccountPageState extends State<AddAccountPage> {
         "description": _descriptionController.value,
         "bank": _selectedBank.toJson(),
       });
-      final application =
-          await Application.dio.post('accounts', data: account.toJson());
+      // final application = await Application.dio.post('accounts', data: account.toJson());
+      await Application.dio.post('accounts', data: account.toJson());
 
       Application.router.pop(context);
     } else {

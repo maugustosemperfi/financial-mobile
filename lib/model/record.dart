@@ -1,6 +1,5 @@
 import 'package:financial/enum/enum_record_type.dart';
 import 'package:financial/model/account.dart';
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'record.g.dart';

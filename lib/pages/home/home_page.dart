@@ -1,15 +1,12 @@
 import 'package:financial/application.dart';
 import 'package:financial/authentication/authentication.dart';
 import 'package:financial/authentication/authentication_bloc.dart';
-import 'package:financial/model/email_model.dart';
 import 'package:financial/pages/add_record/add_record_page.dart';
 import 'package:financial/pages/overview/overview_page.dart';
 import 'package:financial/styling.dart';
 import 'package:fluro/fluro.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+  // final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   final GlobalKey _fabKey = GlobalKey();
 
   int _selectedIndex;
@@ -179,96 +176,96 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget get _bottomNavigation {
-    final Animation<Offset> slideIn =
-        Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(
-            CurvedAnimation(
-                parent: ModalRoute.of(context).animation, curve: Curves.ease));
-    final Animation<Offset> slideOut =
-        Tween<Offset>(begin: Offset.zero, end: const Offset(0, 1)).animate(
-            CurvedAnimation(
-                parent: ModalRoute.of(context).secondaryAnimation,
-                curve: Curves.fastOutSlowIn));
+  // Widget get _bottomNavigation {
+  //   final Animation<Offset> slideIn =
+  //       Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero).animate(
+  //           CurvedAnimation(
+  //               parent: ModalRoute.of(context).animation, curve: Curves.ease));
+  //   final Animation<Offset> slideOut =
+  //       Tween<Offset>(begin: Offset.zero, end: const Offset(0, 1)).animate(
+  //           CurvedAnimation(
+  //               parent: ModalRoute.of(context).secondaryAnimation,
+  //               curve: Curves.fastOutSlowIn));
 
-    return SlideTransition(
-      position: slideIn,
-      child: SlideTransition(
-        position: slideOut,
-        child: BottomAppBar(
-          color: AppTheme.primary,
-          shape:
-              AutomaticNotchedShape(RoundedRectangleBorder(), CircleBorder()),
-          notchMargin: 8,
-          child: SizedBox(
-            height: 48,
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  iconSize: 48,
-                  icon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      const Icon(
-                        Icons.arrow_drop_up,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 4),
-                      Image.asset(
-                        'assets/images/logo.png',
-                        width: 21,
-                        height: 21,
-                      ),
-                    ],
-                  ),
-                  onPressed: () => print('Tap!'),
-                ),
-                Spacer(),
-                _actionItems,
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  //   return SlideTransition(
+  //     position: slideIn,
+  //     child: SlideTransition(
+  //       position: slideOut,
+  //       child: BottomAppBar(
+  //         color: AppTheme.primary,
+  //         shape:
+  //             AutomaticNotchedShape(RoundedRectangleBorder(), CircleBorder()),
+  //         notchMargin: 8,
+  //         child: SizedBox(
+  //           height: 48,
+  //           child: Row(
+  //             children: <Widget>[
+  //               IconButton(
+  //                 iconSize: 48,
+  //                 icon: Row(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: <Widget>[
+  //                     const Icon(
+  //                       Icons.arrow_drop_up,
+  //                       color: Colors.white,
+  //                       size: 20,
+  //                     ),
+  //                     const SizedBox(width: 4),
+  //                     Image.asset(
+  //                       'assets/images/logo.png',
+  //                       width: 21,
+  //                       height: 21,
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 onPressed: () => print('Tap!'),
+  //               ),
+  //               Spacer(),
+  //               _actionItems,
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget get _actionItems {
-    return Consumer<EmailModel>(
-      builder: (BuildContext context, EmailModel model, Widget child) {
-        final bool showSecond = model.currentlySelectedEmailId >= 0;
+  // Widget get _actionItems {
+  //   return Consumer<EmailModel>(
+  //     builder: (BuildContext context, EmailModel model, Widget child) {
+  //       final bool showSecond = model.currentlySelectedEmailId >= 0;
 
-        return AnimatedCrossFade(
-          firstCurve: Curves.fastOutSlowIn,
-          secondCurve: Curves.fastOutSlowIn,
-          sizeCurve: Curves.fastOutSlowIn,
-          firstChild: IconButton(
-            icon: const Icon(Icons.search, color: Colors.white),
-            onPressed: () => print('Tap'),
-          ),
-          secondChild: showSecond
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Image.asset('assets/images/ic_important.png',
-                          width: 28),
-                      onPressed: () => print('Tap!'),
-                    ),
-                    IconButton(
-                      icon: Image.asset('assets/images/ic_more.png', width: 28),
-                      onPressed: () => print('Tap!'),
-                    ),
-                  ],
-                )
-              : const SizedBox(),
-          crossFadeState:
-              showSecond ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-          duration: Duration(milliseconds: 450),
-        );
-      },
-    );
-  }
+  //       return AnimatedCrossFade(
+  //         firstCurve: Curves.fastOutSlowIn,
+  //         secondCurve: Curves.fastOutSlowIn,
+  //         sizeCurve: Curves.fastOutSlowIn,
+  //         firstChild: IconButton(
+  //           icon: const Icon(Icons.search, color: Colors.white),
+  //           onPressed: () => print('Tap'),
+  //         ),
+  //         secondChild: showSecond
+  //             ? Row(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: <Widget>[
+  //                   IconButton(
+  //                     icon: Image.asset('assets/images/ic_important.png',
+  //                         width: 28),
+  //                     onPressed: () => print('Tap!'),
+  //                   ),
+  //                   IconButton(
+  //                     icon: Image.asset('assets/images/ic_more.png', width: 28),
+  //                     onPressed: () => print('Tap!'),
+  //                   ),
+  //                 ],
+  //               )
+  //             : const SizedBox(),
+  //         crossFadeState:
+  //             showSecond ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+  //         duration: Duration(milliseconds: 450),
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget get _fab {
     return FloatingActionButton(
@@ -286,14 +283,5 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         AddRecordPage.route(context, _fabKey),
       ),
     );
-  }
-
-  Future<bool> _willPopCallback() async {
-    if (_navigatorKey.currentState.canPop()) {
-      _navigatorKey.currentState.pop();
-      Provider.of<EmailModel>(context).currentlySelectedEmailId = -1;
-      return false;
-    }
-    return true;
   }
 }

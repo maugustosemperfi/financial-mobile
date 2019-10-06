@@ -14,8 +14,6 @@ import 'package:provider/provider.dart';
 import 'package:financial/application.dart';
 import 'package:financial/authentication/authentication.dart';
 import 'package:financial/model/email_model.dart';
-import 'package:financial/pages/home/home_page.dart';
-import 'package:financial/pages/login/login_page.dart';
 import 'package:financial/routes/routes.dart';
 import 'package:financial/styling.dart';
 

@@ -13,8 +13,4 @@ class OverviewAccount {
   factory OverviewAccount.fromJson(Map<String, dynamic> json) =>
       _$OverviewAccountFromJson(json);
   Map<String, dynamic> toJson() => _$OverviewAccountToJson(this);
-
-  static String _stringFromDouble(double number) => number?.toString();
-  static double _stringToDouble(String number) =>
-      number == null ? null : double.parse(number);
 }

@@ -13,6 +13,7 @@ class Routes {
     router.notFoundHandler = Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       print("ROUTE WAS NOT FOUND !!!");
+      return null;
     });
     router.define(root, handler: rootHandler);
     router.define(signUpPage, handler: signUpHandler);

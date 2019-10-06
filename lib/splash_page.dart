@@ -5,12 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:financial/authentication/authentication.dart';
 
 class SplashPage extends StatelessWidget {
-  AuthenticationBloc _authenticationBloc;
-
   @override
   Widget build(BuildContext context) {
-    _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
-
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationUnauthenticated) {

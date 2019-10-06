@@ -37,9 +37,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         yield LoginInitial();
       } on DioError catch (error) {
-        yield LoginFailure(error: error.response != null ? error.response.data : "Something goes wrong");
+        yield LoginFailure(
+            error: error.response != null
+                ? error.response.data
+                : "Something goes wrong");
       }
     }
-    // TODO: implement mapEventToState
   }
 }

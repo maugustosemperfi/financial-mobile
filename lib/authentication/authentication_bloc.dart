@@ -57,6 +57,5 @@ class AuthenticationBloc
       await storage.delete(key: "token");
       yield AuthenticationUnauthenticated();
     }
-    // TODO: implement mapEventToState
   }
 }

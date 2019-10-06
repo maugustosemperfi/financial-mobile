@@ -1,14 +1,12 @@
 import 'package:financial/application.dart';
 import 'package:financial/enum/enum_record_type.dart';
-import 'package:fluro/fluro.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:provider/provider.dart';
-import 'package:financial/create_record_page.dart';
 import 'package:financial/model/email_model.dart';
 import 'package:financial/styling.dart';
 import 'package:financial/transition/fab_fill_transition.dart';
+import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:provider/provider.dart';
 
 class AddRecordPage extends StatefulWidget {
   const AddRecordPage({Key key, @required this.sourceRect})
@@ -41,7 +39,7 @@ class _AddRecordPageState extends State<AddRecordPage> {
     initialValue: 000,
   );
 
-  final GlobalKey _fabKey = GlobalKey();
+  // final GlobalKey _fabKey = GlobalKey();
 
   _setRecordType(EnumRecordType recordType) {
     setState(() {

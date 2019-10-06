@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:financial/application.dart';
 import 'package:financial/enum/enum_account_type.dart';
-import 'package:financial/model/account.dart';
 import 'package:financial/model/overview_account.dart';
 import 'package:financial/services/accounts_service.dart';
 import 'package:financial/styling.dart';
@@ -18,7 +17,7 @@ class AccountsWidget extends StatefulWidget {
 }
 
 class _AccountsWidgetState extends State<AccountsWidget> {
-  List<Account> _accounts = [];
+  // List<Account> _accounts = [];
   OverviewAccount _overviewAccount;
 
   @override
@@ -28,17 +27,17 @@ class _AccountsWidgetState extends State<AccountsWidget> {
     _getAccountsOverview();
   }
 
-  _getAccounts() async {
-    // final accountsResponse = await Application.dio.get('accounts');
+  // _getAccounts() async {
+  //   // final accountsResponse = await Application.dio.get('accounts');
 
-    // final List<Account> accounts = (jsonDecode(accountsResponse.data) as List)
-    //     .map((account) => Account.fromJson(account))
-    //     .toList();
+  //   // final List<Account> accounts = (jsonDecode(accountsResponse.data) as List)
+  //   //     .map((account) => Account.fromJson(account))
+  //   //     .toList();
 
-    // setState(() {
-    //   this._accounts = accounts;
-    // });
-  }
+  //   // setState(() {
+  //   //   this._accounts = accounts;
+  //   // });
+  // }
 
   _getAccountsOverview() async {
     final overviewAccountJson = await AccountsService.getOverview();
