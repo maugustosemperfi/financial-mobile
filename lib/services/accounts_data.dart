@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:financial/model/account.dart';
+import 'package:financial/model/bank.dart';
 import 'package:flutter/material.dart';
 
 class AccountsData {

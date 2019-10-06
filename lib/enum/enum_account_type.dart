@@ -25,7 +25,7 @@ class AccountType {
         return "Checking account";
 
       case EnumAccountType.saving:
-        return "Savings or investmentst";
+        return "Savings or investments";
 
       case EnumAccountType.others:
         return "Others";

@@ -1,6 +1,8 @@
 import 'package:financial/application.dart';
 import 'package:financial/enum/enum_account_type.dart';
 import 'package:financial/model/account.dart';
+import 'package:financial/model/bank.dart';
+import 'package:financial/services/banks_data.dart';
 import 'package:financial/styling.dart';
 import 'package:financial/widgets/dixty_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,11 @@ class _AddAccountPageState extends State<AddAccountPage> {
   TextEditingController _accountNameController = TextEditingController();
   TextEditingController _accountTypeController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _accountBankController = TextEditingController();
   IconData _accountTypeIcon;
   bool _autoValidate = false;
+
+  Bank _selectedBank;
 
   @override
   void initState() {
@@ -33,6 +38,8 @@ class _AddAccountPageState extends State<AddAccountPage> {
     _accountTypeController.text =
         AccountType.getAccountNameByAccountType(widget.type);
     _accountTypeIcon = AccountType.getIconByAccountType(widget.type);
+    _selectedBank = BanksData.banks[0];
+    _accountBankController.text = _selectedBank.name;
   }
 
   _changeBalance() {
@@ -86,11 +93,39 @@ class _AddAccountPageState extends State<AddAccountPage> {
                 child: Column(
                   children: <Widget>[
                     InkWell(
+                      onTap: () {},
+                      child: Row(
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: Image.network(
+                                  _selectedBank.iconUrl,
+                                  height: 24,
+                                ),
+                                padding: EdgeInsets.only(right: 16),
+                              )
+                            ],
+                          ),
+                          Expanded(
+                            child: DixtyTextFormFieldWiget(
+                              controller: _accountBankController,
+                              labelText: 'Account Bank',
+                              enabled: false,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
                       child: DixtyTextFormFieldWiget(
                         decorationIcon: Icon(_accountTypeIcon),
                         controller: _accountTypeController,
                         labelText: 'Account Type',
-                        readOnly: true,
+                        enabled: false,
                       ),
                     ),
                     DixtyTextFormFieldWiget(
