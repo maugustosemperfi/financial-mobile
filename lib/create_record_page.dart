@@ -89,7 +89,6 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   }
 
   _navigateToAddPage() {
-    print("aa");
     Application.router.pop(context);
   }
 
@@ -103,25 +102,27 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
               style: AppTheme.headlineLight,
             ),
             children: <Widget>[
-              Row(
-                children: <Widget>[Text("accounts")],
+              ListTile(
+                title: Text("Accounts"),
               ),
               Wrap(
                 direction: Axis.horizontal,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 alignment: WrapAlignment.center,
-                children: AccountsData.simpleAccounts.map((simpleAccount) {
-                  return Row(
-                    children: <Widget>[
-                      FlatButton(
-                        child: Text(simpleAccount.name),
-                        onPressed: () {
+                children: ListTile.divideTiles(
+                    context: context,
+                    tiles: AccountsData.simpleAccounts.map((simpleAccount) {
+                      return ListTile(
+                        title: Text(simpleAccount.name),
+                        leading: Image.network(
+                          simpleAccount.bank.iconUrl,
+                          height: 36,
+                        ),
+                        onTap: () {
                           Navigator.pop(context, simpleAccount);
                         },
-                      )
-                    ],
-                  );
-                }).toList(),
+                      );
+                    })).toList(),
               )
             ],
           );
@@ -216,15 +217,33 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
               hintText: "Description",
               controller: _descriptionController,
             ),
-            DixtyTextFormFieldWiget(
-              decorationIcon: Icon(
-                Icons.attach_money,
-              ),
+            InkWell(
               onTap: () {
                 _selectAccount();
               },
-              controller: _simpleAccountController,
-              readOnly: true,
+              child: Row(
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        child: Image.network(
+                          _simpleAccountSelected.bank.iconUrl,
+                          height: 24,
+                        ),
+                        padding: EdgeInsets.only(right: 16),
+                      )
+                    ],
+                  ),
+                  Expanded(
+                    child: DixtyTextFormFieldWiget(
+                      controller: _simpleAccountController,
+                      enabled: false,
+                    ),
+                  )
+                ],
+              ),
             ),
             DixtyTextFormFieldWiget(
               decorationIcon: Icon(Icons.devices_other),
