@@ -114,20 +114,36 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
                     tiles: AccountsData.simpleAccounts.map((simpleAccount) {
                       return ListTile(
                         title: Text(simpleAccount.name),
-                        leading: Image.network(
-                          simpleAccount.bank.iconUrl,
-                          height: 36,
-                        ),
+                        leading: simpleAccount != null
+                            ? Image.network(
+                                simpleAccount.bank.iconUrl,
+                                height: 36,
+                              )
+                            : Container(),
                         onTap: () {
                           Navigator.pop(context, simpleAccount);
                         },
                       );
                     })).toList(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context, null);
+                    },
+                    textColor: AppTheme.primary,
+                    child: Text("CANCEL"),
+                  )
+                ],
               )
             ],
           );
         });
-    _setAccountSelected(accountSelected);
+    if (accountSelected != null) {
+      _setAccountSelected(accountSelected);
+    }
   }
 
   @override
