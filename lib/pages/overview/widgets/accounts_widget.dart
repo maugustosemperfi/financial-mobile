@@ -162,9 +162,9 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                                 Expanded(
                                   child: Row(
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.monetization_on,
-                                        color: AppTheme.green,
+                                      Image.network(
+                                        account.bank.iconUrl,
+                                        height: 36,
                                       ),
                                       SizedBox(
                                         width: 12,
