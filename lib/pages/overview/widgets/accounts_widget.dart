@@ -105,106 +105,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
                   ),
           ),
           Divider(height: 12, color: Colors.transparent),
-          Wrap(
-            direction: Axis.horizontal,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.center,
-            children: _overviewAccount != null
-                ? _overviewAccount.accounts.map((account) {
-                    return InkWell(
-                      onTapDown: (TapDownDetails details) {
-                        tapPosition = tapPosition = details.globalPosition;
-                      },
-                      onLongPress: () async {
-                        Vibration.vibrate(duration: 20);
-                        final RenderBox overlay =
-                            Overlay.of(context).context.findRenderObject();
-                        showMenu(
-                            context: context,
-                            position: RelativeRect.fromRect(
-                                tapPosition &
-                                    Size(
-                                        40, 40), // smaller rect, the touch area
-                                Offset.zero &
-                                    overlay
-                                        .size // Bigger rect, the entire screen
-                                ),
-                            items: <PopupMenuEntry>[
-                              PopupMenuItem(
-                                value: 1,
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(Icons.delete),
-                                    Text("Delete Account"),
-                                  ],
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: 2,
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(Icons.edit),
-                                    Text("Edit Account"),
-                                  ],
-                                ),
-                              )
-                            ]);
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Image.network(
-                                        account.bank.iconUrl,
-                                        height: 36,
-                                      ),
-                                      SizedBox(
-                                        width: 12,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            "${account.name}",
-                                            style: AppTheme.title,
-                                          ),
-                                          Text(
-                                            "Checking account",
-                                            style: AppTheme.caption,
-                                          )
-                                        ],
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(),
-                                      ),
-                                      Text(
-                                        "R\$ ${account.realValue}",
-                                        style: AppTheme.titleMoneyPositivite,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList()
-                : [],
-          ),
+          _accountsOverview,
           Divider(
             color: Colors.transparent,
             height: 12,
@@ -229,6 +130,77 @@ class _AccountsWidgetState extends State<AccountsWidget> {
         ],
       ),
     );
+  }
+
+  get _accountsOverview {
+    return Column(
+      children: ListTile.divideTiles(
+              context: context,
+              tiles: _overviewAccount != null
+                  ? _overviewAccount.accounts.map((account) {
+                      return InkWell(
+                        onTapDown: (TapDownDetails details) {
+                          tapPosition = tapPosition = details.globalPosition;
+                        },
+                        onLongPress: () async {
+                          showMenuOnLongPress(context, tapPosition);
+                        },
+                        child: ListTile(
+                          leading: Image.network(
+                            account.bank.iconUrl,
+                            height: 36,
+                          ),
+                          title: Text(
+                            "${account.name}",
+                            style: AppTheme.title,
+                          ),
+                          subtitle: Text(
+                            AccountType.getAccountNameByAccountType(
+                                account.type),
+                            style: AppTheme.caption,
+                            // style: AppTheme.caption,
+                          ),
+                          trailing: Text(
+                            "R\$ ${account.realValue}",
+                            style: AppTheme.titleMoneyPositivite,
+                          ),
+                        ),
+                      );
+                    })
+                  : [])
+          .toList(),
+    );
+  }
+
+  void showMenuOnLongPress(BuildContext context, tapPosition) {
+    Vibration.vibrate(duration: 20);
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    showMenu(
+        context: context,
+        position: RelativeRect.fromRect(
+            tapPosition & Size(40, 40), // smaller rect, the touch area
+            Offset.zero & overlay.size // Bigger rect, the entire screen
+            ),
+        items: <PopupMenuEntry>[
+          PopupMenuItem(
+            value: 1,
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.delete),
+                Text("Delete Account"),
+              ],
+            ),
+          ),
+          PopupMenuItem(
+            value: 2,
+            child: Row(
+              children: <Widget>[
+                Icon(Icons.edit),
+                Text("Edit Account"),
+              ],
+            ),
+          )
+        ]);
   }
 
   ListTile _createTile(
