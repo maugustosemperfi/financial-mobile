@@ -43,9 +43,61 @@ class _AddAccountPageState extends State<AddAccountPage> {
   }
 
   _changeBalance() {
-    print(_balanceController.value.text);
     setState(() {
       _balanceController.updateValue(_balanceController.numberValue * -1);
+    });
+  }
+
+  Future _selectBank() async {
+    final bank = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text(
+              "Select bank",
+              style: AppTheme.headlineLight,
+            ),
+            children: <Widget>[
+              Column(
+                children: ListTile.divideTiles(
+                    context: context,
+                    tiles: BanksData.banks.map((bank) {
+                      return ListTile(
+                        title: Text(bank.name),
+                        leading: Image.network(
+                          bank.iconUrl,
+                          height: 36,
+                        ),
+                        onTap: () {
+                          Navigator.pop(context, bank);
+                        },
+                      );
+                    })).toList(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context, null);
+                    },
+                    textColor: AppTheme.primary,
+                    child: Text("CANCEL"),
+                  )
+                ],
+              )
+            ],
+          );
+        });
+    if (bank != null) {
+      _setSelectedBank(bank);
+    }
+  }
+
+  _setSelectedBank(Bank bank) {
+    setState(() {
+      _selectedBank = bank;
+      _accountBankController.text = bank.name;
     });
   }
 
@@ -94,7 +146,9 @@ class _AddAccountPageState extends State<AddAccountPage> {
                 child: Column(
                   children: <Widget>[
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        _selectBank();
+                      },
                       child: Row(
                         children: <Widget>[
                           Column(
