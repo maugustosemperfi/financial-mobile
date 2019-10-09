@@ -19,6 +19,7 @@ class AccountsWidget extends StatefulWidget {
 class _AccountsWidgetState extends State<AccountsWidget> {
   // List<Account> _accounts = [];
   OverviewAccount _overviewAccount;
+  var tapPosition;
 
   @override
   void initState() {
@@ -70,7 +71,6 @@ class _AccountsWidgetState extends State<AccountsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var tapPosition;
     return Container(
       child: Column(
         children: <Widget>[
