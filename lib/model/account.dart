@@ -8,7 +8,7 @@ part 'account.g.dart';
 class Account {
   int id;
   String name;
-  @JsonKey(fromJson: _intToEnum, toJson: _intFromEnum)
+  @JsonKey(fromJson: _intToEnum, toJson: _intFromEnum, nullable: true)
   EnumAccountType type;
   @JsonKey(fromJson: _stringToDouble, toJson: _stringFromDouble)
   double balance;
@@ -29,5 +29,5 @@ class Account {
 
   static int _intFromEnum(EnumAccountType accountType) => accountType.index;
   static EnumAccountType _intToEnum(int accountType) =>
-      EnumAccountType.values[accountType];
+      accountType != null ? EnumAccountType.values[accountType] : null;
 }

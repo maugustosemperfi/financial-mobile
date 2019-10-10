@@ -1,84 +1,154 @@
-import 'package:flutter/material.dart';
+import 'package:financial/model/overview_credit_card.dart';
+import 'package:financial/services/credit_card_service.dart';
 import 'package:financial/styling.dart';
+import 'package:flutter/material.dart';
 
-class CreditCardWidget extends StatelessWidget {
-  final IconData iconData;
-  final String accountName;
-  final String creditCardName;
-  final double available;
-  final double statement;
+class CreditCardWidget extends StatefulWidget {
+  @override
+  _CreditCardWidgetState createState() => _CreditCardWidgetState();
+}
 
-  CreditCardWidget(
-      {this.iconData,
-      this.accountName,
-      this.creditCardName,
-      this.available,
-      this.statement});
+class _CreditCardWidgetState extends State<CreditCardWidget> {
+  OverviewCreditCard _overviewCreditCard;
+
+  @override
+  void initState() {
+    super.initState();
+    _getOverviewCreditCard();
+  }
+
+  _getOverviewCreditCard() async {
+    final overviewCreditCard = await CreditCardService.overview();
+
+    setState(() {
+      _overviewCreditCard = overviewCreditCard;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
+      child: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(right: 16),
-            child: Icon(
-              iconData,
-              color: AppTheme.green,
-            ),
+            child: _overviewCreditCard != null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Credit cards",
+                        style: AppTheme.title,
+                      ),
+                      Text(
+                        "R\$ ${this._overviewCreditCard.overallStatement}",
+                        style: AppTheme.title,
+                      )
+                    ],
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "You don't have any credit card",
+                        style: AppTheme.title,
+                      ),
+                      Divider(
+                        color: Colors.transparent,
+                        height: 12,
+                      ),
+                    ],
+                  ),
           ),
-          Expanded(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          accountName,
-                          style: AppTheme.caption,
-                        ),
-                        Text(
-                          creditCardName,
-                          style: AppTheme.title,
-                        ),
-                      ],
-                    ),
-                  ],
+          Divider(height: 12, color: Colors.transparent),
+          _creditCardOverview(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ButtonTheme(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                child: FlatButton(
+                  onPressed: () => {},
+                  textColor: AppTheme.nearlyWhite,
+                  color: AppTheme.primary,
+                  child: Text(
+                    "Add credit card",
+                  ),
                 ),
-                Divider(
-                  color: Colors.transparent,
-                  height: 12,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Available",
-                          style: AppTheme.caption,
-                        ),
-                        Text("R\$ $available", style: AppTheme.body1)
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Statement", style: AppTheme.caption),
-                        Text("R\$ -$statement", style: AppTheme.title)
-                      ],
-                    )
-                  ],
-                ),
-              ],
-            ),
-          )
+              ),
+            ],
+          ),
         ],
       ),
+    );
+  }
+
+  _creditCardOverview() {
+    return Column(
+      children: ListTile.divideTiles(
+              context: context,
+              tiles: _overviewCreditCard != null
+                  ? _overviewCreditCard.creditCards.map((creditCard) {
+                      return InkWell(
+                        onTapDown: (TapDownDetails details) {},
+                        onLongPress: () async {},
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              dense: true,
+                              leading: Image.network(
+                                creditCard.bank.iconUrl,
+                                height: 36,
+                              ),
+                              subtitle: Text(
+                                creditCard.name,
+                                style: AppTheme.title,
+                              ),
+                              title: Text(
+                                "Account name",
+                                style: AppTheme.caption,
+                              ),
+                            ),
+                            ListTile(
+                              dense: true,
+                              leading: Container(
+                                width: 36,
+                              ),
+                              subtitle: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    "R\$ ${creditCard.limit}",
+                                    style: AppTheme.title,
+                                  ),
+                                  Text(
+                                    "R\$ -${creditCard.statement}",
+                                    style: AppTheme.titleMoneyNegative,
+                                  )
+                                ],
+                              ),
+                              title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    "Available",
+                                    style: AppTheme.caption,
+                                  ),
+                                  Text(
+                                    "Statement",
+                                    style: AppTheme.caption,
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    })
+                  : [])
+          .toList(),
     );
   }
 }

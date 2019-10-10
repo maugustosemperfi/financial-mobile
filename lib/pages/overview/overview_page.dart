@@ -61,49 +61,7 @@ class _OverviewPageState extends State<OverviewPage> {
                   borderRadius: BorderRadius.circular(12)),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Credit cards",
-                          style: AppTheme.title,
-                        ),
-                        Text(
-                          "R\$ 8.544,23",
-                          style: AppTheme.title,
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 12,
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 16,
-                    ),
-                    CreditCardWidget(
-                      iconData: Icons.airplay,
-                      accountName: "Itau",
-                      creditCardName: "Itau international",
-                      available: 2084.32,
-                      statement: 3088.90,
-                    ),
-                    Divider(
-                      color: Colors.transparent,
-                      height: 16,
-                    ),
-                    CreditCardWidget(
-                      iconData: Icons.airplay,
-                      accountName: "Inter",
-                      creditCardName: "Itau credit card",
-                      available: 522.32,
-                      statement: 188.20,
-                    )
-                  ],
-                ),
+                child: CreditCardWidget(),
               ),
             ),
           )

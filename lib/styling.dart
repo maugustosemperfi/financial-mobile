@@ -86,6 +86,14 @@ class AppTheme {
     color: green,
   );
 
+  static const TextStyle titleMoneyNegative = TextStyle(
+    // h6 -> title
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w600,
+    fontSize: 16,
+    color: red,
+  );
+
   static const TextStyle title = TextStyle(
     // h6 -> title
     fontFamily: 'Roboto',
