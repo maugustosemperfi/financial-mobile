@@ -14,6 +14,8 @@ class CreditCard {
   @JsonKey(nullable: true)
   double statement;
   @JsonKey(nullable: true)
+  double available;
+  @JsonKey(nullable: true)
   Bank bank;
   @JsonKey(nullable: true)
   Account account;

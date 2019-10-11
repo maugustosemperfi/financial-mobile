@@ -60,7 +60,7 @@ class _OverviewPageState extends State<OverviewPage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                padding: EdgeInsets.symmetric(vertical: 16),
                 child: CreditCardWidget(),
               ),
             ),

@@ -31,6 +31,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget> {
       child: Column(
         children: <Widget>[
           Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
             child: _overviewCreditCard != null
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,14 +119,24 @@ class _CreditCardWidgetState extends State<CreditCardWidget> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text(
-                                    "R\$ ${creditCard.limit}",
-                                    style: AppTheme.title,
-                                  ),
-                                  Text(
-                                    "R\$ -${creditCard.statement}",
-                                    style: AppTheme.titleMoneyNegative,
-                                  )
+                                  creditCard.available < 0
+                                      ? Text(
+                                          "R\$ ${creditCard.available}",
+                                          style: AppTheme.titleMoneyNegative,
+                                        )
+                                      : Text(
+                                          "R\$ ${creditCard.available}",
+                                          style: AppTheme.title,
+                                        ),
+                                  creditCard.statement < 0
+                                      ? Text(
+                                          "R\$ -${creditCard.statement}",
+                                          style: AppTheme.titleMoneyNegative,
+                                        )
+                                      : Text(
+                                          "R\$ ${creditCard.statement}",
+                                          style: AppTheme.title,
+                                        )
                                 ],
                               ),
                               title: Row(

@@ -173,7 +173,7 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   }
 
   void showMenuOnLongPress(BuildContext context, tapPosition) {
-    Vibration.vibrate(duration: 20);
+    Vibration.vibrate(duration: 10);
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
     showMenu(
         context: context,

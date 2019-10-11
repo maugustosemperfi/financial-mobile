@@ -15,6 +15,7 @@ CreditCard _$CreditCardFromJson(Map<String, dynamic> json) {
   )
     ..limit = (json['limit'] as num)?.toDouble()
     ..statement = (json['statement'] as num)?.toDouble()
+    ..available = (json['available'] as num)?.toDouble()
     ..bank = json['bank'] == null
         ? null
         : Bank.fromJson(json['bank'] as Map<String, dynamic>)
@@ -31,6 +32,7 @@ Map<String, dynamic> _$CreditCardToJson(CreditCard instance) =>
       'cycleDay': instance.cycleDay,
       'dueDay': instance.dueDay,
       'statement': instance.statement,
+      'available': instance.available,
       'bank': instance.bank?.toJson(),
       'account': instance.account?.toJson(),
     };
