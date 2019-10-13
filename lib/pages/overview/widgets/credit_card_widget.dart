@@ -106,7 +106,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget> {
                                 style: AppTheme.title,
                               ),
                               title: Text(
-                                "Account name",
+                                "${creditCard.account.name}",
                                 style: AppTheme.caption,
                               ),
                             ),

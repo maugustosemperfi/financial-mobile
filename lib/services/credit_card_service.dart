@@ -22,4 +22,17 @@ class CreditCardService {
         .map((creditCard) => CreditCard.fromJson(creditCard))
         .toList();
   }
+
+  static getSimpleCreditCards({convertToJson = true}) async {
+    final simpleCreditCardsData =
+        await Application.dio.get('credit-cards/simple');
+
+    if (convertToJson) {
+      return (jsonDecode(simpleCreditCardsData.data) as List)
+          .map((simpleCreditCard) => CreditCard.fromJson(simpleCreditCard))
+          .toList();
+    }
+
+    return simpleCreditCardsData.data;
+  }
 }

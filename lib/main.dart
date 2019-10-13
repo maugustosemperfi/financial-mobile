@@ -55,7 +55,7 @@ void main() async {
   Application.authenticationToken = token;
 
   final dio = Dio(BaseOptions(
-    baseUrl: "http://192.168.0.54:3000/",
+    baseUrl: "http://192.168.0.56:3000/",
     connectTimeout: 5000,
     receiveTimeout: 100000,
     headers: {
