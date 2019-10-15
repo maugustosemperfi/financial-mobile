@@ -1,8 +1,10 @@
 import 'package:financial/application.dart';
 import 'package:financial/enum/enum_record_type.dart';
 import 'package:financial/model/account.dart';
+import 'package:financial/model/credit_card.dart';
 import 'package:financial/model/record.dart';
 import 'package:financial/services/accounts_data.dart';
+import 'package:financial/services/credit_card_data.dart';
 import 'package:financial/services/records_service.dart';
 import 'package:financial/styling.dart';
 import 'package:financial/widgets/dixty_text_form_field.dart';
@@ -24,6 +26,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
 
   DateTime selectedDate = DateTime.now();
   Account _simpleAccountSelected;
+  CreditCard _simpleCreditCard;
 
   MoneyMaskedTextController _controller = MoneyMaskedTextController(
     leftSymbol: '',
@@ -65,7 +68,18 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   _setAccountSelected(Account simpleAccount) {
     setState(() {
       _simpleAccountSelected = simpleAccount;
-      _simpleAccountController.text = "${simpleAccount.name}";
+      if (simpleAccount != null) {
+        _simpleAccountController.text = "${simpleAccount.name}";
+      }
+    });
+  }
+
+  _setCreditCardSelected(CreditCard creditCard) {
+    setState(() {
+      _simpleCreditCard = creditCard;
+      if (creditCard != null) {
+        _simpleAccountController.text = "${creditCard.name}";
+      }
     });
   }
 
@@ -81,6 +95,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     record.value = this.widget.balance;
     record.recordDate = this.selectedDate;
     record.type = widget.recordType;
+    record.creditCard = this._simpleCreditCard;
 
     await RecordsService.createRecord(record);
 
@@ -93,7 +108,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   }
 
   Future _selectAccount() async {
-    final accountSelected = await showDialog(
+    final paymentSelected = await showDialog(
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
@@ -126,6 +141,30 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
                       );
                     })).toList(),
               ),
+              ListTile(
+                title: Text("Credit Cards"),
+              ),
+              Wrap(
+                direction: Axis.horizontal,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
+                children: ListTile.divideTiles(
+                    context: context,
+                    tiles: CreditCardData.simpleCreditCards.map((creditCard) {
+                      return ListTile(
+                        title: Text(creditCard.name),
+                        leading: creditCard != null
+                            ? Image.network(
+                                creditCard.bank.iconUrl,
+                                height: 36,
+                              )
+                            : Container(),
+                        onTap: () {
+                          Navigator.pop(context, creditCard);
+                        },
+                      );
+                    })).toList(),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -141,8 +180,14 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
             ],
           );
         });
-    if (accountSelected != null) {
-      _setAccountSelected(accountSelected);
+    if (paymentSelected != null) {
+      if (paymentSelected is CreditCard) {
+        _setCreditCardSelected(paymentSelected);
+        _setAccountSelected(null);
+      } else {
+        _setCreditCardSelected(null);
+        _setAccountSelected(paymentSelected);
+      }
     }
   }
 
@@ -245,7 +290,9 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
                     children: <Widget>[
                       Container(
                         child: Image.network(
-                          _simpleAccountSelected.bank.iconUrl,
+                          _simpleAccountSelected != null
+                              ? _simpleAccountSelected.bank.iconUrl
+                              : _simpleCreditCard.bank.iconUrl,
                           height: 24,
                         ),
                         padding: EdgeInsets.only(right: 16),
