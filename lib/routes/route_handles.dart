@@ -2,6 +2,7 @@ import 'package:financial/create_record_page.dart';
 import 'package:financial/enum/enum_account_type.dart';
 import 'package:financial/enum/enum_record_type.dart';
 import 'package:financial/pages/add_account/add_account_page.dart';
+import 'package:financial/pages/add_credit_card/add_credit_card_page.dart';
 import 'package:financial/pages/home/home_page.dart';
 import 'package:financial/pages/login/login_page.dart';
 import 'package:financial/pages/sign_up/sign_up_page.dart';
@@ -35,4 +36,9 @@ var createRecordPageHandler = Handler(
   return CreateRecordPage(
       balance: double.parse(params["balance"][0]),
       recordType: EnumRecordType.values[int.parse(params["type"][0])]);
+});
+
+var addCreditCardPageHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return AddCreditCardPage();
 });

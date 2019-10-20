@@ -1,6 +1,8 @@
+import 'package:financial/application.dart';
 import 'package:financial/model/overview_credit_card.dart';
 import 'package:financial/services/credit_card_service.dart';
 import 'package:financial/styling.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
 class CreditCardWidget extends StatefulWidget {
@@ -23,6 +25,11 @@ class _CreditCardWidgetState extends State<CreditCardWidget> {
     setState(() {
       _overviewCreditCard = overviewCreditCard;
     });
+  }
+
+  _showAddCreditCardPage() {
+    Application.router.navigateTo(context, 'credit-card/add',
+        transition: TransitionType.cupertinoFullScreenDialog);
   }
 
   @override
@@ -69,7 +76,7 @@ class _CreditCardWidgetState extends State<CreditCardWidget> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 child: FlatButton(
-                  onPressed: () => {},
+                  onPressed: () => {_showAddCreditCardPage()},
                   textColor: AppTheme.nearlyWhite,
                   color: AppTheme.primary,
                   child: Text(
