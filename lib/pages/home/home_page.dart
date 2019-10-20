@@ -3,6 +3,7 @@ import 'package:financial/authentication/authentication.dart';
 import 'package:financial/authentication/authentication_bloc.dart';
 import 'package:financial/pages/add_record/add_record_page.dart';
 import 'package:financial/pages/overview/overview_page.dart';
+import 'package:financial/pages/transactions/transactions_page.dart';
 import 'package:financial/styling.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             OverviewPage(),
-            Container(),
+            TransactionsPage(),
             Container(
               child: RaisedButton(
                 color: AppTheme.green,
