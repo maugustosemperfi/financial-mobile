@@ -47,31 +47,38 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: Container(
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  tabBarItem(
-                      "OVERVIEW", Icons.pie_chart, _selectedIndex == 0, 0),
-                  tabBarItem(
-                      "ACCOUNTS", Icons.attach_money, _selectedIndex == 1, 1),
-                  tabBarItem(
-                      "BILLS", Icons.attach_money, _selectedIndex == 2, 2),
-                  tabBarItem(
-                      "REPORTS", Icons.insert_chart, _selectedIndex == 3, 3),
-                  tabBarItem(
-                      "SETTINGS", Icons.settings, _selectedIndex == 4, 4),
-                ],
-              ),
-            ],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          selectTab(index);
+        },
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            title: Text("Overview"),
+            icon: Icon(Icons.pie_chart),
+            backgroundColor: AppTheme.primary,
           ),
-        ),
-        backgroundColor: AppTheme.primary,
+          BottomNavigationBarItem(
+            icon: Icon(Icons.attach_money),
+            title: Text("Transactions"),
+            backgroundColor: AppTheme.primary,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.money_off),
+            title: Text("Bills"),
+            backgroundColor: AppTheme.primary,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.insert_chart),
+            title: Text("Reports"),
+            backgroundColor: AppTheme.primary,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            title: Text("Settings"),
+            backgroundColor: AppTheme.primary,
+          ),
+        ],
       ),
       body: BlocListener<AuthenticationBloc, AuthenticationState>(
         listener: (BuildContext context, state) {
@@ -85,6 +92,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             OverviewPage(),
+            Container(),
             Container(
               child: RaisedButton(
                 color: AppTheme.green,
@@ -93,9 +101,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 },
                 child: Text("Logout"),
               ),
-            ),
-            Container(
-              child: Text("Tab 3"),
             ),
             Container(
               child: Text("Tab 4"),
