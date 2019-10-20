@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:financial/pages/login/login.dart';
+import 'package:financial/pages/transactions/state/transactions_bloc.dart';
 import 'package:financial/splash_page.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
@@ -92,6 +93,9 @@ void main() async {
         builder: (context) => LoginBloc(
             authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
       ),
+      BlocProvider<TransactionsBloc>(
+        builder: (context) => TransactionsBloc(),
+      )
     ],
     child: FinancialApp(),
   ));
