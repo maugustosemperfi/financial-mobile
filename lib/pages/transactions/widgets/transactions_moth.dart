@@ -1,5 +1,6 @@
 import 'package:financial/styling.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionsMonthWidget extends StatefulWidget {
   @override
@@ -8,26 +9,65 @@ class TransactionsMonthWidget extends StatefulWidget {
 }
 
 class _TransactionsMonthWidgetState extends State<TransactionsMonthWidget> {
+  DateTime _selectedMonth;
+  final formatter = DateFormat("MMMM y");
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedMonth = DateTime.now();
+  }
+
+  _selectMonth(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: _selectedMonth,
+        firstDate: DateTime(1901),
+        lastDate: DateTime(2101),
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData.dark(),
+            child: child,
+          );
+        });
+    if (picked != null && picked != _selectedMonth) {
+      _setDate(picked);
+    }
+  }
+
+  _changeMonthByArrow(arrowValue) {
+    setState(() {
+      _selectedMonth = DateTime(_selectedMonth.year,
+          _selectedMonth.month + arrowValue, _selectedMonth.day);
+    });
+  }
+
+  _setDate(DateTime picked) {
+    setState(() {
+      _selectedMonth = picked;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         FlatButton(
           child: Icon(Icons.keyboard_arrow_left),
-          onPressed: () {},
+          onPressed: () => _changeMonthByArrow(-1),
         ),
         Expanded(
           child: FlatButton(
             child: Text(
-              "October 2019",
+              "${formatter.format(_selectedMonth)}",
               style: AppTheme.body1,
             ),
-            onPressed: () {},
+            onPressed: () => _selectMonth(context),
           ),
         ),
         FlatButton(
           child: Icon(Icons.keyboard_arrow_right),
-          onPressed: () {},
+          onPressed: () => _changeMonthByArrow(1),
         ),
       ],
     );
