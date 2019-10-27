@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:financial/pages/transactions/state/transactions_event.dart';
 import 'package:financial/pages/transactions/state/transactions_state.dart';
+import 'package:financial/services/records_service.dart';
 
 class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   @override
@@ -11,7 +12,9 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     TransactionsEvent event,
   ) async* {
     if (event is SearchRecords) {
-      print("Hey there, we are making a request for records");
+      final records =
+          await RecordsService.getTransactionsRecords(DateTime.now());
+      print(records);
     }
   }
 }

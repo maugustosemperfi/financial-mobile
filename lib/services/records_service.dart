@@ -5,4 +5,9 @@ class RecordsService {
   static createRecord(Record record) async {
     return await Application.dio.post('records', data: record);
   }
+
+  static getTransactionsRecords(DateTime dateTime) async {
+    return await Application.dio.get('records/transactions',
+        queryParameters: {"date": dateTime.toIso8601String()});
+  }
 }

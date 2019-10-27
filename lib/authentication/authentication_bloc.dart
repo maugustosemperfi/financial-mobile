@@ -47,6 +47,7 @@ class AuthenticationBloc
     if (event is LoggedIn) {
       yield AuthenticationLoading();
       await storage.write(key: "token", value: event.token);
+      Application.authenticationToken = event.token;
       final simpleAccountsJson = await AccountsService.getSimpleAccounts();
       final banksJson = await BankService.getAll();
       final creditCardsJson =
