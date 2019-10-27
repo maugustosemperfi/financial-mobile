@@ -9,6 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TransactionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<TransactionsBloc>(context)
+        .dispatch(SearchRecords(filter: ""));
+
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
         return Scaffold(
