@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:financial/model/record.dart';
 import 'package:meta/meta.dart';
 
 @immutable

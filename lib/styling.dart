@@ -82,7 +82,7 @@ class AppTheme {
     // h6 -> title
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w600,
-    fontSize: 14,
+    fontSize: 16,
     color: green,
   );
 

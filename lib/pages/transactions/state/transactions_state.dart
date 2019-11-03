@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:financial/model/record.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -21,6 +22,10 @@ class TransactionsLoading extends TransactionsState {
 }
 
 class TransactionsLoaded extends TransactionsState {
+  final List<Record> records;
+
+  TransactionsLoaded({this.records}) : super([records]);
+
   @override
   String toString() {
     return "TransactionsLoaded";

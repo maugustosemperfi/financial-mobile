@@ -2,6 +2,7 @@ import 'package:financial/pages/transactions/state/transactions_bloc.dart';
 import 'package:financial/pages/transactions/state/transactions_event.dart';
 import 'package:financial/pages/transactions/state/transactions_state.dart';
 import 'package:financial/pages/transactions/widgets/transactions_moth.dart';
+import 'package:financial/pages/transactions/widgets/transactions_records.dart';
 import 'package:financial/styling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,12 @@ class TransactionsPage extends StatelessWidget {
             title: Text("Transactions"),
           ),
           body: Column(
-            children: <Widget>[TransactionsMonthWidget()],
+            children: <Widget>[
+              TransactionsMonthWidget(),
+              Expanded(
+                child: TransactionsRecords(),
+              )
+            ],
           ),
         );
       },
