@@ -16,6 +16,7 @@ class Record {
   Account account;
   DateTime createdAt;
   DateTime recordDate;
+  DateTime recordDay;
   @JsonKey(nullable: true)
   CreditCard creditCard;
 

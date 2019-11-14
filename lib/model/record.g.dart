@@ -24,7 +24,9 @@ Record _$RecordFromJson(Map<String, dynamic> json) {
     creditCard: json['creditCard'] == null
         ? null
         : CreditCard.fromJson(json['creditCard'] as Map<String, dynamic>),
-  );
+  )..recordDay = json['recordDay'] == null
+      ? null
+      : DateTime.parse(json['recordDay'] as String);
 }
 
 Map<String, dynamic> _$RecordToJson(Record instance) => <String, dynamic>{
@@ -35,5 +37,6 @@ Map<String, dynamic> _$RecordToJson(Record instance) => <String, dynamic>{
       'account': instance.account?.toJson(),
       'createdAt': instance.createdAt?.toIso8601String(),
       'recordDate': instance.recordDate?.toIso8601String(),
+      'recordDay': instance.recordDay?.toIso8601String(),
       'creditCard': instance.creditCard?.toJson(),
     };

@@ -16,9 +16,18 @@ class TransactionsPage extends StatelessWidget {
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: AppTheme.nearlyWhite,
           appBar: AppBar(
             backgroundColor: AppTheme.primary,
             title: Text("Transactions"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.filter_list),
+                onPressed: () {
+
+                },
+              )
+            ],
           ),
           body: Column(
             children: <Widget>[

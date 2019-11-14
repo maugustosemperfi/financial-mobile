@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:financial/model/record.dart';
+import 'package:financial/model/record_group.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -22,7 +23,7 @@ class TransactionsLoading extends TransactionsState {
 }
 
 class TransactionsLoaded extends TransactionsState {
-  final List<Record> records;
+  final List<RecordGroup> records;
 
   TransactionsLoaded({this.records}) : super([records]);
 
