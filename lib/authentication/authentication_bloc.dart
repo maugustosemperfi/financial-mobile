@@ -57,7 +57,6 @@ class AuthenticationBloc
       await storage.write(key: "banks:all-banks", value: banksJson.data);
       await storage.write(
           key: "credit-cards:simple-credit-cards", value: creditCardsJson);
-      Application.authenticationToken = event.token;
       AccountsData.setSimpleAccounts(simpleAccountsJson.data);
       BanksData.setSimpleBanks(banksJson.data);
       CreditCardData.setSimpleCreditCards(creditCardsJson);
