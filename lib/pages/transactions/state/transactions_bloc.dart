@@ -13,8 +13,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
   ) async* {
     if (event is SearchRecords) {
       try {
-        final records =
-            await RecordsService.getTransactionsRecords(DateTime.now());
+        final records = await RecordsService.getTransactionsRecords(event.date);
 
         yield TransactionsLoaded(records: records);
       } catch (e) {}

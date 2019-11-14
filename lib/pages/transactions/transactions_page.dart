@@ -11,7 +11,7 @@ class TransactionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<TransactionsBloc>(context)
-        .dispatch(SearchRecords(filter: ""));
+        .dispatch(SearchRecords(date: DateTime.now()));
 
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
@@ -23,9 +23,7 @@ class TransactionsPage extends StatelessWidget {
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.filter_list),
-                onPressed: () {
-
-                },
+                onPressed: () {},
               )
             ],
           ),

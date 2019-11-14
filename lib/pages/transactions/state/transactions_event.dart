@@ -8,9 +8,9 @@ abstract class TransactionsEvent extends Equatable {
 }
 
 class SearchRecords extends TransactionsEvent {
-  final String filter;
+  final DateTime date;
 
-  SearchRecords({this.filter}) : super([filter]);
+  SearchRecords({this.date}) : super([date]);
 
   @override
   String toString() {
