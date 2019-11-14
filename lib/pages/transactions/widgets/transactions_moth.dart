@@ -44,13 +44,20 @@ class _TransactionsMonthWidgetState extends State<TransactionsMonthWidget> {
       _selectedMonth = DateTime(_selectedMonth.year,
           _selectedMonth.month + arrowValue, _selectedMonth.day);
     });
-    transactionsBloc.dispatch(SearchRecords(date: _selectedMonth));
+
+    searchRecords();
   }
 
   _setDate(DateTime picked) {
     setState(() {
       _selectedMonth = picked;
     });
+
+    searchRecords();
+  }
+
+  searchRecords() {
+    transactionsBloc.dispatch(SearchRecords(date: _selectedMonth));
   }
 
   @override
