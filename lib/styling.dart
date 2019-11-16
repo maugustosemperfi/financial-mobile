@@ -30,6 +30,9 @@ class AppTheme {
   static const Color chipBackground = Color(0xFFEEF1F3);
   static const Color spacer = Color(0xFFF2F2F2);
 
+  static const Color shimmerStart = Color(0xFFF1F2F3);
+  static const Color shimmerEnd = Color(0xFFdcdde0);
+
   static const TextTheme textTheme = TextTheme(
     display1: display1,
     headline: headline,

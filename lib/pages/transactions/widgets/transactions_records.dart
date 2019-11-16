@@ -7,6 +7,7 @@ import 'package:financial/styling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TransactionsRecords extends StatefulWidget {
   @override
@@ -15,29 +16,95 @@ class TransactionsRecords extends StatefulWidget {
 
 class _TransactionsRecordsState extends State<TransactionsRecords> {
   List<RecordGroup> _records = [];
+  bool loading;
   final formatter = new DateFormat.MMMMEEEEd();
 
   @override
   void initState() {
     super.initState();
+    loading = true;
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<TransactionsBloc, TransactionsState>(
       listener: (context, state) {
+        if (state is TransactionsLoading) {
+          setState(() {
+            loading = true;
+          });
+        }
         if (state is TransactionsLoaded) {
           setState(() {
+            loading = false;
             _records = state.records;
           });
         }
       },
-      child: ListView(
-        children: ListTile.divideTiles(
-                context: context, tiles: getListTiles(_records))
-            .toList(),
-      ),
+      child: loading
+          ? ListView(
+              children: <Widget>[
+                ...getParentShimmer(4),
+                ...getParentShimmer(2),
+                ...getParentShimmer(3),
+                ...getParentShimmer(1)
+              ],
+            )
+          : ListView(
+              children: ListTile.divideTiles(
+                      context: context, tiles: getListTiles(_records))
+                  .toList(),
+            ),
     );
+  }
+
+  getParentShimmer(children) {
+    List<Widget> shimmers = [];
+
+    shimmers.add(Shimmer.fromColors(
+      baseColor: AppTheme.shimmerStart,
+      highlightColor: AppTheme.shimmerEnd,
+      child: ListTile(
+        title: Row(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                color: AppTheme.shimmerStart,
+                height: 16,
+              ),
+            )
+          ],
+        ),
+      ),
+    ));
+
+    for (var i = 0; i < children; i++) {
+      shimmers.add(Shimmer.fromColors(
+        baseColor: AppTheme.shimmerStart,
+        highlightColor: AppTheme.shimmerEnd,
+        child: ListTile(
+          leading: CircleAvatar(
+            child: Container(
+              color: AppTheme.shimmerStart,
+              height: 24,
+              width: 24,
+            ),
+          ),
+          title: Row(
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  color: AppTheme.shimmerStart,
+                  height: 28,
+                ),
+              )
+            ],
+          ),
+        ),
+      ));
+    }
+
+    return shimmers;
   }
 
   getListTiles(List<RecordGroup> recordsGroup) {
