@@ -16,13 +16,23 @@ class TransactionsRecords extends StatefulWidget {
 
 class _TransactionsRecordsState extends State<TransactionsRecords> {
   List<RecordGroup> _records = [];
-  bool loading;
+  bool _loading;
   final formatter = new DateFormat.MMMMEEEEd();
+  final dayMonthYearFormatter = new DateFormat('dd/MM/yyyy');
 
   @override
   void initState() {
     super.initState();
-    loading = true;
+    _loading = true;
+  }
+
+  _showRecordsDetail(Record record) {
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: AppTheme.nearlyWhite,
+        builder: (BuildContext context) {
+          return buildBottomSheet(record);
+        });
   }
 
   @override
@@ -31,17 +41,17 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
       listener: (context, state) {
         if (state is TransactionsLoading) {
           setState(() {
-            loading = true;
+            _loading = true;
           });
         }
         if (state is TransactionsLoaded) {
           setState(() {
-            loading = false;
+            _loading = false;
             _records = state.records;
           });
         }
       },
-      child: loading
+      child: _loading
           ? ListView(
               children: <Widget>[
                 ...getParentShimmer(4),
@@ -128,6 +138,9 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
 
   getRecordListTile(Record record) {
     return ListTile(
+      onTap: () {
+        _showRecordsDetail(record);
+      },
       leading: Icon(Icons.drafts),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,6 +173,136 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
                 : record.account.name,
             style: AppTheme.caption,
           )
+        ],
+      ),
+    );
+  }
+
+  buildBottomSheet(Record record) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(
+              top: 32,
+              bottom: 16,
+            ),
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Container(
+                      child: CircleAvatar(
+                        backgroundColor: AppTheme.green,
+                        radius: 24,
+                        child: Icon(
+                          Icons.attach_money,
+                          color: AppTheme.nearlyWhite,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                CircleAvatar(
+                  radius: 32,
+                  child: Icon(
+                    Icons.drafts,
+                    size: 32,
+                  ),
+                ),
+                CircleAvatar(
+                  backgroundColor: AppTheme.whiteGrey,
+                  radius: 24,
+                  child: Icon(
+                    Icons.edit,
+                    color: AppTheme.mediumGrey,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            child: Text(
+              record.description,
+              textAlign: TextAlign.center,
+              style: AppTheme.headlineBlack,
+            ),
+          ),
+          Container(
+            child: Text(
+              'R\$ ${record.value}',
+              textAlign: TextAlign.center,
+              style: AppTheme.headlineGrey,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            child: Row(
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Date",
+                      style: AppTheme.caption,
+                    ),
+                    Text(
+                      dayMonthYearFormatter.format(record.recordDate),
+                      style: AppTheme.captionBold,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            child: Row(
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      record.account != null ? "Account" : "Credit card",
+                      style: AppTheme.caption,
+                    ),
+                    Text(
+                      record.account != null
+                          ? record.account.name
+                          : record.creditCard.name,
+                      style: AppTheme.captionBold,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            child: Row(
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Category",
+                      style: AppTheme.caption,
+                    ),
+                    Text(
+                      "Does not have anyone",
+                      style: AppTheme.captionBold,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

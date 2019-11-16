@@ -13,7 +13,8 @@ class AppTheme {
   static const Color nearlyWhite = Color(0xFFFEFEFE);
   static const Color nearlyBlack = Color(0xFF213333);
   static const Color grey = Color(0xFFAAAAAA);
-  static const Color dark_grey = Color(0xFF313A44);
+  static const Color darkGrey = Color(0xFF555555);
+  static const Color mediumGrey = Color(0xFF888888);
   static const Color whiteGrey = Color(0xFFdfdfdf);
   static const Color green = Color(0xFF08CC6A);
   static const Color red = Color(0xFFFF734C);
@@ -32,6 +33,9 @@ class AppTheme {
 
   static const Color shimmerStart = Color(0xFFF1F2F3);
   static const Color shimmerEnd = Color(0xFFdcdde0);
+
+  @Deprecated("Use darkGrey instead")
+  static const Color dark_grey = Color(0xFF888888);
 
   static const TextTheme textTheme = TextTheme(
     display1: display1,
@@ -70,6 +74,22 @@ class AppTheme {
     fontSize: 24,
     letterSpacing: 0.27,
     color: primary,
+  );
+
+  static const TextStyle headlineBlack = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    letterSpacing: 0.27,
+    color: darkGrey,
+  );
+
+  static const TextStyle headlineGrey = TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    letterSpacing: 0.27,
+    color: mediumGrey,
   );
 
   static const TextStyle headlineLight = TextStyle(
