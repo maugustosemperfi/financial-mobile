@@ -1,30 +1,36 @@
 import 'package:financial/application.dart';
 import 'package:financial/enum/enum_record_type.dart';
-import 'package:financial/model/email_model.dart';
+import 'package:financial/model/record.dart';
 import 'package:financial/styling.dart';
 import 'package:financial/transition/fab_fill_transition.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:provider/provider.dart';
 
 class AddRecordPage extends StatefulWidget {
-  const AddRecordPage({Key key, @required this.sourceRect})
+  const AddRecordPage(
+      {Key key, @required this.sourceRect, this.editing = false, this.record})
       : assert(sourceRect != null),
         super(key: key);
 
-  static Route<dynamic> route(BuildContext context, GlobalKey key) {
+  static Route<dynamic> route(BuildContext context, GlobalKey key,
+      [bool editing, Record record]) {
     final RenderBox box = key.currentContext.findRenderObject();
     final Rect sourceRect = box.localToGlobal(Offset.zero) & box.size;
 
     return PageRouteBuilder<void>(
-      pageBuilder: (BuildContext context, _, __) =>
-          AddRecordPage(sourceRect: sourceRect),
+      pageBuilder: (BuildContext context, _, __) => AddRecordPage(
+        sourceRect: sourceRect,
+        editing: editing,
+        record: record,
+      ),
       transitionDuration: const Duration(milliseconds: 350),
     );
   }
 
   final Rect sourceRect;
+  final bool editing;
+  final Record record;
 
   @override
   _AddRecordPageState createState() => _AddRecordPageState();
@@ -32,7 +38,7 @@ class AddRecordPage extends StatefulWidget {
 
 class _AddRecordPageState extends State<AddRecordPage> {
   EnumRecordType _recordType = EnumRecordType.income;
-  MoneyMaskedTextController _controller = new MoneyMaskedTextController(
+  MoneyMaskedTextController _controller = MoneyMaskedTextController(
     leftSymbol: '',
     decimalSeparator: ',',
     thousandSeparator: '.',
@@ -40,6 +46,15 @@ class _AddRecordPageState extends State<AddRecordPage> {
   );
 
   // final GlobalKey _fabKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.record != null) {
+      _setRecordType(widget.record.type);
+      _controller.updateValue(widget.record.value);
+    }
+  }
 
   _setRecordType(EnumRecordType recordType) {
     setState(() {
@@ -49,12 +64,10 @@ class _AddRecordPageState extends State<AddRecordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final EmailModel emailModel = Provider.of<EmailModel>(context);
-    String fabIcon = 'assets/images/ic_edit.png';
+    String fabIcon = 'assets/images/ic_add.png';
 
-    if (emailModel.currentlySelectedEmailId >= 0) {
-      // We reply to an email, so let's change the icon during the transition
-      fabIcon = 'assets/images/ic_reply.png';
+    if (widget.editing) {
+      fabIcon = 'assets/images/ic_edit.png';
     }
 
     return FabFillTransition(
@@ -100,11 +113,6 @@ class _AddRecordPageState extends State<AddRecordPage> {
   Widget get _moneyIndicator {
     return Stack(
       children: <Widget>[
-        Positioned(
-          top: 0,
-          left: 0,
-          child: Text("AHHHHHH"),
-        ),
         Container(
           padding: EdgeInsets.only(top: 60, bottom: 30),
           color: _recordType == EnumRecordType.income

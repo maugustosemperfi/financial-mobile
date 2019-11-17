@@ -1,5 +1,6 @@
 import 'package:financial/model/record.dart';
 import 'package:financial/model/record_group.dart';
+import 'package:financial/pages/add_record/add_record_page.dart';
 import 'package:financial/pages/transactions/state/transactions_bloc.dart';
 import 'package:financial/pages/transactions/state/transactions_event.dart';
 import 'package:financial/pages/transactions/state/transactions_state.dart';
@@ -17,8 +18,9 @@ class TransactionsRecords extends StatefulWidget {
 class _TransactionsRecordsState extends State<TransactionsRecords> {
   List<RecordGroup> _records = [];
   bool _loading;
-  final formatter = new DateFormat.MMMMEEEEd();
-  final dayMonthYearFormatter = new DateFormat('dd/MM/yyyy');
+  final formatter = DateFormat.MMMMEEEEd();
+  final dayMonthYearFormatter = DateFormat('dd/MM/yyyy');
+  final _editButtonKey = GlobalKey();
 
   @override
   void initState() {
@@ -33,6 +35,11 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
         builder: (BuildContext context) {
           return buildBottomSheet(record);
         });
+  }
+
+  _navigateToAddRecordPage(Record record) {
+    Navigator.of(context)
+        .push(AddRecordPage.route(context, _editButtonKey, true, record));
   }
 
   @override
@@ -216,14 +223,20 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
                     size: 32,
                   ),
                 ),
-                CircleAvatar(
-                  backgroundColor: AppTheme.whiteGrey,
-                  radius: 24,
-                  child: Icon(
-                    Icons.edit,
-                    color: AppTheme.mediumGrey,
+                GestureDetector(
+                  key: _editButtonKey,
+                  onTap: () {
+                    _navigateToAddRecordPage(record);
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: AppTheme.whiteGrey,
+                    radius: 24,
+                    child: Icon(
+                      Icons.edit,
+                      color: AppTheme.mediumGrey,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),

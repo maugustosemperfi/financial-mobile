@@ -286,7 +286,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       backgroundColor: AppTheme.warn,
       onPressed: () => Navigator.of(context).push<void>(
-        AddRecordPage.route(context, _fabKey),
+        AddRecordPage.route(context, _fabKey, false),
       ),
     );
   }
