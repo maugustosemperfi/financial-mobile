@@ -1,3 +1,4 @@
+import 'package:financial/model/category.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
@@ -27,5 +28,16 @@ class LoggedOut extends AuthenticationEvent {
   @override
   String toString() {
     return "LoggedOut";
+  }
+}
+
+class LoadedBasicItems extends AuthenticationEvent {
+  final List<Category> categories;
+
+  LoadedBasicItems({@required this.categories}) : super([categories]);
+
+  @override
+  String toString() {
+    return "LoadedBasicItems";
   }
 }

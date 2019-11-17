@@ -1,6 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:financial/model/category.dart';
+import 'package:meta/meta.dart';
 
-abstract class AuthenticationState extends Equatable {}
+abstract class AuthenticationState extends Equatable {
+  AuthenticationState([List props = const <dynamic>[]]) : super(props);
+}
 
 class AuthenticationUnitialized extends AuthenticationState {
   @override
@@ -8,6 +12,11 @@ class AuthenticationUnitialized extends AuthenticationState {
 }
 
 class AuthenticationAuthenticated extends AuthenticationState {
+  final List<Category> categories;
+
+  AuthenticationAuthenticated({@required this.categories})
+      : super([categories]);
+
   @override
   String toString() => 'AuthenticationUnitialized';
 }

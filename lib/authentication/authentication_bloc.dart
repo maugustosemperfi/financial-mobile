@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:financial/application.dart';
 import 'package:financial/authentication/authentication_event.dart';
 import 'package:financial/authentication/authentication_state.dart';
+import 'package:financial/model/category.dart';
+import 'package:financial/model/category.dart' as mycategory;
 import 'package:financial/services/accounts_data.dart';
 import 'package:financial/services/accounts_service.dart';
 import 'package:financial/services/banks.service.dart';
 import 'package:financial/services/banks_data.dart';
+import 'package:financial/services/categories_service.dart';
 import 'package:financial/services/credit_card_data.dart';
 import 'package:financial/services/credit_card_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -38,7 +43,7 @@ class AuthenticationBloc
         BanksData.setSimpleBanks(banksJson);
         CreditCardData.setSimpleCreditCards(simpleCreditCardsJson);
 
-        yield AuthenticationAuthenticated();
+        yield AuthenticationAuthenticated(categories: await getCategories());
       } else {
         yield AuthenticationUnauthenticated();
       }
@@ -57,10 +62,11 @@ class AuthenticationBloc
       await storage.write(key: "banks:all-banks", value: banksJson.data);
       await storage.write(
           key: "credit-cards:simple-credit-cards", value: creditCardsJson);
+      setStorageCategories();
       AccountsData.setSimpleAccounts(simpleAccountsJson.data);
       BanksData.setSimpleBanks(banksJson.data);
       CreditCardData.setSimpleCreditCards(creditCardsJson);
-      yield AuthenticationAuthenticated();
+      yield AuthenticationAuthenticated(categories: await getCategories());
     }
 
     if (event is LoggedOut) {
@@ -68,5 +74,26 @@ class AuthenticationBloc
       await storage.delete(key: "token");
       yield AuthenticationUnauthenticated();
     }
+  }
+
+  setStorageCategories() async {
+    final categoriesJson = await CategoriesService.getCategoriesJson();
+
+    await storage.write(
+        key: "categories:all-categories", value: categoriesJson);
+  }
+
+  Future<List<Category>> getCategories() async {
+    final categoriesJson = await storage.read(key: "categories:all-categories");
+
+    if (categoriesJson != null) {
+      final List<Category> categories = (jsonDecode(categoriesJson) as List)
+          .map((category) => Category.fromJson(category))
+          .toList();
+
+      return categories;
+    }
+
+    return null;
   }
 }
