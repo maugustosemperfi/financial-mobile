@@ -27,6 +27,7 @@ dependencies:
   build_runner: ^1.7.0
   vibration: ^1.2.1
   shimmer: ^1.0.1
+  material_design_icons_flutter: ^3.3.4595
   intl: ^0.16.0
 
 dev_dependencies:

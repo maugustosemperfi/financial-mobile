@@ -1,6 +1,8 @@
 import 'package:financial/application.dart';
+import 'package:financial/authentication/authentication.dart';
 import 'package:financial/enum/enum_record_type.dart';
 import 'package:financial/model/account.dart';
+import 'package:financial/model/category.dart';
 import 'package:financial/model/credit_card.dart';
 import 'package:financial/model/record.dart';
 import 'package:financial/services/accounts_data.dart';
@@ -9,7 +11,9 @@ import 'package:financial/services/records_service.dart';
 import 'package:financial/styling.dart';
 import 'package:financial/widgets/dixty_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CreateRecordPage extends StatefulWidget {
   final double balance;
@@ -23,6 +27,8 @@ class CreateRecordPage extends StatefulWidget {
 
 class _CreateRecordPageState extends State<CreateRecordPage> {
   final createRecordForm = GlobalKey<FormState>();
+
+  AuthenticationBloc _authenticationBloc;
 
   DateTime selectedDate = DateTime.now();
   Account _simpleAccountSelected;
@@ -111,74 +117,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     final paymentSelected = await showDialog(
         context: context,
         builder: (BuildContext context) {
-          return SimpleDialog(
-            title: Text(
-              "Select account",
-              style: AppTheme.headlineLight,
-            ),
-            children: <Widget>[
-              ListTile(
-                title: Text("Accounts"),
-              ),
-              Wrap(
-                direction: Axis.horizontal,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                alignment: WrapAlignment.center,
-                children: ListTile.divideTiles(
-                    context: context,
-                    tiles: AccountsData.simpleAccounts.map((simpleAccount) {
-                      return ListTile(
-                        title: Text(simpleAccount.name),
-                        leading: simpleAccount != null
-                            ? Image.network(
-                                simpleAccount.bank.iconUrl,
-                                height: 36,
-                              )
-                            : Container(),
-                        onTap: () {
-                          Navigator.pop(context, simpleAccount);
-                        },
-                      );
-                    })).toList(),
-              ),
-              ListTile(
-                title: Text("Credit Cards"),
-              ),
-              Wrap(
-                direction: Axis.horizontal,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                alignment: WrapAlignment.center,
-                children: ListTile.divideTiles(
-                    context: context,
-                    tiles: CreditCardData.simpleCreditCards.map((creditCard) {
-                      return ListTile(
-                        title: Text(creditCard.name),
-                        leading: creditCard != null
-                            ? Image.network(
-                                creditCard.bank.iconUrl,
-                                height: 36,
-                              )
-                            : Container(),
-                        onTap: () {
-                          Navigator.pop(context, creditCard);
-                        },
-                      );
-                    })).toList(),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.pop(context, null);
-                    },
-                    textColor: AppTheme.primary,
-                    child: Text("CANCEL"),
-                  )
-                ],
-              )
-            ],
-          );
+          return selectAccountDialog;
         });
     if (paymentSelected != null) {
       if (paymentSelected is CreditCard) {
@@ -191,8 +130,17 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     }
   }
 
+  Future _selectCategory() async {
+    final paymentSelected = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return selectCategoryDialog;
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
+    _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: null,
@@ -308,8 +256,33 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
                 ],
               ),
             ),
-            DixtyTextFormFieldWiget(
-              decorationIcon: Icon(Icons.devices_other),
+            InkWell(
+              onTap: () {
+                _selectCategory();
+              },
+              child: Row(
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(right: 16),
+                        child: CircleAvatar(
+                          child: Icon(Icons.list),
+                          radius: 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: DixtyTextFormFieldWiget(
+                      decorationIcon: Icon(Icons.devices_other),
+                      enabled: false,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -332,6 +305,103 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
           onPressed: () {
             _createRecord();
           },
+        )
+      ],
+    );
+  }
+
+  SimpleDialog get selectCategoryDialog {
+    List<Category> categories = _authenticationBloc.currentState.props[0];
+
+    return SimpleDialog(
+      title: Text(
+        "Categorias",
+        style: AppTheme.headlineLight,
+      ),
+      children: ListTile.divideTiles(
+          context: context,
+          tiles: categories.map((category) {
+            print(category.iconName);
+            return ListTile(
+              title: Text(category.description),
+              leading: CircleAvatar(
+                child: Icon(
+                  MdiIcons.fromString(category.iconName),
+                  color: AppTheme.nearlyWhite,
+                ),
+                backgroundColor: Color(int.parse(category.iconColor)),
+              ),
+            );
+          })).toList(),
+    );
+  }
+
+  SimpleDialog get selectAccountDialog {
+    return SimpleDialog(
+      title: Text(
+        "Select account",
+        style: AppTheme.headlineLight,
+      ),
+      children: <Widget>[
+        ListTile(
+          title: Text("Accounts"),
+        ),
+        Wrap(
+          direction: Axis.horizontal,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: WrapAlignment.center,
+          children: ListTile.divideTiles(
+              context: context,
+              tiles: AccountsData.simpleAccounts.map((simpleAccount) {
+                return ListTile(
+                  title: Text(simpleAccount.name),
+                  leading: simpleAccount != null
+                      ? Image.network(
+                          simpleAccount.bank.iconUrl,
+                          height: 36,
+                        )
+                      : Container(),
+                  onTap: () {
+                    Navigator.pop(context, simpleAccount);
+                  },
+                );
+              })).toList(),
+        ),
+        ListTile(
+          title: Text("Credit Cards"),
+        ),
+        Wrap(
+          direction: Axis.horizontal,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: WrapAlignment.center,
+          children: ListTile.divideTiles(
+              context: context,
+              tiles: CreditCardData.simpleCreditCards.map((creditCard) {
+                return ListTile(
+                  title: Text(creditCard.name),
+                  leading: creditCard != null
+                      ? Image.network(
+                          creditCard.bank.iconUrl,
+                          height: 36,
+                        )
+                      : Container(),
+                  onTap: () {
+                    Navigator.pop(context, creditCard);
+                  },
+                );
+              })).toList(),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.pop(context, null);
+              },
+              textColor: AppTheme.primary,
+              child: Text("CANCEL"),
+            )
+          ],
         )
       ],
     );
