@@ -33,6 +33,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   DateTime selectedDate = DateTime.now();
   Account _simpleAccountSelected;
   CreditCard _simpleCreditCard;
+  Category _selectedCategory;
 
   MoneyMaskedTextController _controller = MoneyMaskedTextController(
     leftSymbol: '',
@@ -44,6 +45,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   TextEditingController _dateController = TextEditingController();
   TextEditingController _simpleAccountController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _categoryController = TextEditingController();
 
   @override
   void initState() {
@@ -102,6 +104,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
     record.recordDate = this.selectedDate;
     record.type = widget.recordType;
     record.creditCard = this._simpleCreditCard;
+    record.category = this._selectedCategory;
 
     await RecordsService.createRecord(record);
 
@@ -131,11 +134,18 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   }
 
   Future _selectCategory() async {
-    final paymentSelected = await showDialog(
+    final Category category = await showDialog(
         context: context,
         builder: (BuildContext context) {
           return selectCategoryDialog;
         });
+
+    if (category != null) {
+      setState(() {
+        _categoryController.text = category.description;
+        _selectedCategory = category;
+      });
+    }
   }
 
   @override
@@ -222,7 +232,10 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
               ],
             ),
             DixtyTextFormFieldWiget(
-              decorationIcon: Icon(Icons.description),
+              decorationIcon: Icon(
+                Icons.description,
+                color: AppTheme.grey,
+              ),
               hintText: "Description",
               controller: _descriptionController,
             ),
@@ -266,18 +279,27 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(right: 16),
-                        child: CircleAvatar(
-                          child: Icon(Icons.list),
-                          radius: 24,
-                        ),
-                      ),
+                      _selectedCategory != null
+                          ? Container(
+                              padding: EdgeInsets.only(right: 16),
+                              child: CircleAvatar(
+                                radius: 12,
+                                backgroundColor: Color(
+                                    int.parse(_selectedCategory.iconColor)),
+                                child: Icon(
+                                  MdiIcons.fromString(
+                                      _selectedCategory.iconName),
+                                  size: 12,
+                                  color: AppTheme.nearlyWhite,
+                                ),
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
                   Expanded(
                     child: DixtyTextFormFieldWiget(
-                      decorationIcon: Icon(Icons.devices_other),
+                      controller: _categoryController,
                       enabled: false,
                     ),
                   ),
@@ -321,9 +343,11 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
       children: ListTile.divideTiles(
           context: context,
           tiles: categories.map((category) {
-            print(category.iconName);
             return ListTile(
               title: Text(category.description),
+              onTap: () {
+                Navigator.pop(context, category);
+              },
               leading: CircleAvatar(
                 child: Icon(
                   MdiIcons.fromString(category.iconName),

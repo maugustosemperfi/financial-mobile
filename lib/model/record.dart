@@ -1,5 +1,6 @@
 import 'package:financial/enum/enum_record_type.dart';
 import 'package:financial/model/account.dart';
+import 'package:financial/model/category.dart';
 import 'package:financial/model/credit_card.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -19,17 +20,18 @@ class Record {
   DateTime recordDay;
   @JsonKey(nullable: true)
   CreditCard creditCard;
+  Category category;
 
-  Record({
-    this.id,
-    this.description,
-    this.value,
-    this.type,
-    this.account,
-    this.recordDate,
-    this.createdAt,
-    this.creditCard,
-  });
+  Record(
+      {this.id,
+      this.description,
+      this.value,
+      this.type,
+      this.account,
+      this.recordDate,
+      this.createdAt,
+      this.creditCard,
+      this.category});
 
   factory Record.fromJson(Map<String, dynamic> json) => _$RecordFromJson(json);
   Map<String, dynamic> toJson() => _$RecordToJson(this);
