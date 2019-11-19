@@ -9,11 +9,11 @@ class Category {
   String description;
   String iconName;
   String iconColor;
-  @JsonKey(fromJson: _intToEnum, toJson: _intFromEnum)
+  @JsonKey(fromJson: _intToEnum, toJson: _intFromEnum, nullable: true)
   EnumRecordType type;
 
   Category(
-      this.id, this.description, this.iconName, this.iconColor, this.type);
+      {this.id, this.description, this.iconName, this.iconColor, this.type});
 
   factory Category.fromJson(Map<String, dynamic> json) =>
       _$CategoryFromJson(json);

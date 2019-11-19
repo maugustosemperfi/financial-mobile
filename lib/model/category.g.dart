@@ -8,11 +8,11 @@ part of 'category.dart';
 
 Category _$CategoryFromJson(Map<String, dynamic> json) {
   return Category(
-    json['id'] as int,
-    json['description'] as String,
-    json['iconName'] as String,
-    json['iconColor'] as String,
-    Category._intToEnum(json['type'] as int),
+    id: json['id'] as int,
+    description: json['description'] as String,
+    iconName: json['iconName'] as String,
+    iconColor: json['iconColor'] as String,
+    type: Category._intToEnum(json['type'] as int),
   );
 }
 

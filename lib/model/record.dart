@@ -20,6 +20,7 @@ class Record {
   DateTime recordDay;
   @JsonKey(nullable: true)
   CreditCard creditCard;
+  @JsonKey()
   Category category;
 
   Record(

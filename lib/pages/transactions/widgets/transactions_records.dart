@@ -8,6 +8,7 @@ import 'package:financial/styling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TransactionsRecords extends StatefulWidget {
@@ -148,7 +149,13 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
       onTap: () {
         _showRecordsDetail(record);
       },
-      leading: Icon(Icons.drafts),
+      leading: CircleAvatar(
+        backgroundColor: Color(int.parse(record.category.iconColor)),
+        child: Icon(
+          MdiIcons.fromString(record.category.iconName),
+          color: AppTheme.nearlyWhite,
+        ),
+      ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -218,8 +225,10 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
                 ),
                 CircleAvatar(
                   radius: 32,
+                  backgroundColor: Color(int.parse(record.category.iconColor)),
                   child: Icon(
-                    Icons.drafts,
+                    MdiIcons.fromString(record.category.iconName),
+                    color: AppTheme.nearlyWhite,
                     size: 32,
                   ),
                 ),
@@ -308,7 +317,7 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
                       style: AppTheme.caption,
                     ),
                     Text(
-                      "Does not have anyone",
+                      record.category.description,
                       style: AppTheme.captionBold,
                     )
                   ],
