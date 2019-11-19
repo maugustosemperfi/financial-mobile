@@ -13,9 +13,11 @@ class AuthenticationUnitialized extends AuthenticationState {
 
 class AuthenticationAuthenticated extends AuthenticationState {
   final List<Category> categories;
+  final Category defaultCategory;
 
-  AuthenticationAuthenticated({@required this.categories})
-      : super([categories]);
+  AuthenticationAuthenticated(
+      {@required this.categories, @required this.defaultCategory})
+      : super([categories, defaultCategory]);
 
   @override
   String toString() => 'AuthenticationUnitialized';

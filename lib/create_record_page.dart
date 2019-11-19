@@ -141,16 +141,26 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
         });
 
     if (category != null) {
-      setState(() {
-        _categoryController.text = category.description;
-        _selectedCategory = category;
-      });
+      _setSelectedCategory(category);
     }
+  }
+
+  _setSelectedCategory(Category category) {
+    setState(() {
+      _categoryController.text = category.description;
+      _selectedCategory = category;
+    });
+  }
+
+  _initDefaultCategory() {
+    _setSelectedCategory(_authenticationBloc.currentState.props[1]);
   }
 
   @override
   Widget build(BuildContext context) {
     _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+    _initDefaultCategory();
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: null,

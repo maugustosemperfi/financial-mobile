@@ -11,6 +11,7 @@ class Category {
   String iconColor;
   @JsonKey(fromJson: _intToEnum, toJson: _intFromEnum, nullable: true)
   EnumRecordType type;
+  bool defaultCategory;
 
   Category(
       {this.id, this.description, this.iconName, this.iconColor, this.type});

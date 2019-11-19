@@ -13,7 +13,7 @@ Category _$CategoryFromJson(Map<String, dynamic> json) {
     iconName: json['iconName'] as String,
     iconColor: json['iconColor'] as String,
     type: Category._intToEnum(json['type'] as int),
-  );
+  )..defaultCategory = json['defaultCategory'] as bool;
 }
 
 Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
@@ -22,4 +22,5 @@ Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'iconName': instance.iconName,
       'iconColor': instance.iconColor,
       'type': Category._intFromEnum(instance.type),
+      'defaultCategory': instance.defaultCategory,
     };

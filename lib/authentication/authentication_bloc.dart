@@ -5,7 +5,6 @@ import 'package:financial/application.dart';
 import 'package:financial/authentication/authentication_event.dart';
 import 'package:financial/authentication/authentication_state.dart';
 import 'package:financial/model/category.dart';
-import 'package:financial/model/category.dart' as mycategory;
 import 'package:financial/services/accounts_data.dart';
 import 'package:financial/services/accounts_service.dart';
 import 'package:financial/services/banks.service.dart';
@@ -43,7 +42,11 @@ class AuthenticationBloc
         BanksData.setSimpleBanks(banksJson);
         CreditCardData.setSimpleCreditCards(simpleCreditCardsJson);
 
-        yield AuthenticationAuthenticated(categories: await getCategories());
+        final List<Category> categories = await getCategories();
+        final Category defaultCategory = getDefaultCategory(categories);
+
+        yield AuthenticationAuthenticated(
+            categories: categories, defaultCategory: defaultCategory);
       } else {
         yield AuthenticationUnauthenticated();
       }
@@ -66,7 +69,12 @@ class AuthenticationBloc
       AccountsData.setSimpleAccounts(simpleAccountsJson.data);
       BanksData.setSimpleBanks(banksJson.data);
       CreditCardData.setSimpleCreditCards(creditCardsJson);
-      yield AuthenticationAuthenticated(categories: await getCategories());
+
+      final List<Category> categories = await getCategories();
+      final Category defaultCategory = getDefaultCategory(categories);
+
+      yield AuthenticationAuthenticated(
+          categories: categories, defaultCategory: defaultCategory);
     }
 
     if (event is LoggedOut) {
@@ -92,6 +100,18 @@ class AuthenticationBloc
           .toList();
 
       return categories;
+    }
+
+    return null;
+  }
+
+  getDefaultCategory(List<Category> categories) {
+    final List<Category> defaultCategory = categories.where((category) {
+      return category.defaultCategory;
+    }).toList();
+
+    if (defaultCategory.length > 0) {
+      return defaultCategory[0];
     }
 
     return null;
