@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             OverviewPage(),
-            TransactionsExecuteBloc(),
+            TransactionsPage(),
             // Container(),
             Container(
               child: RaisedButton(
