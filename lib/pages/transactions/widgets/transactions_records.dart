@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TransactionsRecords extends StatefulWidget {
@@ -19,6 +20,9 @@ class TransactionsRecords extends StatefulWidget {
 class _TransactionsRecordsState extends State<TransactionsRecords> {
   List<RecordGroup> _records = [];
   bool _loading;
+  TransactionsBloc _transactionsBloc;
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   final formatter = DateFormat.MMMMEEEEd();
   final dayMonthYearFormatter = DateFormat('dd/MM/yyyy');
   final _editButtonKey = GlobalKey();
@@ -43,8 +47,13 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
         .push(AddRecordPage.route(context, _editButtonKey, true, record));
   }
 
+  void _onRefresh() async {
+    _transactionsBloc.dispatch(SearchRecords(date: DateTime.now()));
+  }
+
   @override
   Widget build(BuildContext context) {
+    _transactionsBloc = BlocProvider.of<TransactionsBloc>(context);
     return BlocListener<TransactionsBloc, TransactionsState>(
       listener: (context, state) {
         if (state is TransactionsLoading) {
@@ -56,23 +65,35 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
           setState(() {
             _loading = false;
             _records = state.records;
+            _refreshController.refreshCompleted();
           });
         }
       },
-      child: _loading
-          ? ListView(
-              children: <Widget>[
-                ...getParentShimmer(4),
-                ...getParentShimmer(2),
-                ...getParentShimmer(3),
-                ...getParentShimmer(1)
-              ],
-            )
-          : ListView(
-              children: ListTile.divideTiles(
-                      context: context, tiles: getListTiles(_records))
-                  .toList(),
-            ),
+      child: SmartRefresher(
+        enablePullUp: false,
+        enableTwoLevel: false,
+        enablePullDown: true,
+        header: MaterialClassicHeader(
+          backgroundColor: AppTheme.nearlyWhite,
+          color: AppTheme.green,
+        ),
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        child: _loading
+            ? ListView(
+                children: <Widget>[
+                  ...getParentShimmer(4),
+                  ...getParentShimmer(2),
+                  ...getParentShimmer(3),
+                  ...getParentShimmer(1)
+                ],
+              )
+            : ListView(
+                children: ListTile.divideTiles(
+                        context: context, tiles: getListTiles(_records))
+                    .toList(),
+              ),
+      ),
     );
   }
 
