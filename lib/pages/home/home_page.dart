@@ -93,7 +93,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             OverviewPage(),
-            TransactionsPage(),
+            TransactionsExecuteBloc(),
+            // Container(),
             Container(
               child: RaisedButton(
                 color: AppTheme.green,
@@ -107,7 +108,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               child: Text("Tab 4"),
             ),
             Container(
-              child: Text("Tab 5"),
+              child: SafeArea(
+                child: Text("Tab 5"),
+              ),
             ),
           ],
         ),

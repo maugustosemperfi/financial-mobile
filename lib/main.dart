@@ -93,9 +93,6 @@ void main() async {
         builder: (context) => LoginBloc(
             authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
       ),
-      BlocProvider<TransactionsBloc>(
-        builder: (context) => TransactionsBloc(),
-      )
     ],
     child: FinancialApp(),
   ));

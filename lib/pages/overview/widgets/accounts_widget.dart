@@ -17,28 +17,14 @@ class AccountsWidget extends StatefulWidget {
 }
 
 class _AccountsWidgetState extends State<AccountsWidget> {
-  // List<Account> _accounts = [];
   OverviewAccount _overviewAccount;
   var tapPosition;
 
   @override
   void initState() {
     super.initState();
-    // _getAccounts();
     _getAccountsOverview();
   }
-
-  // _getAccounts() async {
-  //   // final accountsResponse = await Application.dio.get('accounts');
-
-  //   // final List<Account> accounts = (jsonDecode(accountsResponse.data) as List)
-  //   //     .map((account) => Account.fromJson(account))
-  //   //     .toList();
-
-  //   // setState(() {
-  //   //   this._accounts = accounts;
-  //   // });
-  // }
 
   _getAccountsOverview() async {
     final overviewAccountJson = await AccountsService.getOverview();

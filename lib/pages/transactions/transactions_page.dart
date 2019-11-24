@@ -7,12 +7,30 @@ import 'package:financial/styling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+class TransactionsExecuteBloc extends StatefulWidget {
+  @override
+  _TransactionsExecuteBlocState createState() =>
+      _TransactionsExecuteBlocState();
+}
+
+class _TransactionsExecuteBlocState extends State<TransactionsExecuteBloc>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return BlocProvider<TransactionsBloc>(
+      builder: (context) => TransactionsBloc(),
+      child: TransactionsPage(),
+    );
+  }
+}
+
 class TransactionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<TransactionsBloc>(context)
-        .dispatch(SearchRecords(date: DateTime.now()));
-
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
         return Scaffold(

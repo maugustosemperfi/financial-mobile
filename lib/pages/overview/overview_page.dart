@@ -10,7 +10,11 @@ class OverviewPage extends StatefulWidget {
   _OverviewPageState createState() => _OverviewPageState();
 }
 
-class _OverviewPageState extends State<OverviewPage> {
+class _OverviewPageState extends State<OverviewPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -18,6 +22,7 @@ class _OverviewPageState extends State<OverviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       child: ListView(
         children: <Widget>[
