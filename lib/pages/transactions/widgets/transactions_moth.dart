@@ -20,6 +20,8 @@ class _TransactionsMonthWidgetState extends State<TransactionsMonthWidget> {
   void initState() {
     super.initState();
     _selectedMonth = DateTime.now();
+    BlocProvider.of<TransactionsBloc>(context)
+        .dispatch(new SearchRecords(date: _selectedMonth));
   }
 
   _selectMonth(BuildContext context) async {
