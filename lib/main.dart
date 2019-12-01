@@ -3,20 +3,20 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:financial/application.dart';
+import 'package:financial/authentication/authentication.dart';
+import 'package:financial/model/email_model.dart';
 import 'package:financial/pages/login/login.dart';
 import 'package:financial/pages/transactions/state/transactions_bloc.dart';
+import 'package:financial/routes/routes.dart';
 import 'package:financial/splash_page.dart';
+import 'package:financial/styling.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:financial/application.dart';
-import 'package:financial/authentication/authentication.dart';
-import 'package:financial/model/email_model.dart';
-import 'package:financial/routes/routes.dart';
-import 'package:financial/styling.dart';
 
 class SimpleBlocDelegate extends BlocDelegate {
   @override
@@ -56,7 +56,7 @@ void main() async {
   Application.authenticationToken = token;
 
   final dio = Dio(BaseOptions(
-    baseUrl: "http://192.168.0.59:3000/",
+    baseUrl: "http://10.0.2.2:3000/",
     connectTimeout: 5000,
     receiveTimeout: 100000,
     headers: {
