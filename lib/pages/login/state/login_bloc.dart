@@ -33,7 +33,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
 
         Map<String, dynamic> jsonToken = jsonDecode(token.data);
-        authenticationBloc.dispatch(LoggedIn(token: jsonToken['token']));
+        authenticationBloc.add(LoggedIn(token: jsonToken['token']));
 
         yield LoginInitial();
       } on DioError catch (error) {

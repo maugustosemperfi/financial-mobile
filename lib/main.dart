@@ -85,16 +85,16 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<AuthenticationBloc>(
-        builder: (context) {
-          return AuthenticationBloc()..dispatch(AppStarted());
+        create: (context) {
+          return AuthenticationBloc()..add(AppStarted());
         },
       ),
       BlocProvider<LoginBloc>(
-        builder: (context) => LoginBloc(
+        create: (context) => LoginBloc(
             authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
       ),
       BlocProvider<TransactionsBloc>(
-        builder: (context) => TransactionsBloc(),
+        create: (context) => TransactionsBloc(),
       )
     ],
     child: FinancialApp(),

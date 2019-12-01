@@ -27,7 +27,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
         // User createdUser = User.fromJson(jsonDecode(createdUserJsonData.data));
 
-        loginBloc.dispatch(LoginButtonPressed(
+        loginBloc.add(LoginButtonPressed(
             email: event.user.email, password: event.user.password));
 
         yield SignUpSuccess();

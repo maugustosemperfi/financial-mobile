@@ -21,7 +21,7 @@ class _TransactionsMonthWidgetState extends State<TransactionsMonthWidget> {
     super.initState();
     _selectedMonth = DateTime.now();
     BlocProvider.of<TransactionsBloc>(context)
-        .dispatch(new SearchRecords(date: _selectedMonth));
+        .add(new SearchRecords(date: _selectedMonth));
   }
 
   _selectMonth(BuildContext context) async {
@@ -59,7 +59,7 @@ class _TransactionsMonthWidgetState extends State<TransactionsMonthWidget> {
   }
 
   searchRecords() {
-    transactionsBloc.dispatch(SearchRecords(date: _selectedMonth));
+    transactionsBloc.add(SearchRecords(date: _selectedMonth));
   }
 
   @override

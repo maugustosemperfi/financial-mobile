@@ -92,14 +92,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           controller: _pageController,
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
-            OverviewPage(),
+            OverviewBlocProvider(),
             TransactionsPage(),
             // Container(),
             Container(
               child: RaisedButton(
                 color: AppTheme.green,
                 onPressed: () {
-                  authenticationBloc.dispatch(LoggedOut());
+                  authenticationBloc.add(LoggedOut());
                 },
                 child: Text("Logout"),
               ),

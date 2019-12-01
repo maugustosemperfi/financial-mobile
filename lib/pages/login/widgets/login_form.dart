@@ -48,7 +48,7 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
       });
       this.switchAnimatedWidget();
 
-      _loginBloc.dispatch(LoginButtonPressed(
+      _loginBloc.add(LoginButtonPressed(
           email: emailController.text, password: passwordController.text));
     } else {
       setState(() {

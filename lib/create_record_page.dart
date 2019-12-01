@@ -153,7 +153,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   }
 
   _initDefaultCategory() {
-    _setSelectedCategory(_authenticationBloc.currentState.props[1]);
+    _setSelectedCategory(_authenticationBloc.state.props[1]);
   }
 
   @override
@@ -343,7 +343,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   }
 
   SimpleDialog get selectCategoryDialog {
-    List<Category> categories = _authenticationBloc.currentState.props[0];
+    List<Category> categories = _authenticationBloc.state.props[0];
 
     return SimpleDialog(
       title: Text(

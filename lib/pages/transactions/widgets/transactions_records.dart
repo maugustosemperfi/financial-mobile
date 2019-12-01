@@ -49,7 +49,7 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
   }
 
   void _onRefresh() async {
-    _transactionsBloc.dispatch(SearchRecords(date: DateTime.now()));
+    _transactionsBloc.add(SearchRecords(date: DateTime.now()));
   }
 
   void _transactionsLoaded(TransactionsLoaded state) async {

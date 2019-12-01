@@ -30,12 +30,12 @@ packages:
     source: hosted
     version: "2.3.0"
   bloc:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0"
+    version: "2.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -222,7 +222,7 @@ packages:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.21.0"
+    version: "2.1.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -430,7 +430,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.2.0"
   pub_semver:
     dependency: transitive
     description:
