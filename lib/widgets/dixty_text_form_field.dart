@@ -34,15 +34,15 @@ class DixtyTextFormFieldWiget extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppTheme.grey)),
+              borderSide: BorderSide(color: AppTheme.whiteGrey)),
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: AppTheme.grey,
+              color: AppTheme.whiteGrey,
             ),
           ),
           disabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: AppTheme.grey,
+              color: AppTheme.whiteGrey,
             ),
           ),
           suffix: decorationSuffix,

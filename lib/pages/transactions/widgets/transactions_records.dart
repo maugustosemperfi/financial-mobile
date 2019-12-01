@@ -5,6 +5,7 @@ import 'package:financial/pages/transactions/state/transactions_bloc.dart';
 import 'package:financial/pages/transactions/state/transactions_event.dart';
 import 'package:financial/pages/transactions/state/transactions_state.dart';
 import 'package:financial/styling.dart';
+import 'package:financial/widgets/dixty_scroll_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -51,6 +52,14 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
     _transactionsBloc.dispatch(SearchRecords(date: DateTime.now()));
   }
 
+  void _transactionsLoaded(TransactionsLoaded state) async {
+    setState(() {
+      _loading = false;
+      _records = state.records;
+      _refreshController.refreshCompleted();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     _transactionsBloc = BlocProvider.of<TransactionsBloc>(context);
@@ -62,37 +71,37 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
           });
         }
         if (state is TransactionsLoaded) {
-          setState(() {
-            _loading = false;
-            _records = state.records;
-            _refreshController.refreshCompleted();
-          });
+          _transactionsLoaded(state);
         }
       },
-      child: SmartRefresher(
-        enablePullUp: false,
-        enableTwoLevel: false,
-        enablePullDown: true,
-        header: MaterialClassicHeader(
-          backgroundColor: AppTheme.nearlyWhite,
-          color: AppTheme.green,
+      child: ScrollConfiguration(
+        behavior: DixtyScrollBehavior(),
+        child: SmartRefresher(
+          enablePullUp: false,
+          enableTwoLevel: false,
+          enablePullDown: true,
+          header: MaterialClassicHeader(
+            backgroundColor: AppTheme.nearlyWhite,
+            color: AppTheme.green,
+          ),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          child: _loading
+              ? ListView(
+                  children: <Widget>[
+                    ...getParentShimmer(4),
+                    ...getParentShimmer(2),
+                    ...getParentShimmer(3),
+                    ...getParentShimmer(1)
+                  ],
+                )
+              : ListView(
+                  children: ListTile.divideTiles(
+                          context: context, tiles: getListTiles(_records))
+                      .toList(),
+                  padding: EdgeInsets.only(bottom: 64),
+                ),
         ),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        child: _loading
-            ? ListView(
-                children: <Widget>[
-                  ...getParentShimmer(4),
-                  ...getParentShimmer(2),
-                  ...getParentShimmer(3),
-                  ...getParentShimmer(1)
-                ],
-              )
-            : ListView(
-                children: ListTile.divideTiles(
-                        context: context, tiles: getListTiles(_records))
-                    .toList(),
-              ),
       ),
     );
   }
@@ -189,7 +198,9 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
               padding: EdgeInsets.only(right: 8),
             ),
           Expanded(
-            child: Text(record.description),
+            child: Text(record.description.length > 0
+                ? record.description
+                : record.category.description),
           ),
           Text(
             '${record.value}',
