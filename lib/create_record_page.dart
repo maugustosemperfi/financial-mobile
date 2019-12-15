@@ -163,7 +163,14 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      appBar: null,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          backgroundColor: widget.recordType == EnumRecordType.income
+              ? AppTheme.primary
+              : AppTheme.warn,
+        ),
+      ),
       body: Material(
         child: SafeArea(
           child: Container(

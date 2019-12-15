@@ -74,7 +74,14 @@ class _AddRecordPageState extends State<AddRecordPage> {
       source: widget.sourceRect,
       icon: fabIcon,
       child: Scaffold(
-        appBar: null,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            backgroundColor: _recordType == EnumRecordType.income
+                ? AppTheme.primary
+                : AppTheme.warn,
+          ),
+        ),
         body: SafeArea(
           child: Container(
             height: MediaQuery.of(context).size.height,
