@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:financial/model/record.dart';
 import 'package:financial/model/record_group.dart';
 import 'package:meta/meta.dart';
 
@@ -24,8 +23,9 @@ class TransactionsLoading extends TransactionsState {
 
 class TransactionsLoaded extends TransactionsState {
   final List<RecordGroup> records;
+  final DateTime searchDate;
 
-  TransactionsLoaded({this.records}) : super([records]);
+  TransactionsLoaded({this.records, this.searchDate}) : super([records]);
 
   @override
   String toString() {

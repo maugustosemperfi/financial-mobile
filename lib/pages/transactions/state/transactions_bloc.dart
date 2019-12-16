@@ -18,7 +18,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
         final List<RecordGroup> records =
             await RecordsService.getTransactionsRecords(event.date);
 
-        yield TransactionsLoaded(records: records);
+        yield TransactionsLoaded(records: records, searchDate: event.date);
       } catch (e) {
         yield TransactionsLoaded(records: []);
       }

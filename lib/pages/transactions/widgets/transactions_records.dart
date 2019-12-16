@@ -48,8 +48,8 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
         .push(AddRecordPage.route(context, _editButtonKey, true, record));
   }
 
-  void _onRefresh() async {
-    _transactionsBloc.add(SearchRecords(date: DateTime.now()));
+  void _onRefresh(DateTime date) async {
+    _transactionsBloc.add(SearchRecords(date: date));
   }
 
   void _transactionsLoaded(TransactionsLoaded state) async {
@@ -85,7 +85,14 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
             color: AppTheme.green,
           ),
           controller: _refreshController,
-          onRefresh: _onRefresh,
+          onRefresh: () {
+            TransactionsState state = _transactionsBloc.state;
+            if (state is TransactionsLoaded) {
+              return _onRefresh(state.searchDate);
+            }
+
+            return null;
+          },
           child: _loading
               ? ListView(
                   children: <Widget>[
