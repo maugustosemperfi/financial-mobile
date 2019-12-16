@@ -25,7 +25,8 @@ class TransactionsLoaded extends TransactionsState {
   final List<RecordGroup> records;
   final DateTime searchDate;
 
-  TransactionsLoaded({this.records, this.searchDate}) : super([records]);
+  TransactionsLoaded({this.records, this.searchDate})
+      : super([records, searchDate]);
 
   @override
   String toString() {

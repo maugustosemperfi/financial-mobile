@@ -6,7 +6,6 @@ abstract class OverviewEvent extends Equatable {
 }
 
 class HideBalance extends OverviewEvent {
-
   @override
   String toString() {
     return "HideBalance";
@@ -17,5 +16,12 @@ class ShowBalance extends OverviewEvent {
   @override
   String toString() {
     return "ShowBalance";
+  }
+}
+
+class LoadOverview extends OverviewEvent {
+  @override
+  String toString() {
+    return "LoadOverview";
   }
 }

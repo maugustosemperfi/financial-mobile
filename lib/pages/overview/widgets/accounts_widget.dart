@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:financial/application.dart';
 import 'package:financial/enum/enum_account_type.dart';
 import 'package:financial/model/overview_account.dart';
+import 'package:financial/pages/overview/bloc/overview_bloc.dart';
+import 'package:financial/pages/overview/bloc/overview_state.dart';
 import 'package:financial/services/accounts_service.dart';
 import 'package:financial/styling.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vibration/vibration.dart';
 
 class AccountsWidget extends StatefulWidget {
@@ -23,18 +26,6 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   @override
   void initState() {
     super.initState();
-    _getAccountsOverview();
-  }
-
-  _getAccountsOverview() async {
-    final overviewAccountJson = await AccountsService.getOverview();
-
-    final overviewAccount =
-        OverviewAccount.fromJson(jsonDecode(overviewAccountJson.data));
-
-    setState(() {
-      _overviewAccount = overviewAccount;
-    });
   }
 
   _showAccountBottomSheet(BuildContext context) {
@@ -57,63 +48,73 @@ class _AccountsWidgetState extends State<AccountsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: _overviewAccount != null
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Accounts",
-                        style: AppTheme.title,
-                      ),
-                      Text(
-                        "R\$ ${this._overviewAccount.overallBalance}",
-                        style: AppTheme.title,
-                      )
-                    ],
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "You don't have any account",
-                        style: AppTheme.title,
-                      ),
-                      Divider(
-                        color: Colors.transparent,
-                        height: 12,
-                      ),
-                    ],
-                  ),
-          ),
-          Divider(height: 12, color: Colors.transparent),
-          _accountsOverview,
-          Divider(
-            color: Colors.transparent,
-            height: 12,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ButtonTheme(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                child: FlatButton(
-                  onPressed: () => {_showAccountBottomSheet(context)},
-                  textColor: AppTheme.nearlyWhite,
-                  color: AppTheme.primary,
-                  child: Text(
-                    "Add acount",
+    return BlocListener<OverviewBloc, OverviewState>(
+      listener: (context, state) {
+        print(state.toString() + "13213321");
+        if (state is OverviewLoaded) {
+          setState(() {
+            _overviewAccount = state.overviewAccount;
+          });
+        }
+      },
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: _overviewAccount != null
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          "Accounts",
+                          style: AppTheme.title,
+                        ),
+                        Text(
+                          "R\$ ${this._overviewAccount.overallBalance}",
+                          style: AppTheme.title,
+                        )
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "You don't have any account",
+                          style: AppTheme.title,
+                        ),
+                        Divider(
+                          color: Colors.transparent,
+                          height: 12,
+                        ),
+                      ],
+                    ),
+            ),
+            Divider(height: 12, color: Colors.transparent),
+            _accountsOverview,
+            Divider(
+              color: Colors.transparent,
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ButtonTheme(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: FlatButton(
+                    onPressed: () => {_showAccountBottomSheet(context)},
+                    textColor: AppTheme.nearlyWhite,
+                    color: AppTheme.primary,
+                    child: Text(
+                      "Add acount",
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
