@@ -74,7 +74,7 @@ class _OverviewPageState extends State<OverviewPage>
           backgroundColor: AppTheme.primary,
           actions: <Widget>[
             IconButton(
-              icon: _hideBalance
+              icon: _hideBalance != null && _hideBalance == true
                   ? Icon(MdiIcons.eyeOff)
                   : Icon(Icons.remove_red_eye),
               onPressed: () {

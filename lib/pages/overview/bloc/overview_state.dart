@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:financial/model/overview_account.dart';
+import 'package:financial/model/overview_credit_card.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -17,9 +18,11 @@ class OverviewLoading extends OverviewState {
 class OverviewLoaded extends OverviewState {
   final bool hideBalance;
   final OverviewAccount overviewAccount;
+  final OverviewCreditCard overviewCreditCard;
 
-  OverviewLoaded({this.hideBalance, this.overviewAccount})
-      : super([hideBalance, overviewAccount]);
+  OverviewLoaded(
+      {this.hideBalance, this.overviewAccount, this.overviewCreditCard})
+      : super([hideBalance, overviewAccount, overviewCreditCard]);
 
   @override
   String toString() {

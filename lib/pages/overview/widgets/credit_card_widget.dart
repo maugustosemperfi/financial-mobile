@@ -1,9 +1,11 @@
 import 'package:financial/application.dart';
 import 'package:financial/model/overview_credit_card.dart';
-import 'package:financial/services/credit_card_service.dart';
+import 'package:financial/pages/overview/bloc/overview_bloc.dart';
+import 'package:financial/pages/overview/bloc/overview_state.dart';
 import 'package:financial/styling.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreditCardWidget extends StatefulWidget {
   @override
@@ -13,20 +15,6 @@ class CreditCardWidget extends StatefulWidget {
 class _CreditCardWidgetState extends State<CreditCardWidget> {
   OverviewCreditCard _overviewCreditCard;
 
-  @override
-  void initState() {
-    super.initState();
-    _getOverviewCreditCard();
-  }
-
-  _getOverviewCreditCard() async {
-    final overviewCreditCard = await CreditCardService.overview();
-
-    setState(() {
-      _overviewCreditCard = overviewCreditCard;
-    });
-  }
-
   _showAddCreditCardPage() {
     Application.router.navigateTo(context, 'credit-card/add',
         transition: TransitionType.cupertinoFullScreenDialog);
@@ -34,59 +22,68 @@ class _CreditCardWidgetState extends State<CreditCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: _overviewCreditCard != null
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Credit cards",
-                        style: AppTheme.title,
-                      ),
-                      Text(
-                        "R\$ ${this._overviewCreditCard.overallStatement}",
-                        style: AppTheme.title,
-                      )
-                    ],
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "You don't have any credit card",
-                        style: AppTheme.title,
-                      ),
-                      Divider(
-                        color: Colors.transparent,
-                        height: 12,
-                      ),
-                    ],
-                  ),
-          ),
-          Divider(height: 12, color: Colors.transparent),
-          _creditCardOverview(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ButtonTheme(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                child: FlatButton(
-                  onPressed: () => {_showAddCreditCardPage()},
-                  textColor: AppTheme.nearlyWhite,
-                  color: AppTheme.primary,
-                  child: Text(
-                    "Add credit card",
+    return BlocListener<OverviewBloc, OverviewState>(
+      listener: (context, state) {
+        if (state is OverviewLoaded) {
+          setState(() {
+            _overviewCreditCard = state.overviewCreditCard;
+          });
+        }
+      },
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: _overviewCreditCard != null
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          "Credit cards",
+                          style: AppTheme.title,
+                        ),
+                        Text(
+                          "R\$ ${this._overviewCreditCard.overallStatement}",
+                          style: AppTheme.title,
+                        )
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "You don't have any credit card",
+                          style: AppTheme.title,
+                        ),
+                        Divider(
+                          color: Colors.transparent,
+                          height: 12,
+                        ),
+                      ],
+                    ),
+            ),
+            Divider(height: 12, color: Colors.transparent),
+            _creditCardOverview(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ButtonTheme(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: FlatButton(
+                    onPressed: () => {_showAddCreditCardPage()},
+                    textColor: AppTheme.nearlyWhite,
+                    color: AppTheme.primary,
+                    child: Text(
+                      "Add credit card",
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

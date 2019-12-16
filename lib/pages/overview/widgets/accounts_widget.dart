@@ -50,7 +50,6 @@ class _AccountsWidgetState extends State<AccountsWidget> {
   Widget build(BuildContext context) {
     return BlocListener<OverviewBloc, OverviewState>(
       listener: (context, state) {
-        print(state.toString() + "13213321");
         if (state is OverviewLoaded) {
           setState(() {
             _overviewAccount = state.overviewAccount;
