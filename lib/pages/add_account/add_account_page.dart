@@ -133,6 +133,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
         backgroundColor: AppTheme.primary,
       ),
       body: Container(
+        color: AppTheme.nearlyWhite,
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsetsDirectional.only(bottom: 48),
         child: Column(

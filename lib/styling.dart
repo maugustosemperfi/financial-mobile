@@ -9,7 +9,7 @@ class AppTheme {
   static const Color colorStrong = purple;
   static const Color textStrong = deepBlue;
   static const Color orange = Color(0xFFFAAB1A);
-  static const Color notWhite = Color(0xFFEBEBEB);
+  static const Color notWhite = Color(0xFFF5F5F5);
   static const Color nearlyWhite = Color(0xFFFEFEFE);
   static const Color nearlyBlack = Color(0xFF213333);
   static const Color grey = Color(0xFFAAAAAA);
