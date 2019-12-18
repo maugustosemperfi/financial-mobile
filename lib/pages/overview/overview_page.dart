@@ -37,7 +37,6 @@ class _OverviewPageState extends State<OverviewPage>
   @override
   bool get wantKeepAlive => true;
   bool _hideBalance = false;
-  OverviewBloc _overviewBloc;
 
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -45,26 +44,26 @@ class _OverviewPageState extends State<OverviewPage>
   @override
   void initState() {
     super.initState();
+    _overviewBloc.add(LoadOverview());
   }
 
   void _onRefresh() async {
     _overviewBloc.add(LoadOverview());
-    _refreshController.refreshCompleted();
   }
 
-  OverviewBloc getOverviewBloc(context) {
+  get _overviewBloc {
     return BlocProvider.of<OverviewBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    _overviewBloc = BlocProvider.of<OverviewBloc>(context);
     return BlocListener<OverviewBloc, OverviewState>(
       listener: (context, state) {
         if (state is OverviewLoaded) {
           setState(() {
             _hideBalance = state.hideBalance;
+            _refreshController.refreshCompleted();
           });
         }
       },

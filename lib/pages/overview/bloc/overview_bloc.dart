@@ -32,11 +32,15 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
 
     if (event is LoadOverview) {
       OverviewLoaded currentState = state;
+      bool hideBalanceState = currentState.hideBalance;
+
+      yield OverviewLoading();
+
       final overviewAccount = await AccountsService.getOverview();
       final overviewCreditCard = await CreditCardService.overview();
 
       yield OverviewLoaded(
-        hideBalance: currentState.hideBalance,
+        hideBalance: hideBalanceState,
         overviewAccount: overviewAccount,
         overviewCreditCard: overviewCreditCard,
       );
