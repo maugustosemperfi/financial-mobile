@@ -55,11 +55,6 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
         _autovalidate = true;
       });
     }
-
-    // this._loging = false;
-    // this.switchAnimatedWidget();
-    // Application.router.navigateTo(context, 'home', transition: TransitionType.native, transitionDuration: Duration(seconds: 10));
-    // Navigator.pushReplacementNamed(context, '/home');
   }
 
   _validationFails() {
