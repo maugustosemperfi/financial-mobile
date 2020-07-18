@@ -1,13 +1,8 @@
-import 'package:financial/application.dart';
-import 'package:financial/authentication/authentication.dart';
-import 'package:financial/authentication/authentication_bloc.dart';
 import 'package:financial/pages/add_record/add_record_page.dart';
 import 'package:financial/pages/overview/overview_page.dart';
 import 'package:financial/pages/transactions/transactions_page.dart';
 import 'package:financial/styling.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,7 +14,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final GlobalKey _fabKey = GlobalKey();
 
   int _selectedIndex;
-  AuthenticationBloc authenticationBloc;
   PageController _pageController;
 
   @override
@@ -45,7 +39,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
@@ -81,39 +74,29 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ],
       ),
-      body: BlocListener<AuthenticationBloc, AuthenticationState>(
-        listener: (BuildContext context, state) {
-          if (state is AuthenticationUnauthenticated) {
-            Application.router.navigateTo(context, '/',
-                transition: TransitionType.cupertino, replace: true);
-          }
-        },
-        child: PageView(
-          controller: _pageController,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            OverviewBlocProvider(),
-            TransactionsPage(),
-            // Container(),
-            Container(
-              child: RaisedButton(
-                color: AppTheme.green,
-                onPressed: () {
-                  authenticationBloc.add(LoggedOut());
-                },
-                child: Text("Logout"),
-              ),
+      body: PageView(
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          OverviewBlocProvider(),
+          TransactionsPage(),
+          // Container(),
+          Container(
+            child: RaisedButton(
+              color: AppTheme.green,
+              onPressed: () {},
+              child: Text("Logout"),
             ),
-            Container(
-              child: Text("Tab 4"),
+          ),
+          Container(
+            child: Text("Tab 4"),
+          ),
+          Container(
+            child: SafeArea(
+              child: Text("Tab 5"),
             ),
-            Container(
-              child: SafeArea(
-                child: Text("Tab 5"),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: _fab,

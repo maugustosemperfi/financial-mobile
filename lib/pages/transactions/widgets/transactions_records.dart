@@ -1,13 +1,9 @@
 import 'package:financial/model/record.dart';
 import 'package:financial/model/record_group.dart';
 import 'package:financial/pages/add_record/add_record_page.dart';
-import 'package:financial/pages/transactions/state/transactions_bloc.dart';
-import 'package:financial/pages/transactions/state/transactions_event.dart';
-import 'package:financial/pages/transactions/state/transactions_state.dart';
 import 'package:financial/styling.dart';
 import 'package:financial/widgets/dixty_scroll_behavior.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -21,7 +17,6 @@ class TransactionsRecords extends StatefulWidget {
 class _TransactionsRecordsState extends State<TransactionsRecords> {
   List<RecordGroup> _records = [];
   bool _loading;
-  TransactionsBloc _transactionsBloc;
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   final formatter = DateFormat.MMMMEEEEd();
@@ -49,66 +44,52 @@ class _TransactionsRecordsState extends State<TransactionsRecords> {
   }
 
   void _onRefresh(DateTime date) async {
-    _transactionsBloc.add(SearchRecords(date: date));
+    // _transactionsBloc.add(SearchRecords(date: date));
   }
 
-  void _transactionsLoaded(TransactionsLoaded state) async {
-    setState(() {
-      _loading = false;
-      _records = state.records;
-      _refreshController.refreshCompleted();
-    });
-  }
+  // void _transactionsLoaded(TransactionsLoaded state) async {
+  //   setState(() {
+  //     _loading = false;
+  //     _records = state.records;
+  //     _refreshController.refreshCompleted();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    _transactionsBloc = BlocProvider.of<TransactionsBloc>(context);
-    return BlocListener<TransactionsBloc, TransactionsState>(
-      listener: (context, state) {
-        if (state is TransactionsLoading) {
-          setState(() {
-            _loading = true;
-          });
-        }
-        if (state is TransactionsLoaded) {
-          _transactionsLoaded(state);
-        }
-      },
-      child: ScrollConfiguration(
-        behavior: DixtyScrollBehavior(),
-        child: SmartRefresher(
-          enablePullUp: false,
-          enableTwoLevel: false,
-          enablePullDown: true,
-          header: MaterialClassicHeader(
-            backgroundColor: AppTheme.nearlyWhite,
-            color: AppTheme.green,
-          ),
-          controller: _refreshController,
-          onRefresh: () {
-            TransactionsState state = _transactionsBloc.state;
-            if (state is TransactionsLoaded) {
-              return _onRefresh(state.searchDate);
-            }
-
-            return null;
-          },
-          child: _loading
-              ? ListView(
-                  children: <Widget>[
-                    ...getParentShimmer(4),
-                    ...getParentShimmer(2),
-                    ...getParentShimmer(3),
-                    ...getParentShimmer(1)
-                  ],
-                )
-              : ListView(
-                  children: ListTile.divideTiles(
-                          context: context, tiles: getListTiles(_records))
-                      .toList(),
-                  padding: EdgeInsets.only(bottom: 64),
-                ),
+    return ScrollConfiguration(
+      behavior: DixtyScrollBehavior(),
+      child: SmartRefresher(
+        enablePullUp: false,
+        enableTwoLevel: false,
+        enablePullDown: true,
+        header: MaterialClassicHeader(
+          backgroundColor: AppTheme.nearlyWhite,
+          color: AppTheme.green,
         ),
+        controller: _refreshController,
+        onRefresh: () {
+          // if (state is TransactionsLoaded) {
+          //   return _onRefresh(state.searchDate);
+          // }
+
+          return null;
+        },
+        child: _loading
+            ? ListView(
+                children: <Widget>[
+                  ...getParentShimmer(4),
+                  ...getParentShimmer(2),
+                  ...getParentShimmer(3),
+                  ...getParentShimmer(1)
+                ],
+              )
+            : ListView(
+                children: ListTile.divideTiles(
+                        context: context, tiles: getListTiles(_records))
+                    .toList(),
+                padding: EdgeInsets.only(bottom: 64),
+              ),
       ),
     );
   }

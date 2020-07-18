@@ -1,10 +1,5 @@
-import 'package:financial/application.dart';
-import 'package:financial/authentication/authentication.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:financial/pages/login/login.dart';
 import 'package:financial/styling.dart';
 
 class LoginWidgetForm extends StatefulWidget {
@@ -17,7 +12,6 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
   bool _loging = false;
   bool _autovalidate = false;
   Widget _animatedWiget;
-  LoginBloc _loginBloc;
 
   final loginForm = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -47,9 +41,6 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
         this._loging = true;
       });
       this.switchAnimatedWidget();
-
-      _loginBloc.add(LoginButtonPressed(
-          email: emailController.text, password: passwordController.text));
     } else {
       setState(() {
         _autovalidate = true;
@@ -67,50 +58,27 @@ class _LoginWidgetFormState extends State<LoginWidgetForm> {
 
   @override
   Widget build(BuildContext context) {
-    _loginBloc = BlocProvider.of<LoginBloc>(context);
-
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<LoginBloc, LoginState>(listener: (context, state) {
-          if (state is LoginFailure) {
-            _validationFails();
-          }
-        }),
-        BlocListener<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-          if (state is AuthenticationAuthenticated) {
-            Application.router.navigateTo(context, '/home',
-                transition: TransitionType.cupertino, replace: true);
-          }
-        }),
+    return Column(
+      children: <Widget>[
+        _loginForm(),
+        _divider(8),
+        _forgotPassword(),
+        _divider(24),
+        _signInButton(),
+        _divider(24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "OR",
+              style: AppTheme.subtitleLight,
+            ),
+          ],
+        ),
+        _divider(24),
+        _signInGoogle(),
+        _divider(24),
       ],
-      child: BlocBuilder<LoginBloc, LoginState>(
-        bloc: _loginBloc,
-        builder: (BuildContext context, LoginState state) {
-          return Column(
-            children: <Widget>[
-              _loginForm(),
-              _divider(8),
-              _forgotPassword(),
-              _divider(24),
-              _signInButton(),
-              _divider(24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "OR",
-                    style: AppTheme.subtitleLight,
-                  ),
-                ],
-              ),
-              _divider(24),
-              _signInGoogle(),
-              _divider(24),
-            ],
-          );
-        },
-      ),
     );
   }
 

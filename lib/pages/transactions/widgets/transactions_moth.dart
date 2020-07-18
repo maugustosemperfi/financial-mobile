@@ -1,8 +1,5 @@
-import 'package:financial/pages/transactions/state/transactions_bloc.dart';
-import 'package:financial/pages/transactions/state/transactions_event.dart';
 import 'package:financial/styling.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class TransactionsMonthWidget extends StatefulWidget {
@@ -14,14 +11,11 @@ class TransactionsMonthWidget extends StatefulWidget {
 class _TransactionsMonthWidgetState extends State<TransactionsMonthWidget> {
   DateTime _selectedMonth;
   final formatter = DateFormat("MMMM y");
-  TransactionsBloc transactionsBloc;
 
   @override
   void initState() {
     super.initState();
     _selectedMonth = DateTime.now();
-    BlocProvider.of<TransactionsBloc>(context)
-        .add(new SearchRecords(date: _selectedMonth));
   }
 
   _selectMonth(BuildContext context) async {
@@ -59,12 +53,11 @@ class _TransactionsMonthWidgetState extends State<TransactionsMonthWidget> {
   }
 
   searchRecords() {
-    transactionsBloc.add(SearchRecords(date: _selectedMonth));
+    // transactionsBloc.add(SearchRecords(date: _selectedMonth));
   }
 
   @override
   Widget build(BuildContext context) {
-    transactionsBloc = BlocProvider.of<TransactionsBloc>(context);
     return Row(
       children: <Widget>[
         FlatButton(

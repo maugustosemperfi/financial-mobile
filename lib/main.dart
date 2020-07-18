@@ -1,42 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:financial/application.dart';
-import 'package:financial/authentication/authentication.dart';
 import 'package:financial/model/email_model.dart';
-import 'package:financial/pages/login/login.dart';
-import 'package:financial/pages/transactions/state/transactions_bloc.dart';
 import 'package:financial/routes/routes.dart';
 import 'package:financial/splash_page.dart';
 import 'package:financial/styling.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-
-class SimpleBlocDelegate extends BlocDelegate {
-  @override
-  void onEvent(Bloc bloc, Object event) {
-    super.onEvent(bloc, event);
-    print(event);
-  }
-
-  @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
-
-  @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
-    print(error);
-  }
-}
 
 _parseAndDecode(String response) {
   return jsonDecode(response);
@@ -50,7 +25,6 @@ addDioInterceptors(Dio dio) async {}
 
 void main() async {
   // (CustomDio.dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
-  BlocSupervisor.delegate = SimpleBlocDelegate();
   FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
   final token = await flutterSecureStorage.read(key: "token");
   Application.authenticationToken = token;
@@ -82,23 +56,7 @@ void main() async {
 
   Application.dio = dio;
 
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider<AuthenticationBloc>(
-        create: (context) {
-          return AuthenticationBloc()..add(AppStarted());
-        },
-      ),
-      BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(
-            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
-      ),
-      BlocProvider<TransactionsBloc>(
-        create: (context) => TransactionsBloc(),
-      )
-    ],
-    child: FinancialApp(),
-  ));
+  runApp(FinancialApp());
 }
 
 class FinancialApp extends StatefulWidget {

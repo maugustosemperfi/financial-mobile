@@ -1,5 +1,4 @@
 import 'package:financial/application.dart';
-import 'package:financial/authentication/authentication.dart';
 import 'package:financial/enum/enum_record_type.dart';
 import 'package:financial/model/account.dart';
 import 'package:financial/model/category.dart';
@@ -11,7 +10,6 @@ import 'package:financial/services/records_service.dart';
 import 'package:financial/styling.dart';
 import 'package:financial/widgets/dixty_text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -27,8 +25,6 @@ class CreateRecordPage extends StatefulWidget {
 
 class _CreateRecordPageState extends State<CreateRecordPage> {
   final createRecordForm = GlobalKey<FormState>();
-
-  AuthenticationBloc _authenticationBloc;
 
   DateTime selectedDate = DateTime.now();
   Account _simpleAccountSelected;
@@ -153,12 +149,12 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   }
 
   _initDefaultCategory() {
-    _setSelectedCategory(_authenticationBloc.state.props[1]);
+    // _setSelectedCategory(_authenticationBloc.state.props[1]);
   }
 
   @override
   Widget build(BuildContext context) {
-    _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+    // _authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
     _initDefaultCategory();
 
     return Scaffold(
@@ -350,7 +346,7 @@ class _CreateRecordPageState extends State<CreateRecordPage> {
   }
 
   SimpleDialog get selectCategoryDialog {
-    List<Category> categories = _authenticationBloc.state.props[0];
+    List<Category> categories = [];
 
     return SimpleDialog(
       title: Text(

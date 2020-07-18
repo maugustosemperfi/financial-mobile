@@ -1,8 +1,5 @@
-import 'package:financial/pages/sign_up/state/sign_up_bloc.dart';
 import 'package:financial/styling.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:financial/pages/login/state/login_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -44,90 +41,84 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       backgroundColor: AppTheme.nearlyWhite,
       resizeToAvoidBottomPadding: false,
-      body: BlocProvider<SignUpBloc>(
-        create: (context) {
-          return SignUpBloc(loginBloc: BlocProvider.of<LoginBloc>(context));
-        },
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 48),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 48),
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.only(bottom: 24),
-                                  child: Image.asset(
-                                    'assets/images/financial_green.png',
-                                    height: 64,
-                                  ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(bottom: 24),
+                                child: Image.asset(
+                                  'assets/images/financial_green.png',
+                                  height: 64,
                                 ),
-                                Form(
-                                  key: loginForm,
-                                  autovalidate: _autovalidate,
-                                  child: Column(
-                                    children: <Widget>[
-                                      TextFormField(
-                                        controller: emailController,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        validator: (String email) {
-                                          if (!RegExp(
-                                                  r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
-                                              .hasMatch(email)) {
-                                            return "Email is not valid";
-                                          } else {
-                                            return null;
-                                          }
-                                        },
-                                        decoration: InputDecoration(
-                                          hintText: 'Enter your email',
-                                          labelText: 'Email',
-                                        ),
+                              ),
+                              Form(
+                                key: loginForm,
+                                autovalidate: _autovalidate,
+                                child: Column(
+                                  children: <Widget>[
+                                    TextFormField(
+                                      controller: emailController,
+                                      keyboardType: TextInputType.emailAddress,
+                                      validator: (String email) {
+                                        if (!RegExp(
+                                                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                                            .hasMatch(email)) {
+                                          return "Email is not valid";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter your email',
+                                        labelText: 'Email',
                                       ),
-                                      _divider(32),
-                                      TextFormField(
-                                        controller: passwordController,
-                                        obscureText: true,
-                                        validator: (String pass) {
-                                          if (pass.length < 8) {
-                                            return "Password should have 8 characters";
-                                          } else {
-                                            return null;
-                                          }
-                                        },
-                                        decoration: InputDecoration(
-                                          hintText: 'Enter your password',
-                                          labelText: 'Password',
-                                        ),
+                                    ),
+                                    _divider(32),
+                                    TextFormField(
+                                      controller: passwordController,
+                                      obscureText: true,
+                                      validator: (String pass) {
+                                        if (pass.length < 8) {
+                                          return "Password should have 8 characters";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter your password',
+                                        labelText: 'Password',
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                _signUpButton(),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                              _signUpButton(),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

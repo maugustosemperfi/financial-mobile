@@ -19,8 +19,6 @@ dependencies:
   carousel_slider: ^1.3.0
   flutter_secure_storage: ^3.3.1
   fluro: '^1.5.1'
-  bloc: ^2.0.0
-  flutter_bloc: ^2.1.1
   equatable: ^0.5.1
   meta: ^1.1.7
   json_annotation: ^3.0.0
@@ -30,11 +28,14 @@ dependencies:
   shimmer: ^1.0.1
   material_design_icons_flutter: ^3.3.4595
   intl: ^0.16.0
+  mobx:
+  flutter_mobx:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.7.3
+  mobx_codegen:
 
 flutter_icons:
   android: true
